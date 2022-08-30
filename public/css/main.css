@@ -1,3 +1,6 @@
+nav .links-search {
+    width: 15rem !important;
+}
 body{
     height: 100vh;
     background-color: rebeccapurple;
