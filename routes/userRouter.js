@@ -1,12 +1,16 @@
 const express = require('express')
-const { registration, signup } = require('../controllers/userController')
+const { signup, userLoginWithData, userLogin, registration, getAllProducts } = require('../controllers/userController')
+const { validateUser, afterlogin } = require('../middlewares/userMiddlewares')
 const router = express.Router()
 
+// landing page => GET 'http://localhost:3000' Users can search products and add to cart(temp) and see detailed view of a products
+router.get('/',validateUser, getAllProducts)
 // user signup => POST /user/registration
-router.get('/registration',signup)
-router.post('/registration', registration)
+router.get('/user/registration', signup)
+router.post('/user/registration', registration)
 // user signin => POST user/login
-// list products =>  GET user/all_products
+router.get('/user/login',afterlogin, userLogin)
+router.post('/user/login', userLoginWithData)
 // prodect detailed view => GET user/product/:id
 // product view by category => GET user/product/:category
 

@@ -1,11 +1,13 @@
-const { Router } = require('express')
 const express = require('express')
-const { login } = require('../controllers/adminController')
+
+const { adminLoginWithData, AdminLogin } = require('../controllers/adminController')
+
 const router = express.Router()
 
 
-// signin POST
-router.get('/admin_login', login)
+// login GET
+router.get('/admin_login', AdminLogin)
+router.post('/admin_login', adminLoginWithData)
 
 // admin pannel =>GET admin_panel (products datas,users datas,order datas, revanew,transactions)
 // view users =>GET admin_panel/user
@@ -17,4 +19,4 @@ router.get('/admin_login', login)
 // PUT admin_panel/edit_product/id
 
 
-module.exports = Router
+module.exports = router

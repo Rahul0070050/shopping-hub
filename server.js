@@ -22,10 +22,8 @@ hbs.registerPartials(path.join(__dirname,'views/partials'))
 // database connection
 connection()
 
-// landing page => GET 'http://localhost:3000' Users can search products and add to cart(temp) and see detailed view of a products
-app.get('/', baceRoot)
+app.use('/', userRouter)
 app.use('/admin', adminRouter)
-app.use('/user', userRouter)
 
 const PORT = process.env.PORT || 8000
 app.listen(PORT, () => console.log('server startted PORT: ' + PORT))

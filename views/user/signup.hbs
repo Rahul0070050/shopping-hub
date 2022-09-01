@@ -1,0 +1,44 @@
+<div class="row d-flex justify-content-center align-items-center user-signup-row">
+    <div class="col-md-6">
+        <form>
+            <h1 class="my-3"><strong>User Sign-UP</strong></h1>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" value="aloshy" class="form-control" onkeyup="validateUserName()" id="username">
+                    <p id="usernameErr"></p>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" value="aloshy2000@gmail.com" name="email" onkeyup="validateEmail()" id="email">
+                    <p id="emailErr"></p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="phone">Phone</label>
+                    <input type="number" class="form-control"  value="123456780" name="phone" onkeyup="validatePhoneNumber()" id="phone">
+                    <p id="phoneErr"></p>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" name="password" onkeyup="validatePassword()" value="aloshy" id="password">
+                    <p id="passwordErr"></p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="Confirm-password">Cunfirm Password</label>
+                    <input type="Password" name="confirmPassword" class="form-control" value="aloshy" onkeyup="validateCunfirnPassword()" id="confirm-password">
+                    <p id="cunfirmPasswordErr"></p>
+                </div>
+                <div class="form-group col-md-6 d-flex justify-content-center align-items-center">
+                    <a href="/user/login">Already have an accound</a>
+                </div>
+            </div>
+            <div>
+                <button type="submit" onclick="return validateSignupForm(event)" id="userSignup" class="btn btn-primary">Sign up</button>
+            </div>
+        </form>
+    </div>
+</div>

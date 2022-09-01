@@ -1,0 +1,18 @@
+<div class="row d-flex justify-content-center align-items-center admin-login-row">
+    <div class="col-md-3">
+        <form method="post" action="/admin/admin_login">
+        <h2><strong>Admin Login</strong></h2>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" onkeyup="validateUserName()" id="username" name="username" aria-describedby="emailHelp">
+                <div id="usernameErr"></div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" name="password" onkeyup="validatePassword()" id="password">
+                <div id="passwordErr"></div>
+            </div>
+            <button onclick="return validateLoginForm(event)" type="submit" id="adminLogin" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
