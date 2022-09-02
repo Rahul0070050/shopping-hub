@@ -21,6 +21,7 @@ const user = new mongoose.Schema({
         type: String,
         required: true,
     },
+    status: Boolean,
     address: mongoose.Schema.ObjectId
 });
 module.exports = mongoose.model('users', user);

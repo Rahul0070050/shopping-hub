@@ -1,79 +1,288 @@
 /* global */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
 /* global */
-
 /* body */
-body{
-    /* overflow-x: hidden; */
-    height: 100vh;
+body {
+  overflow-x: hidden;
+  height: 100vh;
 }
-/* body */
 
+/* body */
 /* navbar */
 nav .links-search {
-    width: 15rem !important;
+  width: 15rem !important;
 }
+
 nav li a {
-    color: black;
+  color: black;
 }
+
 /* navbar */
+/* login and signup form */
+.admin-login-row,
+.user-signup-row {
+  height: 90vh;
+}
+
+.admin-login-row form,
+.user-signup-row form,
+.user-signin-row form {
+  padding: 2rem 2rem;
+  box-shadow: 1px 2px 10px 2px black;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
 
 /* login and signup form */
-.admin-login-row, .user-signup-row{
-    height: 90vh;
+.product-container {
+  position: relative;
 }
-.admin-login-row form, .user-signup-row form, .user-signin-row form {
-    padding: 2rem 2rem;
-    box-shadow: 1px 2px 10px 2px black;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
+
+.alert-box {
+  position: absolute;
+  top: 21rem;
+  left: 41rem;
+  text-transform: capitalize;
+  z-index: 10;
+  padding: 3rem;
+  background-color: orange;
+  border-radius: 15px;
+  opacity: 0;
+  transition: all ease-in-out 1s;
 }
-/* login and signup form */
-/* 
+
 /* user products view */
 /* card */
-.card {
-    width: 14rem;
-    height: 20rem;
-    border-radius: 10px 10px 5px 5px;
-    overflow: hidden;
-    /* background-color: orangered; */
-    border: solid black 1px;
+.my-card {
+  width: 16rem;
+  height: 25rem;
+  border-radius: 10px 10px 8px 8px;
+  overflow: hidden;
+  box-shadow: 1px 1px 9px 0px darkslategray;
+  background-color: #f9f5eb;
 }
-.card .img {
-    width: 100%;
-    height: 80%;
+
+.my-card .image-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 75%;
 }
-.card .img img{
-    height: 100%;
-    width: 100%;
+
+.my-card .image-container .product-img {
+  transition: all 0.5s;
+  z-index: 0;
+  height: 100%;
+  width: 100%;
 }
+
+.my-card .card-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  text-transform: capitalize;
+  padding: 0.5rem 0.8rem;
+}
+
+.my-card .card-text span,
+.my-card .card-text span h5 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.my-card .card-text span h1 {
+  line-height: 1.8rem;
+  letter-spacing: -0.3rem;
+}
+
+.my-card .card-text span:last-child strong {
+  margin-left: 65%;
+}
+
+.my-card .image-container .icons {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+}
+
+.my-card .image-container .icons img {
+  width: 3rem;
+  position: absolute;
+  background-color: #e8f9fd;
+  padding: 0.5rem;
+  margin-top: -50px;
+}
+
+.my-card .image-container .icons img:first-child {
+  transition: all 0.5s ease-in-out;
+  margin-left: -50px;
+  border-radius: 0 0 15px 0;
+}
+
+.my-card .image-container .icons img:last-child {
+  transition: all 0.5s ease-in-out;
+  margin-left: 260px;
+  border-radius: 0 0 0 15px;
+}
+
+.my-card .image-container .icons img:hover {
+  transform: scale(1.2);
+}
+
+.my-card:hover img {
+  transform: scale(1.1);
+}
+
+.my-card:hover .icons img:last-child {
+  margin: 0 -50px 0 210px;
+}
+
+.my-card:hover .icons img:first-child {
+  margin: 0px;
+}
+
 /* card */
 /* my-ad-view */
 .ad-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2.0rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
 }
-.my-ad-card{
-    width: 99%;
-    border-radius: 15px;
-    overflow: hidden;
+
+.my-ad-card {
+  width: 99%;
+  border-radius: 15px;
+  overflow: hidden;
 }
+
 .my-ad-card .image-container {
-    width: 100%;
-    height: 12rem;
-    background-color: orange;
+  width: 100%;
+  height: 12rem;
+  background-color: orange;
 }
-.my-ad-card img{
-    width: 100%;
-    height: 100%;
+
+.my-ad-card img {
+  width: 100%;
+  height: 100%;
 }
+
 /* my-ad-view */
-user products view */
+/* user products view */
+.user-status-true {
+  height: 1rem;
+  width: 1rem;
+  color: transparent;
+  border-radius: 25px;
+  background-color: green;
+}
+
+.user-status-false {
+  height: 1rem;
+  color: transparent;
+  width: 1rem;
+  border-radius: 25px;
+  background-color: red;
+}
+
+.user-heading {
+  margin: 2rem 0 2rem 4rem;
+}
+
+/* single user */
+.single-user {
+  margin-left: 15rem;
+}
+.single-user img {
+  margin-top: 5rem;
+  width: 18rem;
+}
+.single-user .user-data {
+  position: relative;
+  margin: 3rem 0 4rem 5rem;
+}
+.single-user .user-data span {
+  width: 50rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.single-user .user-data span .value {
+  width: 2.5rem;
+}
+.single-user .user-data span address {
+  position: absolute;
+  margin-left: 47.5rem;
+  margin-top: 8rem;
+  word-wrap: normal;
+  width: 20rem !important;
+  border: 1px solid black;
+}
+.single-user .user-data h5 {
+  margin-top: 1rem;
+}
+.single-user .user-data .switch {
+  border: solid 1px black;
+  position: relative;
+  width: 2rem;
+  height: 0.7rem;
+  background-color: gainsboro;
+  border-radius: 15px;
+}
+.single-user .user-data .switch span {
+  transition: all 0.5s ease-in-out;
+  position: absolute;
+  height: 1.3rem;
+  width: 1.3rem;
+  margin-left: -0.5rem;
+  background-color: rgb(116, 194, 0);
+  border-radius: 25px;
+  border: solid 1px black;
+}
+
+.btn-clicked {
+  position: absolute !important;
+  height: 1.3rem !important;
+  width: 1.3rem !important;
+  margin-left: 1rem !important;
+  background-color: red !important;
+  border-radius: 25px !important;
+  border: solid 1px black !important;
+}
+
+/* single user */
+.otp-login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 93vh;
+}
+.otp-login-container .row {
+  display: flex;
+  flex-direction: column;
+}
+.otp-login-container form {
+  padding: 3rem;
+  box-shadow: 1px 2px 10px 2px black;
+  display: flex;
+  width: 30rem;
+  border-radius: 15px;
+  flex-direction: column;
+}
+.otp-login-container form h4 {
+  display: flex;
+  justify-content: space-between;
+}
+.otp-login-container form img {
+  margin: 0 0.6rem 0 0.5rem;
+  width: 1.5rem;
+}/*# sourceMappingURL=main.css.map */

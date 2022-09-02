@@ -1,0 +1,38 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="single-user">
+                <img src="https://niemvuilaptrinh.ams3.cdn.digitaloceanspaces.com/color-picker/Scheme%20Color%20%281%29.png"
+                    alt="">
+                <div class="user-data">
+                    <span>
+                        <h5><strong>Name :</strong></h5>
+                        <h5 class="value"><strong>{{user.username}}</strong></h5>
+                    </span>
+                    <span>
+                        <h5>Email :</h5>
+                        <h5 class="value">{{user.email}}</h5>
+                    </span>
+                    <span>
+                        <h5>Phone :</h5>
+                        <h5 class="value">{{user.phone}}</h5>
+                    </span>
+                    <span>
+                        <h5>Status :</h5>
+                        {{#if user.status}}
+                        <span class="switch" id="toggle"><span id="switch"></span></span>
+                        {{else}}
+                        <span class="switch" id="toggle"><span id="switch" class="btn-clicked"></span></span>
+                        {{/if}}
+                    </span>
+                    <span>
+                        <h5>Address :</h5>
+                        {{#each user.address}}
+                        <address class="value address">{{address}}</address>
+                        {{/each}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -15,7 +15,9 @@
     "hbs": "^4.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.3",
+    "otp-generator": "^4.0.0",
     "password-hash": "^1.2.2",
+    "twilio": "^3.81.0",
     "uuid": "^8.3.2"
   }
 }

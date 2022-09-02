@@ -1,7 +1,6 @@
-const { genarateHashPassword, createjwtToken, varifyHashedPassword } = require("../helpers/userHelpers");
+const { genarateHashPassword, createjwtToken, varifyHashedPassword, sendSMS, genarateOtp } = require("../helpers/userHelpers");
 const User = require("../models/userSchema")
 
-const print = console.log;
 // const products = {}
 module.exports = {
     getAllProducts: (req, res) => {
@@ -32,13 +31,14 @@ module.exports = {
                 username,
                 email,
                 phone,
-                password
+                password,
+                status: true
             }).save().then(data => {
                 res.status(200).json({ ok: true })
             }).catch(error => {
                 // bad request
                 res.status(400).json({ ok: false, msg: Object.keys(error.keyPattern)[0] })
-                console.log(error);
+                console.log(error.message);
             })
         } catch (error) {
             console.error(error)
@@ -57,11 +57,17 @@ module.exports = {
         try {
             User.findOne({ username: username }).then(async response => {
                 if (response) {
-                    if ( varifyHashedPassword(response.password,password)) {
-                        createjwtToken(response).then(token => {
-                            res.cookie('jwt',token,{httpOnly:true,maxAge: 24*60*60*1000})
-                            res.status(200).json({ ok: true })
+                    if (varifyHashedPassword(response.password, password)) {
+                        // OTP send
+                        genarateOtp().then(otp => {
+                            console.log(otp);
                         })
+                        // sendSMS(response.phone).then(response => {
+                        //     console.log(response);
+                        // }).catch(err => {
+                        //     console.log(err.message);
+                        // })
+                        // res.status(200).json({ ok: true })
                     } else {
                         // Aot Acceptable
                         res.status(406).json({ ok: false, msg: 'password not match' })
@@ -73,5 +79,8 @@ module.exports = {
         } catch (error) {
             console.error(error)
         }
+    },
+    otpLogin: (req, res) => {
+        res.render('user/otpLogin')
     }
 }

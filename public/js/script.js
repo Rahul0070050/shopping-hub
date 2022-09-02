@@ -1,8 +1,4 @@
-const username = document?.getElementById('username')?.value;
-const password = document?.getElementById('password')?.value;
-const cunfirmPassword = document?.getElementById('cunfirm-password')?.value;
-const email = document?.getElementById('email')?.value;
-const mobile = document?.getElementById('phone')?.value;
+
 
 let usernameErr = document?.getElementById('usernameErr')
 let passwordErr = document?.getElementById('passwordErr')
@@ -18,12 +14,14 @@ function submit(e) {
         userLogin()
     } else if (userClick == 'userSignup') {
         userSignup()
-    } else if(userClick == 'adminLogin') {
+    } else if (userClick == 'adminLogin') {
         adminLogin()
     }
 }
 // method="post" action="
 function userLogin() {
+    const username = document?.getElementById('username')?.value;
+    const password = document?.getElementById('password')?.value;
     fetch("/user/login", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -34,13 +32,15 @@ function userLogin() {
     }).then(res => res.json()).then(res => {
         console.log(res);
         const a = document.createElement('a')
-        a.setAttribute('href','/')
+        a.setAttribute('href', '/user/otpLogin')
         a.click()
     }).catch(err => {
         console.log(err);
     })
 }
 function adminLogin() {
+    const username = document?.getElementById('username')?.value;
+    const password = document?.getElementById('password')?.value;
     fetch("/user/login", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -55,20 +55,29 @@ function adminLogin() {
     })
 }
 function userSignup() {
+    const username = document?.getElementById('username')?.value;
+    const password = document?.getElementById('password')?.value;
+    const cunfirmPassword = document?.getElementById('cunfirm-password')?.value;
+    const email = document?.getElementById('email')?.value;
+    const mobile = document?.getElementById('phone')?.value;
     let data = {
         username,
         password,
         phone: mobile,
         email
     };
+    console.log(data);
     fetch('/user/registration', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     }).then(res => res.json()).then(res => {
         console.log(res);
-        if(!res.ok) {
+        if (!res.ok) {
+            console.log(res);
             setWarning(res.msg)
+        }else {
+
         }
     }).catch(err => {
         console.log(err);
@@ -93,7 +102,7 @@ function setWarning(text) {
         usernameErr = ''
         emailErr = ''
         phoneErr = ''
-    },4000)
+    }, 5000)
 }
 
 
@@ -164,7 +173,7 @@ function validateCunfirnPassword() {
         }, 4000);
         return false;
     }
-    if(cunfirmPassword != password) {
+    if (cunfirmPassword != password) {
         passwordErr.innerHTML = 'password not matching';
         setTimeout(() => {
             passwordErr.innerText = '';

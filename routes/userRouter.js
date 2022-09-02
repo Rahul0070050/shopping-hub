@@ -1,5 +1,5 @@
 const express = require('express')
-const { signup, userLoginWithData, userLogin, registration, getAllProducts } = require('../controllers/userController')
+const { signup, userLoginWithData, userLogin, registration, getAllProducts, otpLogin } = require('../controllers/userController')
 const { validateUser, afterlogin } = require('../middlewares/userMiddlewares')
 const router = express.Router()
 
@@ -11,6 +11,8 @@ router.post('/user/registration', registration)
 // user signin => POST user/login
 router.get('/user/login',afterlogin, userLogin)
 router.post('/user/login', userLoginWithData)
+//sendOTP POST => user/loginWithOtp
+router.get('/user/otpLogin',otpLogin)
 // prodect detailed view => GET user/product/:id
 // product view by category => GET user/product/:category
 

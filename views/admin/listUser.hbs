@@ -1,0 +1,43 @@
+{{!-- {{#each result}}
+<hi>{{username}}</hi>
+{{/each}} --}}
+
+<div class="container-fluid">
+    <div class="row">
+        <h3 class="user-heading"><strong>Users</strong></h3>
+        <div class="col-md-12">
+            <table class="table table-striped text-center">
+                <thead>
+                    <tr>
+                        <th scope="col">UserName</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Mobile</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    {{#each users}}
+                    <tr>
+                        <td user_id="{{_id}}">
+                            {{!-- <a href="admin_panel/user/id"> --}}
+                                {{username}}
+                            {{!-- </a> --}}
+                        </td>
+                        <td user_id="{{_id}}">{{email}}</td>
+                        <td>{{phone}}</td>
+                        <td>
+
+                            {{#if status}}
+                            <span class="user-status-true">O</span>
+                            {{else}}
+                            <span class="user-status-false">O</span>
+                            {{/if}}
+                        </td>
+                        <td><button class="btn btn-danger">Remove user</button></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

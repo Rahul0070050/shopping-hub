@@ -11,12 +11,20 @@
         <label>User</label>
     <div>
     <div class="inner-check-box">
-        <input type="checkbox">
+        <input type="checkbox" checked >
         <label>login and signup with validation</label>
     <div>
     <div>
-        <input type="checkbox">
+        <input type="checkbox" checked >
         <label>List Product</label>
+    <div>
+        <div>
+        <input type="checkbox" checked >
+        <label>Product adding to the wishlist</label>
+    <div>
+        <div>
+        <input type="checkbox" checked >
+        <label>Product adding to the cart</label>
     <div>
     <div>
         <input type="checkbox">
@@ -44,7 +52,7 @@
     <label value="hi">Signin</label>
 <div>
 <div>
-    <input class="check-box" type="checkbox">
+    <input class="check-box" type="checkbox" checked>
     <label value="hi">List user </label>
 <div>
 <div>

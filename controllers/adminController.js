@@ -1,3 +1,4 @@
+const User = require('../models/userSchema')
 module.exports = {
     AdminLogin: (req, res) => {
         try {
@@ -15,5 +16,20 @@ module.exports = {
         } catch (error) {
             console.error(error)
         }
+    },
+    getAllUsers: (req, res) => {
+        try {
+            User.find().then(users => {
+                res.render('admin/listUser', { admin: true, users })
+            })
+        } catch (error) {
+            console.log(error.message);
+        }
+    },
+    getSingleUSer: (req, res) => {
+        const { id } = req.params
+        User.findById(id).then(user => {
+            res.render('admin/singleUser', { admin: true, user })
+        })
     }
 }
