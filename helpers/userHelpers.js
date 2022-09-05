@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const hashPass = require('password-hash');
-const otp = require('otp-generator')
+const otp = require('otp-generator');
+const User = require('../models/userSchema');
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -28,10 +29,10 @@ async function verifyjwtToken(token) {
     })
 }
 
-function sendSMS(number) {
+function sendOTP(number, otp) {
     return client.messages
         .create({
-            body: 'hi',
+            body: `hi this is from Shopping hub your OTP: ${otp}`,
             from: +17075988173,
             to: '+91' + number
         })
@@ -39,9 +40,28 @@ function sendSMS(number) {
 
 
 async function genarateOtp() {
-    // return await otp.generate(6,{digits:true,lowerCaseAlphabets:false,specialChars:false,upperCaseAlphabets:false})
-
+    return await otp.generate(6, { digits: true, lowerCaseAlphabets: false, specialChars: false, upperCaseAlphabets: false })
 }
 
+async function validationform(username, email, phone) {
+    return new Promise(async (resolve,reject) => {
+        await User.find({username}).then(res => {
+            if(res.length != 0) {
+                resolve('user alresdy exists')
+            }
+        })
+        await User.find({email}).then(res => {
+            if(res.length != 0) {
+                resolve('email alresdy exists')
+            }
+        })
+        // await User.find({phone}).then(res => {
+        //     if(res.length != 0) {
+        //         resolve('this phone number alresdy exists')
+        //     }
+        // })
+        resolve()
+    })
+}
 
-module.exports = { genarateHashPassword, varifyHashedPassword, createjwtToken, verifyjwtToken, sendSMS, genarateOtp}
+module.exports = { genarateHashPassword, varifyHashedPassword, createjwtToken, verifyjwtToken, sendOTP, genarateOtp, validationform }

@@ -1,6 +1,7 @@
 const toggleBtn = document?.getElementById('toggle');
 const toggleSwitch = document?.getElementById('switch');
 const tBody = document?.getElementById('tbody');
+const mainImage = document.getElementById('select-main-image');
 
 toggleBtn?.addEventListener('click',() => {
     toggleSwitch.classList.toggle('btn-clicked')

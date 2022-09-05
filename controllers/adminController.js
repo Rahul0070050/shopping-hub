@@ -1,4 +1,6 @@
 const User = require('../models/userSchema')
+const Category = require("../models/categorySchema");
+
 module.exports = {
     AdminLogin: (req, res) => {
         try {
@@ -31,5 +33,35 @@ module.exports = {
         User.findById(id).then(user => {
             res.render('admin/singleUser', { admin: true, user })
         })
+    },
+    getProducts: (req, res) => {
+
+    },
+    addProduct: (req, res) => {
+    },
+    getAddProductPage: (req, res) => {
+        Category.find({}).then(result => {
+            res.render('admin/addProduct', { categories: result })
+        })
+    },
+    addCategory: (req, res) => {
+        try {
+
+            const { category } = req.body
+            if (category) {
+                new Category({
+                    name: category
+                }).save().then(data => {
+                    res.status(200).json({ ok: true, data })
+                }).catch(err => {
+                    console.log(err.message);
+                    res.status(200).json({ ok: false, msg: 'category already exists' })
+                })
+            } else {
+                res.status(406).json({ ok: false, smg: 'category name is invalid' })
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
     }
 }

@@ -1,10 +1,9 @@
-
-
 let usernameErr = document?.getElementById('usernameErr')
 let passwordErr = document?.getElementById('passwordErr')
 let emailErr = document?.getElementById('emailErr')
 let cunfirmPasswordErr = document?.getElementById('cunfirmPasswordErr')
 let phoneErr = document?.getElementById('phoneErr')
+
 
 function submit(e) {
     e.preventDefault()
@@ -24,13 +23,13 @@ function userLogin() {
     const password = document?.getElementById('password')?.value;
     fetch("/user/login", {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             username,
             password
-        })
+        }),
     }).then(res => res.json()).then(res => {
-        console.log(res);
         const a = document.createElement('a')
         a.setAttribute('href', '/user/otpLogin')
         a.click()
@@ -43,11 +42,12 @@ function adminLogin() {
     const password = document?.getElementById('password')?.value;
     fetch("/user/login", {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             username,
             password
-        })
+        }),
     }).then(res => res.json()).then(res => {
         console.log(res);
     }).catch(err => err.json()).then(err => {
@@ -64,45 +64,45 @@ function userSignup() {
         username,
         password,
         phone: mobile,
-        email
+        email,
+        cunfirmPassword
     };
-    console.log(data);
     fetch('/user/registration', {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
     }).then(res => res.json()).then(res => {
-        console.log(res);
         if (!res.ok) {
+            setWarning(res)
+        } else {
             console.log(res);
-            setWarning(res.msg)
-        }else {
-
+            const a = document.createElement('a')
+            a.setAttribute('href', '/user/otpLogin')
+            a.click()
         }
     }).catch(err => {
         console.log(err);
     })
 }
-function validateUsername(e) {
-    // const userName = e.target.value;
-    return
-}
 
-function setWarning(text) {
-    console.log(text == 'username');
-    if ('username' == text) {
-        console.log(usernameErr);
-        usernameErr.innerHTML = `${text} already taken`
-    } else if ('email' == text) {
-        emailErr.innerText = `${text} already taken`
-    } else if ('phone' == text) {
-        phoneErr.innerText = `${text} already taken`
+
+
+function setWarning(warn) {
+
+    console.log(warn);
+    if (warn.msg == 'user alresdy exists') {
+        usernameErr.innerText = warn.msg
+    } else if (warn.msg == 'email alresdy exists') {
+        emailErr.innerText = warn.msg
+    } else if (warn.msg == 'this phone number alresdy exists') {
+        phoneErr.innerText = warn.msg
     } else { }
     setTimeout(() => {
-        usernameErr = ''
-        emailErr = ''
-        phoneErr = ''
-    }, 5000)
+        usernameErr.innerText = ''
+        emailErr.innerText = ''
+        phoneErr.innerText = ''
+    }, 10000)
 }
 
 
@@ -128,7 +128,13 @@ function validateUserName() {
 function validatePhoneNumber() {
     var phoneErr = document.getElementById('phoneErr');
     var phone = document.getElementById('phone').value;
-
+    if (phone == /^[0-9]$/) {
+        phoneErr.innerText == 'enter a valid phone number'
+        setTimeout(() => {
+            phoneErr.innerText = '';
+        }, 4000);
+        return false;
+    }
     if (phone.length == 0) {
         phoneErr.innerHTML = 'phone number is required';
         setTimeout(() => {
@@ -162,8 +168,8 @@ function validatePassword() {
 
 
 function validateCunfirnPassword() {
-    var passwordErr = document.getElementById('cunfirmPasswordErr');
-    var cunfirmPassword = document.getElementById('confirm-password').value;
+    var passwordErr = document?.getElementById('cunfirmPasswordErr');
+    var cunfirmPassword = document?.getElementById('cunfirm-password').value;
     var password = document.getElementById('password').value;
 
     if (cunfirmPassword.length == 0) {

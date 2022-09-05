@@ -1,50 +1,286 @@
-<div class="row">
-    <div class="col-md-6">
-        <form>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="inputEmail4">Email</label>
-                    <input type="email" class="form-control" id="inputEmail4">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="inputPassword4">Password</label>
-                    <input type="password" class="form-control" id="inputPassword4">
+<div class="add-product-container container-fluid">
+    <div class="row">
+        <div class="col-md-6 my-coll">
+            <div class="my-sec">
+                <div class="heading d-flex justify-content-between">
+                    <h2><strong>SHOPPING HUB</strong></h2>
+                    <h2><strong>ADD NEW PRODUCT</strong></h2>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="inputAddress">Address</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-            </div>
-            <div class="form-group">
-                <label for="inputAddress2">Address 2</label>
-                <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="inputCity">City</label>
-                    <input type="text" class="form-control" id="inputCity">
+            <form>
+                <div class="my-sec">
+                    <div class="form-row">
+                        <div class="form-group" id="main-image-container">
+                            <div id="input-main-img">
+                                <img id="main-image"
+                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAACECAMAAABmmnOVAAAALVBMVEXMzMzy8vLLy8vd3d319fXU1NTg4ODX19fQ0NDv7+/a2trl5eXr6+vo6OjIyMgenHbNAAADSklEQVR4nO2Y6darKgxAJQIyKO//uCdhUvt10Jq2d62b/avWVrdJgOAw/gcYBEEQBEEQBEEQBEEQBEH4GpDSjwVgcGFZ3A8F0hCi11rp+JtYQHKTRQGtCP8DAcyBXXwVyJgvG7QcKIV50Cpa+jTCFwVciKpGQGu/jC4BGDyev1IUAOCMnWv0UWC2xkF5fo/ffD4SZDAupQwpBz5OboB2X4j47WeLggRaEbQcAGwfHAKesx80GGgg0uNXAWtKBGDr4TA682fuj3ehImghULOdXL/zFOPUf5ooR/yTJk6GWARVQFMRhF0OFvxOx/5rKoqJtTQhwXYgKhTI0e/gTYucTfVEwKPYzl4XwCIw0a8zoYphMn+o53w7nvBgrp+vpgXnHdty0NF3+HNuc6DMpWCAXXPwPtpekYChFcFi3zXRVyUGyNeh2ZhWAxX+1sJL/GWJtOSKx+onCfxwnklfjgROv3lNJomj18IGcx2WHBI09JYqoQ5eK8QYOCXymuzdKYmZSnFpzQSHRJl+T0jAonejkkUilGscj0Qdxq3PZUmHU7lROyzhmoRjlABs3/SZmqgSM2M6aOKmNfm4hC010VoLHgm8CK3JNxJP1mcq5fWnLBJ55va36XDj44URex9s+/vfWSQSFYUbdhIJW5hne5tNnJgigUnWIe0kaAisrdzzv/NI5Jl7J1EmJD27nvhPS5SZe5uOsqyrtZOFMD70YJLIz222Em3nR1enxW3Uen5UqFwSIy3nrkvkQdssqDAgd8H2/qjlSge1EvNGYtt5a29S7fa9u7cN55LIW+yeDgrMvoXs3KsMLom8sRlVi8Q2EDc97Tpe+CVoi71UiZtA3HbW421K2NLRlmfqK9xjhVoZ+xuySbQxafue8xlh/6aCTaIszzkdrxSov9zWJ5/E1CTyZvs1gbXlr7iWDrCHJHRclxU2iTR3iYPbUd9ekDBKlHF5QoIm9D7J80gM5mwkaM7IwWCUcG2NMo/ny7/QZpBRYliKBPkch/54Zif9glIU77waSIEvEmXmHo2ZzmGm6y9JOqWJuPfG7BWKUeL1mvFkoHBJTG+FoQaD69UumHCyHDaFwfd6+Y2XZg02B0EQBEEQBEEQBEEQBEH4H/EPRtciR2QRHuYAAAAASUVORK5CYII="
+                                    alt="select main image">
+                            </div>
+                            <div class="btns">
+                                <a class="my-bt`n"><span>Edit</span></a>
+                                <a class="my-btn"><span>Remove</img></span></a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div id="sub-image-container">
+                                <div class="sub-image">
+                                    <img id="add-sub-image"
+                                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAACECAMAAABmmnOVAAAALVBMVEXMzMzy8vLLy8vd3d319fXU1NTg4ODX19fQ0NDv7+/a2trl5eXr6+vo6OjIyMgenHbNAAADSklEQVR4nO2Y6darKgxAJQIyKO//uCdhUvt10Jq2d62b/avWVrdJgOAw/gcYBEEQBEEQBEEQBEEQBEH4GpDSjwVgcGFZ3A8F0hCi11rp+JtYQHKTRQGtCP8DAcyBXXwVyJgvG7QcKIV50Cpa+jTCFwVciKpGQGu/jC4BGDyev1IUAOCMnWv0UWC2xkF5fo/ffD4SZDAupQwpBz5OboB2X4j47WeLggRaEbQcAGwfHAKesx80GGgg0uNXAWtKBGDr4TA682fuj3ehImghULOdXL/zFOPUf5ooR/yTJk6GWARVQFMRhF0OFvxOx/5rKoqJtTQhwXYgKhTI0e/gTYucTfVEwKPYzl4XwCIw0a8zoYphMn+o53w7nvBgrp+vpgXnHdty0NF3+HNuc6DMpWCAXXPwPtpekYChFcFi3zXRVyUGyNeh2ZhWAxX+1sJL/GWJtOSKx+onCfxwnklfjgROv3lNJomj18IGcx2WHBI09JYqoQ5eK8QYOCXymuzdKYmZSnFpzQSHRJl+T0jAonejkkUilGscj0Qdxq3PZUmHU7lROyzhmoRjlABs3/SZmqgSM2M6aOKmNfm4hC010VoLHgm8CK3JNxJP1mcq5fWnLBJ55va36XDj44URex9s+/vfWSQSFYUbdhIJW5hne5tNnJgigUnWIe0kaAisrdzzv/NI5Jl7J1EmJD27nvhPS5SZe5uOsqyrtZOFMD70YJLIz222Em3nR1enxW3Uen5UqFwSIy3nrkvkQdssqDAgd8H2/qjlSge1EvNGYtt5a29S7fa9u7cN55LIW+yeDgrMvoXs3KsMLom8sRlVi8Q2EDc97Tpe+CVoi71UiZtA3HbW421K2NLRlmfqK9xjhVoZ+xuySbQxafue8xlh/6aCTaIszzkdrxSov9zWJ5/E1CTyZvs1gbXlr7iWDrCHJHRclxU2iTR3iYPbUd9ekDBKlHF5QoIm9D7J80gM5mwkaM7IwWCUcG2NMo/ny7/QZpBRYliKBPkch/54Zif9glIU77waSIEvEmXmHo2ZzmGm6y9JOqWJuPfG7BWKUeL1mvFkoHBJTG+FoQaD69UumHCyHDaFwfd6+Y2XZg02B0EQBEEQBEEQBEEQBEH4H/EPRtciR2QRHuYAAAAASUVORK5CYII="
+                                        alt="select main image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="inputState">State</label>
-                    <select id="inputState" class="form-control">
-                        <option selected>Choose...</option>
-                        <option>...</option>
-                    </select>
+                <div class="my-sec pb-4 pt-4">
+                    <h5><strong>Category</strong></h5>
+                    <div class="add-category-row form-row">
+                        <div class="input-group col-md-6 mb-3">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" type="button" id="add-category">Add</button>
+                            </div>
+                            <input type="text" class="form-control" id="category-name" name="category"
+                                placeholder="Add new category" aria-label="" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3 col-md-6">
+                            <input type="text" class="form-control" placeholder="Search category" aria-label=""
+                                aria-describedby="basic-addon1">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" type="button">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row my-category" id="category-collection">
+                        {{#each categories}}
+                        <div class="form-check col-md-4 my-category-check">
+                            <input class="form-check-input radio" type="radio" name="category" value="" id="{{name}}">
+                            <label class="form-check-label" for="{{name}}">
+                                {{name}}
+                            </label>
+                        </div>
+                        {{/each}}
+                    </div>
                 </div>
-                <div class="form-group col-md-2">
-                    <label for="inputZip">Zip</label>
-                    <input type="text" class="form-control" id="inputZip">
+            </form>
+        </div>
+        <div class="col-md-6 my-coll">
+            <form>
+                <div class="my-sec">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="product-name">Name</label>
+                            <input type="text" class="form-control" id="product-name">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="price">Price</label>
+                            <input type="text" class="form-control" id="price">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <br>
+                        <textarea class="form-control" name="discription" id="description" cols="84"
+                            rows="3"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="quantity">Quantity</label>
+                            <input name="cound" type="number" class="form-control" id="quantity">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="discount">Discount</label>
+                            <input name="discount" type="number" class="form-control" id="discount">
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="gridCheck">
-                    <label class="form-check-label" for="gridCheck">
-                        Check me out
-                    </label>
+                <div class="item-size-container my-sec">
+                    <div class="form-check form-check-inline">
+                        <h5 class="mb-3"><strong>Select Product Size</strong></h5>
+                    </div>
+                    <div class="product-size-container">
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label" for="sizesm">SM</label>
+                            <input class="form-check-input checkbox" name="sm" type="checkbox" id="size-sm" value="SM">
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label" for="size-md">MD</label>
+                            <input class="form-check-input checkbox" name="md" type="checkbox" id="size-md" value="MD">
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label" for="size-lg">LG</label>
+                            <input class="form-check-input checkbox" type="checkbox" name="lg" id="size-lg" value="LG">
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Sign in</button>
-        </form>
+                <div class="item-size-container my-sec">
+                    <div class="form-check form-check-inline">
+                        <h5 class="mb-3"><strong>Submit Data</strong></h5>
+                    </div>
+                    <div class="product-size-container">
+                        <button type="button" class="btn btn-primary">Reset</button>
+                        <button type="button" id="submit-btn" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
+
+
+
+<script>
+    const mainImageField = document.getElementById('main-image')
+    const subImageContainer = document.getElementById('sub-image-container')
+    const addSubImageBtn = document.getElementById('add-sub-image')
+    const categoryCollection = document.getElementById("category-collection")
+    const addCategoryBtn = document.getElementById("add-category");
+    const submitBtn = document.getElementById('submit-btn');
+
+
+    // const mainImage = document.getElementById('sub-image')
+    let image = document.createElement('input')
+    let subImageArr = [];
+    let subImage = document.createElement('input')
+    mainImageField.addEventListener('click', async () => {
+        image.setAttribute('type', 'file')
+        image.click()
+    })
+    image.addEventListener('change', () => {
+        if (image.files[0]) {
+            console.log(image.files)
+            mainImageField.src = URL.createObjectURL(image.files[0])
+        }
+    })
+
+    addSubImageBtn.addEventListener('click', () => {
+        subImage.setAttribute('type', 'file')
+        subImage.click();
+    })
+    subImage.addEventListener('change', async () => {
+        subImageArr.push(subImage.files[0]);
+        let subImageDiv = document.createElement('div')
+        subImageDiv.setAttribute('class', 'sub-image')
+
+        let subImageElm = document.createElement('img')
+        subImageElm.setAttribute('id', 'sub-image')
+        subImageElm.setAttribute('image-count', `${Array.length}`)
+        subImageElm.setAttribute('src', `${URL.createObjectURL(subImage.files[0])}`)
+        subImageDiv.appendChild(subImageElm)
+        subImageContainer.insertBefore(subImageDiv, subImageContainer.firstChild)
+    })
+
+    addCategoryBtn.addEventListener('click', () => {
+        const categoryInput = document.getElementById('category-name');
+        let category = categoryInput.value
+
+        if (category) {
+            fetch('/admin/admin_panel/addCategory', {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ category })
+            }).then(res => res.json()).then(res => {
+                console.log(res)
+                if (res.ok) {
+                    categoryInput.classList.remove('is-invalid')
+                    categoryInput.innerText = ""
+
+                    let div = document.createElement('div')
+                    div.classList.add('form-check', 'col-md-4', 'my-category-check')
+
+                    let input = document.createElement('input')
+                    input.setAttribute('class','form-check-input radio')
+                    input.setAttribute('type', 'radio')
+                    input.setAttribute('id', `${res.data.name}`)
+                    input.setAttribute('name', `category`)
+
+                    let label = document.createElement('label')
+                    label.setAttribute('class', 'form-check-label')
+                    label.setAttribute('for', `${res.data.name}`)
+                    label.innerText = res.data.name
+
+                    div.appendChild(input)
+                    div.appendChild(label)
+
+                    categoryCollection.appendChild(div)
+                    categoryInput.value = ""
+                } else {
+                    categoryInput.classList.add('is-invalid')
+                }
+            }).catch(err => {
+                categoryInput.classList.add('is-invalid')
+                console.log(err)
+            })
+        }
+    })
+
+
+    submitBtn.addEventListener('click', (e) => {
+        const productName = document.getElementById('product-name').value
+        const price = document.getElementById('price').value
+        const description = document.getElementById('description').value
+        const quantity = document.getElementById('quantity').value
+        const discount = document.getElementById('discount').value
+        const radioS = document.getElementsByClassName("radio")
+        const checkBox = document.getElementsByClassName('checkbox')
+        let data = {
+            product: productName,
+            price,
+            discount,
+            description,
+            quantity,
+            category: "",
+            size: []
+        }
+
+        for (var radio of radioS) {
+            if (radio.checked) {
+                data.category = radio.getAttribute('id')
+            }
+        }
+
+
+        for (var checked of checkBox) {
+            if (checked.checked) {
+                data.size.push(checked.getAttribute('name'))
+            }
+        }
+        if (data.description == "") {
+            document.getElementById('description').classList.add('is-invalid')
+        } else {
+            document.getElementById('description').classList.remove('is-invalid')
+        }
+        if (data.price == "") {
+            document.getElementById('price').classList.add('is-invalid')
+        } else {
+            document.getElementById('price').classList.remove('is-invalid')
+        }
+        if (data.product == "") {
+            document.getElementById('product-name').classList.add('is-invalid')
+        } else {
+            document.getElementById('product-name').classList.remove('is-invalid')
+        }
+        if (data.quantity == "") {
+            document.getElementById('discount').classList.add('is-invalid')
+        } else {
+            document.getElementById('discount').classList.remove('is-invalid')
+        }
+        if (data.quantity == "") {
+            document.getElementById('quantity').classList.add('is-invalid')
+        } else {
+            document.getElementById('quantity').classList.remove('is-invalid')
+        }
+        if (data.category == "") {
+            let radioLabels = document.getElementsByClassName('my-category-check');
+            for (let i = 0; i < radioLabels.length; i++) {
+                radioLabels[i].classList.add('text-danger')
+            }
+        } else {
+            let radioLabels = document.getElementsByClassName('my-category-check');
+            for (let i = 0; i < radioLabels.length; i++) {
+                radioLabels[i].classList.remove('text-danger')
+            }
+        }
+        console.log(data)
+    })
+</script>

@@ -285,4 +285,144 @@ nav li a {
 .otp-login-container form img {
   margin: 0 0.6rem 0 0.5rem;
   width: 1.5rem;
+}
+
+.add-product-container .row {
+  height: 80vh;
+  margin: 5rem 0.5rem 0.5rem 0.5rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 1px 1px 15px 1px rgb(87, 87, 87);
+}
+.add-product-container .row .my-coll {
+  padding: 1rem;
+}
+.add-product-container .row .my-sec {
+  box-shadow: 1px 1px 8px 1px rgb(87, 87, 87);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin: 1rem;
+}
+.add-product-container .row .my-sec h2 {
+  padding: 0;
+  margin: 0;
+}
+.add-product-container .row #main-image-container {
+  display: flex;
+}
+.add-product-container .row #main-image-container #input-main-img {
+  height: 15rem;
+  width: 15rem;
+  border-radius: 0.7rem;
+  overflow: hidden;
+}
+.add-product-container .row #main-image-container #input-main-img img {
+  height: 100%;
+  width: 100%;
+}
+.add-product-container .row #main-image-container .btns {
+  margin-left: 2rem;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+.add-product-container .row #main-image-container .btns a {
+  text-decoration: none;
+  color: black;
+  padding: 0.4rem 1.7rem;
+  width: 7rem;
+  text-align: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+.add-product-container .row #main-image-container .btns a span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: color 0.5s ease-in-out;
+}
+.add-product-container .row #main-image-container .btns a::before {
+  content: "";
+  position: absolute;
+  transition: width 0.7s ease-in-out;
+  height: 100%;
+  width: 1px;
+  background-color: black;
+  left: 0;
+  z-index: -1;
+  opacity: 0.5;
+}
+.add-product-container .row #main-image-container .btns a::after {
+  content: "";
+  position: absolute;
+  transition: width 0.7s ease-in-out;
+  height: 100%;
+  width: 1px;
+  background-color: black;
+  right: 0;
+  z-index: -1;
+  opacity: 0.5;
+}
+.add-product-container .row #main-image-container .btns a:hover::before {
+  width: 100%;
+}
+.add-product-container .row #main-image-container .btns a:hover::after {
+  width: 100%;
+}
+.add-product-container .row #main-image-container .btns a:hover {
+  cursor: pointer;
+  color: #fff;
+}
+.add-product-container .row #sub-image-container {
+  width: 25rem;
+  height: 15rem;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: auto;
+}
+.add-product-container .row #sub-image-container .sub-image {
+  border-radius: 1rem;
+  overflow: hidden;
+  margin: 1rem;
+  width: 5rem;
+  height: 5rem;
+}
+.add-product-container .row #sub-image-container .sub-image img {
+  height: 100%;
+  width: 100%;
+}
+.add-product-container .row #sub-image-container::-webkit-scrollbar {
+  display: none;
+}
+.add-product-container .row .item-size-container {
+  text-align: center;
+}
+.add-product-container .row .item-size-container .form-check-inline {
+  display: flex;
+  align-items: center;
+}
+.add-product-container .row .item-size-container .product-size-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.add-product-container .row .item-size-container label {
+  margin: 0 0.2rem;
+}
+.add-product-container .row .my-category {
+  width: 50rem;
+  overflow-x: auto;
+  height: 6.5rem;
+  margin-left: 6rem;
+  padding: 1rem;
+}
+.add-product-container .row .my-category .my-category-check {
+  margin-top: 0.2rem;
+}
+.add-product-container .row .my-category::-webkit-scrollbar {
+  display: none;
 }/*# sourceMappingURL=main.css.map */
