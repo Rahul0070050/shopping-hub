@@ -18,11 +18,13 @@
                         <h5 class="value">{{user.phone}}</h5>
                     </span>
                     <span>
-                        <h5>Status :</h5>
+                        <h5>Block :</h5>
                         {{#if user.status}}
-                        <span class="switch" id="toggle"><span id="switch"></span></span>
+                        <span class="switch" user-id="{{user._id}}" id="toggle"><span user-id="{{user._id}}"
+                                id="switch"></span></span>
                         {{else}}
-                        <span class="switch" id="toggle"><span id="switch" class="btn-clicked"></span></span>
+                        <span class="switch" user-id="{{user._id}}" id="toggle"><span user-id="{{user._id}}" id="switch"
+                                class="btn-clicked"></span></span>
                         {{/if}}
                     </span>
                     <span>
@@ -36,3 +38,18 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    const blockAndUnblock = document.getElementById('toggle')
+    blockAndUnblock.addEventListener('click', (e) => {
+        let id = e.target.getAttribute('user-id')
+        fetch('/admin/user/block_and_unblock', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({id})
+        }).then(res => res.json()).then(res => {
+            console.log(res)
+        })
+    })
+</script>

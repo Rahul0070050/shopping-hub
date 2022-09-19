@@ -1,0 +1,112 @@
+<div class="container-fluid category-container">
+    <div class="row" id="my-row">
+        <div class="col-md-6">
+            <div class="category">
+                <div class="add-category mt-5">
+                    <div class="category-list">
+                        <h2><strong>Categories</strong></h2>
+                        {{#each result}}
+                        <div class="category-card">
+                            <div class="data">
+                                <div class="info">
+                                    <span><strong>Name :</strong></span>
+                                    <span><strong>Product count :</strong></span>
+                                    <span><strong>Added Date :</strong></span>
+                                </div>
+                                <div class="value">
+                                    <div>
+                                        <span>{{name}}</span>
+                                        <span>{{productSize}}</span>
+                                        <span>{{time}}</span>
+                                    </div>
+                                </div>
+                                <div class="btns">
+                                    <a href="">Delete</a>
+                                    <a href="">Edit</a>
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="category-info">
+                <div class="card">
+                    <div class="title">
+                        <h2><strong>SHOPPING HUB</strong></h2>
+                    </div>
+                    <div class="info">
+                        <div class="fields">
+                            <span>All category</span>
+                            <span>Limited category</span>
+                            <span>N/A</span>
+                        </div>
+                        <div class="values">
+                            <span>{{count}}</span>
+                            <span>{{limitedCategoryCount}}</span>
+                            <span>{{NA}}</span>
+                        </div>
+                    </div>
+                    <div id="add-category" class="my-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="category-inp" placeholder="" aria-label=""
+                                aria-describedby="basic-addon1">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" id="add-category-btn"
+                                    type="button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-success" id="select-all-category-btn">Select All</button>
+                        <button class="btn btn-danger" id="delete-btn">Delete</button>
+                    </div>
+                    <div class="categories" id="category">
+                        {{#each result}}
+                        <span>{{name}}</span>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    let categoryArr = [];
+    document.getElementById('category').addEventListener('click', (e) => {
+        let elm = e.target;
+        elm.style.textDecoration = 'line-through'
+        categoryArr.push(elm.innerText)
+    })
+    document.getElementById('add-category-btn').addEventListener('click', () => {
+        let category = document.getElementById('category-inp').value;
+        fetch('/admin/addCategory', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ category })
+        }).then(res => res.json()).then(res => {
+            const span = document.createElement('span')
+            span.innerText = res.data.name
+            document.getElementById('category').prepend(span)
+            location.reload()
+        })
+    })
+    document.getElementById('select-all-category-btn').addEventListener('click', () => {
+        alert()
+    })
+    document.getElementById('delete-btn').addEventListener('click', () => {
+        if (!categoryArr.length < 1) {
+            fetch('/admin/deletemultipleCategory', {
+                method: 'delete',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ categoryArr })
+            }).catch(res => res.json()).then(res => {
+                location.reload()
+            })
+        }
+    })
+</script>

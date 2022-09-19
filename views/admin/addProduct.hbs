@@ -17,7 +17,10 @@
                                     alt="select main image">
                             </div>
                             <div class="btns">
-                                <a class="my-bt`n"><span>Edit</span></a>
+                                <div id="bler-container">
+                                    <div id="edit-image-container"></div>
+                                </div>
+                                <a class="my-bt`n" id="edit-main-image"><span>Edit</span></a>
                                 <a class="my-btn"><span>Remove</img></span></a>
                             </div>
                         </div>
@@ -66,6 +69,7 @@
         <div class="col-md-6 my-coll">
             <form>
                 <div class="my-sec">
+                    <h3><strong>ABOUT PRODUCT</strong></h3>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="product-name">Name</label>
@@ -95,26 +99,7 @@
                 </div>
                 <div class="item-size-container my-sec">
                     <div class="form-check form-check-inline">
-                        <h5 class="mb-3"><strong>Select Product Size</strong></h5>
-                    </div>
-                    <div class="product-size-container">
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label" for="sizesm">SM</label>
-                            <input class="form-check-input checkbox" name="sm" type="checkbox" id="size-sm" value="SM">
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label" for="size-md">MD</label>
-                            <input class="form-check-input checkbox" name="md" type="checkbox" id="size-md" value="MD">
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label" for="size-lg">LG</label>
-                            <input class="form-check-input checkbox" type="checkbox" name="lg" id="size-lg" value="LG">
-                        </div>
-                    </div>
-                </div>
-                <div class="item-size-container my-sec">
-                    <div class="form-check form-check-inline">
-                        <h5 class="mb-3"><strong>Submit Data</strong></h5>
+                        <h5 class="mb-1"><strong>Submit Data</strong></h5>
                     </div>
                     <div class="product-size-container">
                         <button type="button" class="btn btn-primary">Reset</button>
@@ -130,6 +115,8 @@
 
 
 <script>
+
+
     const mainImageField = document.getElementById('main-image')
     const subImageContainer = document.getElementById('sub-image-container')
     const addSubImageBtn = document.getElementById('add-sub-image')
@@ -142,14 +129,18 @@
     let image = document.createElement('input')
     let subImageArr = [];
     let subImage = document.createElement('input')
+    let fromImageEdit = false
+    let cropperdestroy = null
     mainImageField.addEventListener('click', async () => {
+        fromImageEdit = false
         image.setAttribute('type', 'file')
         image.click()
     })
     image.addEventListener('change', () => {
-        if (image.files[0]) {
-            console.log(image.files)
-            mainImageField.src = URL.createObjectURL(image.files[0])
+        if (!fromImageEdit) {
+            if (image.files[0]) {
+                document.getElementById('edit-main-image').click()
+            }
         }
     })
 
@@ -157,6 +148,7 @@
         subImage.setAttribute('type', 'file')
         subImage.click();
     })
+
     subImage.addEventListener('change', async () => {
         subImageArr.push(subImage.files[0]);
         let subImageDiv = document.createElement('div')
@@ -175,12 +167,11 @@
         let category = categoryInput.value
 
         if (category) {
-            fetch('/admin/admin_panel/addCategory', {
+            fetch('/admin/addCategory', {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ category })
             }).then(res => res.json()).then(res => {
-                console.log(res)
                 if (res.ok) {
                     categoryInput.classList.remove('is-invalid')
                     categoryInput.innerText = ""
@@ -189,7 +180,7 @@
                     div.classList.add('form-check', 'col-md-4', 'my-category-check')
 
                     let input = document.createElement('input')
-                    input.setAttribute('class','form-check-input radio')
+                    input.setAttribute('class', 'form-check-input radio')
                     input.setAttribute('type', 'radio')
                     input.setAttribute('id', `${res.data.name}`)
                     input.setAttribute('name', `category`)
@@ -215,14 +206,13 @@
     })
 
 
-    submitBtn.addEventListener('click', (e) => {
+    submitBtn.addEventListener('click', async (e) => {
         const productName = document.getElementById('product-name').value
         const price = document.getElementById('price').value
         const description = document.getElementById('description').value
         const quantity = document.getElementById('quantity').value
         const discount = document.getElementById('discount').value
         const radioS = document.getElementsByClassName("radio")
-        const checkBox = document.getElementsByClassName('checkbox')
         let data = {
             product: productName,
             price,
@@ -230,7 +220,6 @@
             description,
             quantity,
             category: "",
-            size: []
         }
 
         for (var radio of radioS) {
@@ -239,12 +228,6 @@
             }
         }
 
-
-        for (var checked of checkBox) {
-            if (checked.checked) {
-                data.size.push(checked.getAttribute('name'))
-            }
-        }
         if (data.description == "") {
             document.getElementById('description').classList.add('is-invalid')
         } else {
@@ -260,7 +243,7 @@
         } else {
             document.getElementById('product-name').classList.remove('is-invalid')
         }
-        if (data.quantity == "") {
+        if (data.discount == "") {
             document.getElementById('discount').classList.add('is-invalid')
         } else {
             document.getElementById('discount').classList.remove('is-invalid')
@@ -281,6 +264,336 @@
                 radioLabels[i].classList.remove('text-danger')
             }
         }
-        console.log(data)
+
+
+        let files = new FormData();
+        if (!image.files) {
+            alert('you should add main image')
+            return
+        }
+
+
+        files.append('product', productName)
+        files.append('price', price)
+        files.append('discount', discount)
+        files.append('description', description)
+        files.append('quantity', quantity)
+        files.append('category', data.category)
+        files.append('mainImage', image.files[0])
+        console.log(image.files[0])
+        for (let img of subImageArr) {
+            files.append('subImages', img)
+        }
+        fetch('/admin/add_product', {
+            method: "POST",
+            body: files
+        }).then(res => res.json()).then(res => {
+            if (!res.ok) {
+                if (res.err == 'duplicate') {
+                    alert('this product already added')
+                    return;
+                }
+
+            } else {
+                alert('product added')
+            }
+        }).catch(err => {
+            if (err.err == 'main image') {
+                if (res.err == 'main image') {
+                    alert('main image not found')
+                }
+            }
+        })
+    });
+
+    // activete edit product
+    document.getElementById('edit-main-image').addEventListener('click', () => {
+        if (image.files == null) return
+        const html = document.getElementsByTagName('html')[0]
+        const body = document.getElementsByTagName('body')[0]
+
+        const bgBler = document.getElementById('bler-container')
+        const imageEditContainer = document.getElementById('edit-image-container');
+
+        html.style.overflow = 'hidden'
+
+        // iamge container background
+        bgBler.style.zIndex = '3'
+        bgBler.style.backdropFilter = 'blur(12px)'
+
+        // image editing container
+        imageEditContainer.style.zIndex = "4"
+        imageEditContainer.style.opacity = "1"
+
+        initImageEditingSetUp()
+
+        setUpFunctionality()
     })
+
+    // document.getElementById('edit-main-image').click()
+
+    // arrow btns for global use
+    const arrowTop = document.createElement('img')
+    const arrowLeft = document.createElement('img')
+    const arrowRight = document.createElement('img')
+    const arrowBottom = document.createElement('img')
+    const arrowRotate = document.createElement('img')
+    const imageZoom = document.createElement('img')
+    const imageZoomOut = document.createElement('img')
+    // arrow btns for global use
+
+    // image radio
+    const imageRasio1 = document.createElement('span')
+    const imageRasio2 = document.createElement('span')
+    const imageRasio3 = document.createElement('span')
+    const imageRasio4 = document.createElement('span')
+
+    // image editing
+    const changeImage = document.createElement('button')
+    const cancelEditng = document.createElement('button')
+    const finishiEdit = document.createElement('button')
+
+    // close button
+    const closeBtn = document.createElement('button')
+    const closespan = document.createElement('span')
+
+    function initImageEditingSetUp() {
+
+        const mainDiv = document.getElementById('edit-image-container')
+        const innerImagesDiv = document.createElement('div')
+
+        const mainImageContainer = document.createElement('div')
+        const imagePreviewContainer = document.createElement('div')
+
+        const imageControllers = document.createElement('div')
+
+        const imagePositionBtns = document.createElement('div')
+        const imagePositionBtnTop = document.createElement('div')
+        const imagePositionBtnLeftandRight = document.createElement('div')
+        const imagePositionBtnLeft = document.createElement('div')
+        const imagePositionBtnRight = document.createElement('div')
+        const imagePositionBtnBottom = document.createElement('div')
+        const imagePositionBtnRotate = document.createElement('div')
+
+
+        const imageContainerFooter = document.createElement('div')
+        const imageResalutions = document.createElement('div')
+        const imageContainerBtns = document.createElement('div')
+
+        const imagePreview = document.createElement('div')
+
+        // for zoom and zoom out btns
+        const imageZoomAndZoomOutBtn = document.createElement('div')
+        const imageZoomBtn = document.createElement('div')
+        const imageZoomOutBtn = document.createElement('div')
+
+        const img = document.createElement('img')
+
+        closeBtn.setAttribute('type', 'button')
+        closeBtn.setAttribute('class', 'close')
+        closeBtn.setAttribute('id', 'close-edit')
+        closeBtn.setAttribute('onclick', 'closeEdit()')
+        closeBtn.setAttribute('aria-label', 'Close')
+
+        closespan.setAttribute('aria-hidden', 'true')
+
+        innerImagesDiv.setAttribute('class', 'images')
+
+        mainImageContainer.setAttribute('class', 'main-image-container');
+
+        imageControllers.setAttribute('id', 'controllers')
+
+        imagePositionBtns.setAttribute('class', 'btns')
+
+        imagePositionBtnLeftandRight.setAttribute('class', 'btnLeftAndRight')
+        imagePositionBtnTop.setAttribute('class', 'btnTop')
+        imagePositionBtnLeft.setAttribute('class', 'btnLeft')
+        imagePositionBtnRight.setAttribute('class', 'btnRight')
+        imagePositionBtnBottom.setAttribute('class', 'btnBottom')
+        imagePositionBtnRotate.setAttribute('class', 'btn-rotate')
+        imageZoomAndZoomOutBtn.setAttribute('class', 'zoom-and-zoomout')
+
+        imageContainerFooter.setAttribute('class', 'image-edit-footer')
+
+        changeImage.setAttribute('onClick', 'changeImageFun()')
+
+        imageResalutions.setAttribute('class', 'image-resalutions')
+        imageContainerBtns.setAttribute('class', 'image-edit-btns')
+
+
+        arrowLeft.setAttribute('src', '/image/icons/arrow.png')
+        arrowRight.setAttribute('src', '/image/icons/arrow.png')
+        arrowTop.setAttribute('src', '/image/icons/arrow.png')
+        arrowBottom.setAttribute('src', '/image/icons/arrow.png')
+        arrowRotate.setAttribute('src', '/image/icons/rotateArrow.png')
+        imageZoom.setAttribute('src', '/image/icons/zoomIn.png')
+        imageZoomOut.setAttribute('src', '/image/icons/zoomOut.png')
+
+        changeImage.setAttribute('class', 'btn btn-primary')
+        cancelEditng.setAttribute('class', 'btn btn-danger')
+        finishiEdit.setAttribute('class', 'btn btn-success')
+
+        changeImage.setAttribute('type', 'button')
+        cancelEditng.setAttribute('type', 'button')
+        finishiEdit.setAttribute('type', 'button')
+
+        imageRasio1.innerText = '16:9'
+        imageRasio2.innerText = '4:3'
+        imageRasio3.innerText = '1:1'
+        imageRasio4.innerText = '2:3'
+
+        changeImage.innerText = 'Change Image'
+        cancelEditng.innerText = 'Cancel'
+        finishiEdit.innerText = 'Finish'
+
+        imagePreviewContainer.setAttribute('class', 'previw-container')
+
+        imagePreview.setAttribute('class', 'image-previw')
+
+        closespan.innerHTML = '&times;'
+
+        closeBtn.appendChild(closespan)
+
+        mainImageContainer.appendChild(img)
+
+        imageZoomBtn.appendChild(imageZoom)
+        imageZoomOutBtn.appendChild(imageZoomOut)
+
+        imageZoomAndZoomOutBtn.appendChild(imageZoomOutBtn)
+        imageZoomAndZoomOutBtn.appendChild(imageZoomBtn)
+
+        imagePositionBtnTop.appendChild(arrowTop)
+        imagePositionBtnLeft.appendChild(arrowLeft)
+        imagePositionBtnRight.appendChild(arrowRight)
+        imagePositionBtnBottom.appendChild(arrowBottom)
+        imagePositionBtnRotate.appendChild(arrowRotate)
+
+        imagePositionBtnLeftandRight.appendChild(imagePositionBtnLeft)
+        imagePositionBtnLeftandRight.appendChild(imagePositionBtnRotate)
+        imagePositionBtnLeftandRight.appendChild(imagePositionBtnRight)
+
+        imagePositionBtns.appendChild(imagePositionBtnTop)
+        imagePositionBtns.appendChild(imagePositionBtnLeftandRight)
+        imagePositionBtns.appendChild(imagePositionBtnBottom)
+
+        imageControllers.appendChild(imageZoomAndZoomOutBtn)
+        imageControllers.appendChild(imagePositionBtns)
+
+        imagePreviewContainer.appendChild(imagePreview)
+
+        innerImagesDiv.appendChild(mainImageContainer)
+        innerImagesDiv.appendChild(imageControllers)
+        innerImagesDiv.appendChild(imagePreviewContainer)
+
+        imageResalutions.appendChild(imageRasio1) // resalution
+        imageResalutions.appendChild(imageRasio2) // resalution
+        imageResalutions.appendChild(imageRasio3) // resalution
+        imageResalutions.appendChild(imageRasio4) // resalution
+
+        imageContainerBtns.appendChild(changeImage)
+        imageContainerBtns.appendChild(cancelEditng)
+        imageContainerBtns.appendChild(finishiEdit)
+
+
+
+
+        // image container footer
+        imageContainerFooter.appendChild(imageResalutions)
+        imageContainerFooter.appendChild(imageContainerBtns)
+
+        // main image div
+        mainDiv.appendChild(closeBtn)
+        mainDiv.appendChild(innerImagesDiv)
+        mainDiv.appendChild(imageContainerFooter)
+    }
+
+    function changeImageFun() {
+        fromImageEdit = true
+        image.click()
+    }
+
+
+
+
+    function setUpFunctionality() {
+        const imageEditContainer = document.querySelector('.main-image-container img')
+        imageEditContainer.setAttribute('src', `${URL.createObjectURL(image.files[0])}`)
+        console.log('disctroid - 1')
+
+        let options = {
+            dragMode: 'move',
+            preview: '.image-previw',
+            viewMode: 2,
+            modal: false,
+            background: false,
+            ready: function () {
+                arrowTop.addEventListener('click', () => cropper.move(0, 25))
+                arrowLeft.addEventListener('click', () => cropper.move(25, 0))
+                arrowRight.addEventListener('click', () => cropper.move(-25, 0))
+                arrowBottom.addEventListener('click', () => cropper.move(0, -25))
+                arrowRotate.addEventListener('click', () => cropper.rotate(45))
+                imageZoom.addEventListener('click', () => cropper.zoom(0.5))
+                imageZoomOut.addEventListener('click', () => cropper.zoom(-0.5))
+
+                imageRasio1.addEventListener('click', () => cropper.setAspectRatio(1.7777777777777777))
+                imageRasio2.addEventListener('click', () => cropper.setAspectRatio(1.3333333333333333))
+                imageRasio3.addEventListener('click', () => cropper.setAspectRatio(1))
+                imageRasio4.addEventListener('click', () => cropper.setAspectRatio(1.1111111111111111))
+
+                // changeImage.addEventListener('click',() => )
+                cancelEditng.addEventListener('click', () => this.cropper.clear())
+                finishiEdit.addEventListener('click', () => {
+                    let cropedImage = this.cropper.getCroppedCanvas({
+                        width: 400,
+                        height: 400
+                    })
+                    cropedImage.toBlob(function (blob) {
+                        let render = new FileReader()
+                        render.readAsDataURL(blob);
+                        render.onload = function () {
+                            console.log(render)
+                            let finallImage = render.result
+                            mainImageField.src = finallImage
+                        }
+                    })
+                    closeEdit()
+                })
+
+                image.addEventListener('change', () => {
+                    if (fromImageEdit) {
+                        fromImageEdit = false
+                        this.cropper.destroy()
+                        setUpFunctionality();
+                    }
+                })
+            }
+        }
+
+        let cropper = new Cropper(imageEditContainer, options)
+    }
+
+
+
+
+    function closeEdit() {
+        const html = document.getElementsByTagName('html')[0]
+
+        const bgBler = document.getElementById('bler-container')
+        const imageEditContainer = document.getElementById('edit-image-container');
+
+        html.style.overflow = 'auto'
+
+        // iamge container background
+        bgBler.style.zIndex = '-1'
+        bgBler.style.backdropFilter = 'blur(0px)'
+
+        // image editing container
+        imageEditContainer.style.zIndex = "-1"
+        imageEditContainer.style.opacity = "-1"
+
+
+
+        mainImageField.src = URL.createObjectURL(image.files[0])
+        document.getElementById('edit-image-container').innerHTML = ''
+    }
 </script>

@@ -1,1 +1,98 @@
-hi
+<div class="container-fluid admin-panel">
+    <div class="row">
+        <div class="col-lg-4 my-call">
+            <a href="/admin/users">
+                <div class="users info-card">
+                    <h4><strong>Users</strong></h4>
+                    {{#each users}}
+                    <div class="data">
+                        {{#if _id}}
+                        <h5>Active user</h5><span>{{count_user}}</span>
+                        {{else}}
+                        <h5>Blocked users :</h5><span>{{count_user}}</span>
+                        {{/if}}
+                    </div>
+                    {{/each}}
+                    <div class="data">
+                        <h5>All users :</h5><span>{{allUsers}}</span>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+        <div class="col-lg-4 my-call">
+            <a href="/admin/getProduct">
+                <div class="products info-card">
+                    <h4><strong>Products</strong></h4>
+                    <div class="data">
+                        <h5>All Products :</h5><span>{{productCount}}</span>
+                    </div>
+                    <div class="data">
+                        <h5>Categories :</h5><span>{{allCategories}}</span>
+                    </div>
+                    <div class="data">
+                        <h5>Limited category :</h5><span>{{limitedProduct}}</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-4 my-call">
+            <div class="orders info-card">
+                <h4><strong>Orders</strong></h4>
+                <div class="data">
+                    <h5>Users :</h5><span>504</span>
+                </div>
+                <div class="data">
+                    <h5>Blocked users :</h5><span>504</span>
+                </div>
+                <div class="data">
+                    <h5>All users :</h5><span>504</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 my-call">
+            <div class="users info-card">
+                <h4><strong>Revenue</strong></h4>
+                <div class="data">
+                    <h5>Users :</h5><span>504</span>
+                </div>
+                <div class="data">
+                    <h5>Blocked users :</h5><span>504</span>
+                </div>
+                <div class="data">
+                    <h5>All users :</h5><span>504</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 my-call">
+            <div class="products info-card">
+                <h4><strong>Transactions</strong></h4>
+                <div class="data">
+                    <h5>Users :</h5><span>504</span>
+                </div>
+                <div class="data">
+                    <h5>Blocked users :</h5><span>504</span>
+                </div>
+                <div class="data">
+                    <h5>All users :</h5><span>504</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 my-call">
+            <div class="orders info-card">
+                <h4><strong>Orders</strong></h4>
+                <div class="data">
+                    <h5>Users :</h5><span>504</span>
+                </div>
+                <div class="data">
+                    <h5>Blocked users :</h5><span>504</span>
+                </div>
+                <div class="data">
+                    <h5>All users :</h5><span>504</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

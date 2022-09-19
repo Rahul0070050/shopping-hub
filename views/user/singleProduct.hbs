@@ -1,0 +1,177 @@
+<div class="container-fluid">
+    <div class="row single-product">
+        <div class="product col-md-11 my-5">
+            <div class="product-data">
+                <div class="images">
+                    <div class="main-image" id="main-image">
+                        <img src="/image/productImages/{{product.mainImage}}" alt="">
+                    </div>
+                    <div class="sub-images">
+                        <img src="/image/productImages/{{product.mainImage}}" alt="">
+                        {{#each product.itemSubImages}}
+                        <img src="/image/productImages/{{this}}" alt="">
+                        {{/each}}
+                    </div>
+                </div>
+                <div class="detailes">
+                    <h3><strong>{{product.name}}</strong></h3>
+                    <span>* * * * *</span>
+                    <span>
+                        <h4>
+                            <span>
+                                <strong>${{product.discountedPrice}}</strong>
+                                <del>${{product.price}}</del>
+                            </span>
+                            <strong>{{product.discount}}% off</strong>
+                        </h4>
+                    </span>
+                    <p>
+                        {{product.discription}}
+                    </p>
+                    <div class="btns">
+                        <button class="btn btn-success">buy now</button>
+                        <button class="btn btn-primary">add to cart</button>
+                        <button class="btn btn-warning">add to wishList</button>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin-top: 5rem;height: 1px; background-color: gray; ">
+            <h4>related Products</h4>
+            <hr style="margin-top: 3rem;height: 1px; background-color: gray; ">
+            <div class="product-extra-info">
+                <div class="comments-group">
+                    <div class="heading">
+                        <h3><strong>Review</strong></h3>
+                    </div>
+                    <div class="form-row">
+                        <div class="add-comments col-8 input-group">
+                            <input type="text" class="form-control" name="" id="">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comments mt-4">
+                        <div class="comment">
+                            <h6><strong>&#x2022; Username</strong></h6>
+                            <span class="ml-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam eveniet
+                                eaque
+                                sunt, iste</span>
+                            <div class="comment-options">
+                                <a href="">Edit</a>
+                                <a href="">Delete</a>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <h6><strong>&#x2022; Username</strong></h6>
+                            <span class="ml-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam eveniet
+                                eaque
+                                sunt, iste</span>
+                            <div class="comment-options">
+                                <a href="">Edit</a>
+                                <a href="">Delete</a>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <h6><strong>&#x2022; Username</strong></h6>
+                            <span class="ml-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam eveniet
+                                eaque
+                                sunt, iste</span>
+                            <div class="comment-options">
+                                <a href="">Edit</a>
+                                <a href="">Delete</a>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <h6><strong>&#x2022; Username</strong></h6>
+                            <span class="ml-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam eveniet
+                                eaque
+                                sunt, iste</span>
+                            <div class="comment-options">
+                                <a href="">Edit</a>
+                                <a href="">Delete</a>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <h6><strong>&#x2022; Username</strong></h6>
+                            <span class="ml-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam eveniet
+                                eaque
+                                sunt, iste</span>
+                            <div class="comment-options">
+                                <a href="">Edit</a>
+                                <a href="">Delete</a>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <h6><strong>&#x2022; Username</strong></h6>
+                            <span class="ml-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam eveniet
+                                eaque
+                                sunt, iste</span>
+                            <div class="comment-options">
+                                <a href="">Edit</a>
+                                <a href="">Delete</a>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <h6><strong>&#x2022; Username</strong></h6>
+                            <span class="ml-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam eveniet
+                                eaque
+                                sunt, iste</span>
+                            <div class="comment-options">
+                                <a href="">Edit</a>
+                                <a href="">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="questions-and-answers">
+                    <div class="heading">
+                        <h3><strong>Questions</strong></h3>
+                        <h5><strong>Yes / No</strong></h5>
+                    </div>
+                    <div class="add-question form-row">
+                        <div class="input-group col-5">
+                            <input type="text" class="form-control" placeholder="what you want to know" aria-label=""
+                                aria-describedby="basic-addon1">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" type="button">Ask</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="question mt-3">
+                        <h5><strong><span>Q:</span> one of the questions the user asked ?</strong></h5>
+                        <h6 class="ml-4"><strong><span>A:</span> Yes</strong></h6>
+                    </div>
+                    <div class="question mt-3">
+                        <h5><strong><span>Q:</span> one of the questions the user asked ?</strong></h5>
+                        <h6 class="ml-4"><strong><span>A:</span> Yes</strong></h6>
+                    </div>
+                    <div class="question mt-3">
+                        <h5><strong><span>Q:</span> one of the questions the user asked ?</strong></h5>
+                        <h6 class="ml-4"><strong><span>A:</span> Yes</strong></h6>
+                    </div>
+                    <div class="question mt-3">
+                        <h5><strong><span>Q:</span> one of the questions the user asked ?</strong></h5>
+                        <h6 class="ml-4"><strong><span>A:</span> Yes</strong></h6>
+                    </div>
+                    <div class="question mt-3">
+                        <h5><strong><span>Q:</span> one of the questions the user asked ?</strong></h5>
+                        <h6 class="ml-4"><strong><span>A:</span> Yes</strong></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var options = {
+        width: 400,
+        height: 400,
+        zoomWidth: 600,
+        offset: { vertical: 0, horizontal: 10 },
+        scale: 1.3
+    };
+    new ImageZoom(document.getElementById("main-image"), options);
+
+</script>

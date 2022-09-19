@@ -1,0 +1,27 @@
+#products-list-view {
+    margin: 0 !important;
+    padding: 0 !important;
+    .card {
+        margin: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 21rem;
+        .image {
+            height: 27rem;
+            img {
+                height: 100%;
+                width: 100%;
+            }
+        }
+        .info {
+            padding: 1rem;
+            width: 100%;
+            .row-1 {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+    }
+}

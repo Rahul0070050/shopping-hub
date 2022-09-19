@@ -7,15 +7,6 @@ toggleBtn?.addEventListener('click',() => {
     toggleSwitch.classList.toggle('btn-clicked')
 })
 
-tBody?.addEventListener('click',(e) => {
-    // user_id
-    const atr = e.target.getAttribute('user_id');
-    const a = document.createElement('a');
-    a.setAttribute('href','/admin/admin_panel/user/'+atr)
-    a.click()
-    console.log(atr);
-})
-
 function showUser(id) {
     alert(id)
     // let a = document.createElement('a')

@@ -1,7 +1,7 @@
 ### Genaral
 
 <div>
-    <input class="check-box" type="checkbox">
+    <input class="check-box" type="checkbox" checked>
     <label>otp login for user with timer and resend </label>
 <div>
 <br>
@@ -27,11 +27,11 @@
         <label>Product adding to the cart</label>
     <div>
     <div>
-        <input type="checkbox">
+        <input type="checkbox" checked>
         <label>Product detailedd view</label>
     <div>
     <div>
-        <input class="check-box" type="checkbox">
+        <input class="check-box" type="checkbox" checked>
         <label>Image zoom</label>
     <div>
     <div>
@@ -56,15 +56,15 @@
     <label value="hi">List user </label>
 <div>
 <div>
-    <input class="check-box" type="checkbox">
+    <input class="check-box" type="checkbox" checked>
     <label value="hi">block and unblock user</label>
 <div>
 <div>
-    <input class="check-box" type="checkbox">
+    <input class="check-box" type="checkbox" checked>
     <label value="hi">Category management</label>
 <div>
 <div>
-    <input class="check-box" type="checkbox">
+    <input class="check-box" type="checkbox" checked>
     <label value="hi">Add product</label>
 <div>
 <div>
@@ -72,7 +72,7 @@
     <label value="hi">Editt product</label>
 <div>
 <div>
-    <input class="check-box" type="checkbox">
+    <input class="check-box" type="checkbox" checked>
     <label value="hi">Delete product</label>
 <div>
 </div>

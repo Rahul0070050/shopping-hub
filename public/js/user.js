@@ -22,10 +22,11 @@ function addToCart(e) {
 
     alertText.innerText = "successfully added to the cart"
     alertBox.style.opacity = "1"
+    // alertBox.style.zIndex = "10"
     alertBox.style.transform = "scale(1.5)"
     setTimeout(() => {
+        // alertBox.style.zIndex = "-1"
         alertBox.style.transform = "scale(0.5)"
         alertBox.style.opacity = "0"
-
     }, 1000)
 }

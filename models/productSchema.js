@@ -3,11 +3,12 @@ const { default: mongoose } = require("mongoose");
 const Product = new mongoose.Schema({
     name: {
         type: String,
+        unique: true,
         required: true,
     },
-    category: [{
-        type: Array,
-    }],
+    category: {
+        type: String,
+    },
     price: {
         type: Number,
         required: true
@@ -16,12 +17,8 @@ const Product = new mongoose.Schema({
         type: String,
         required: true
     },
-    // if  its a dress
-    itemSize: [{
-        type: Number,
-    }],
     mainImage: {
-        Type: String,
+        type: String,
         required: true
     },
     itemSubImages: [{
@@ -30,18 +27,16 @@ const Product = new mongoose.Schema({
     discount: {
         type : Number,
     },
-    cound:{
+    discountedPrice: {
+        type : Number,
+    },
+    quantity:{
         type: Number,
         required: true
     },
-    createdAt: {
-        type: Date,
-        required: true,
-        dafault: Date.now
-    },
     questions: mongoose.Types.ObjectId,
     itemReview: mongoose.Types.ObjectId
-});
+},{timestamps:true});
 
 
 module.exports = mongoose.model('products',Product)

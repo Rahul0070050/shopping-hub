@@ -1,0 +1,153 @@
+<div class="add-product-container container-fluid">
+    <div class="row">
+        <div class="col-md-6 my-coll">
+            <div class="my-sec">
+                <div class="heading d-flex justify-content-between">
+                    <h2><strong>SHOPPING HUB</strong></h2>
+                    <h2><strong>EDIT THE PRODUCT</strong></h2>
+                </div>
+            </div>
+            <form>
+                <div class="my-sec">
+                    <div class="form-row">
+                        <div class="form-group" id="main-image-container">
+                            <div id="input-main-img">
+                                <div class="main-image-edit">click to edit</div>
+                                <img id="main-image" src="/image/productImages/{{product.mainImage}}"
+                                    alt="select main image">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div id="edit-sub-image-container">
+                                {{#each product.itemSubImages}}
+                                <div class="sub-image">
+                                    <img id="add-sub-image" src="/image/productImages/{{this}}" alt="select main image">
+                                </div>
+                                {{/each}}
+                                <div class="sub-image">
+                                    <img id="add-sub-image"
+                                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAACECAMAAABmmnOVAAAALVBMVEXMzMzy8vLLy8vd3d319fXU1NTg4ODX19fQ0NDv7+/a2trl5eXr6+vo6OjIyMgenHbNAAADSklEQVR4nO2Y6darKgxAJQIyKO//uCdhUvt10Jq2d62b/avWVrdJgOAw/gcYBEEQBEEQBEEQBEEQBEH4GpDSjwVgcGFZ3A8F0hCi11rp+JtYQHKTRQGtCP8DAcyBXXwVyJgvG7QcKIV50Cpa+jTCFwVciKpGQGu/jC4BGDyev1IUAOCMnWv0UWC2xkF5fo/ffD4SZDAupQwpBz5OboB2X4j47WeLggRaEbQcAGwfHAKesx80GGgg0uNXAWtKBGDr4TA682fuj3ehImghULOdXL/zFOPUf5ooR/yTJk6GWARVQFMRhF0OFvxOx/5rKoqJtTQhwXYgKhTI0e/gTYucTfVEwKPYzl4XwCIw0a8zoYphMn+o53w7nvBgrp+vpgXnHdty0NF3+HNuc6DMpWCAXXPwPtpekYChFcFi3zXRVyUGyNeh2ZhWAxX+1sJL/GWJtOSKx+onCfxwnklfjgROv3lNJomj18IGcx2WHBI09JYqoQ5eK8QYOCXymuzdKYmZSnFpzQSHRJl+T0jAonejkkUilGscj0Qdxq3PZUmHU7lROyzhmoRjlABs3/SZmqgSM2M6aOKmNfm4hC010VoLHgm8CK3JNxJP1mcq5fWnLBJ55va36XDj44URex9s+/vfWSQSFYUbdhIJW5hne5tNnJgigUnWIe0kaAisrdzzv/NI5Jl7J1EmJD27nvhPS5SZe5uOsqyrtZOFMD70YJLIz222Em3nR1enxW3Uen5UqFwSIy3nrkvkQdssqDAgd8H2/qjlSge1EvNGYtt5a29S7fa9u7cN55LIW+yeDgrMvoXs3KsMLom8sRlVi8Q2EDc97Tpe+CVoi71UiZtA3HbW421K2NLRlmfqK9xjhVoZ+xuySbQxafue8xlh/6aCTaIszzkdrxSov9zWJ5/E1CTyZvs1gbXlr7iWDrCHJHRclxU2iTR3iYPbUd9ekDBKlHF5QoIm9D7J80gM5mwkaM7IwWCUcG2NMo/ny7/QZpBRYliKBPkch/54Zif9glIU77waSIEvEmXmHo2ZzmGm6y9JOqWJuPfG7BWKUeL1mvFkoHBJTG+FoQaD69UumHCyHDaFwfd6+Y2XZg02B0EQBEEQBEEQBEEQBEH4H/EPRtciR2QRHuYAAAAASUVORK5CYII="
+                                        alt="select main image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-sec pb-4 pt-4">
+                    <h5><strong>Category</strong></h5>
+                    <div class="add-category-row form-row">
+                        <div class="input-group col-md-6 mb-3">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" type="button" id="add-category">Add</button>
+                            </div>
+                            <input type="text" class="form-control" id="category-name" name="category"
+                                placeholder="Add new category" aria-label="" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3 col-md-6">
+                            <input type="text" class="form-control" placeholder="Search category" aria-label=""
+                                aria-describedby="basic-addon1">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" type="button">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row my-category" id="category-collection">
+                        <div class="form-check col-md-4 my-category-check">
+                            <input class="form-check-input radio" checked type="radio" name="category" value=""
+                                id="{{name}}">
+                            <label class="form-check-label" for="{{product.category}}">
+                                {{product.category}}
+                            </label>
+                        </div>
+                        {{#each category}}
+                        <div class="form-check col-md-4 my-category-check">
+                            <input disabled class="form-check-input radio" type="radio" name="category" value=""
+                                id="{{name}}">
+                            <label class="form-check-label" for="{{name}}">
+                                {{name}}
+                            </label>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6 my-coll">
+            <form>
+                <div class="my-sec">
+                    <h3><strong>ABOUT PRODUCT</strong></h3>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="product-name">Name</label>
+                            <input type="text" class="form-control" disabled value="{{product.name}}" id="product-name">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="price">Price</label>
+                            <input type="text" class="form-control" disabled value="{{product.price}}" id="price">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <br>
+                        <input class="form-control" type="text" name="discription" disabled
+                            value="{{product.discription}}" id="description" cols="84" rows="3"></input>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="quantity">Quantity</label>
+                            <input name="cound" type="number" class="form-control" disabled value="{{product.quantity}}"
+                                id="quantity">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="discount">Discount</label>
+                            <input name="discount" type="number" class="form-control" disabled
+                                value="{{product.discount}}" id="discount">
+                        </div>
+                    </div>
+                </div>
+                {{!-- <div class="my-sec">add prodect for discount</div> --}}
+                <div class="item-size-container my-sec">
+                    <div class="form-check form-check-inline">
+                        <h5 class="mb-1"><strong>Submit Data</strong></h5>
+                    </div>
+                    <div class="product-size-container">
+                        <button type="button" class="btn btn-primary" id="edit">Edit</button>
+                        <button type="button" id="submit-btn" class="btn btn-primary" disabled>Submit </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    const productName = document.getElementById('product-name')
+    const price = document.getElementById('price')
+    const description = document.getElementById('description')
+    const quantity = document.getElementById('quantity')
+    const discount = document.getElementById('discount')
+    const submitBtn = document.getElementById('submit-btn')
+    const category = document.getElementsByClassName('form-check-input')
+
+    document.getElementById("edit").addEventListener("click", () => {
+        productName.removeAttribute('disabled')
+        price.removeAttribute('disabled')
+        description.removeAttribute('disabled')
+        quantity.removeAttribute('disabled')
+        discount.removeAttribute('disabled')
+
+        for(let i = 0;category.length > i;i++) {
+            category[i].removeAttribute('disabled')
+        }
+
+
+        productName.addEventListener('keyup', activeteEditBtn)
+        price.addEventListener('keyup', activeteEditBtn)
+        description.addEventListener('keyup', activeteEditBtn)
+        quantity.addEventListener('keyup', activeteEditBtn)
+        discount.addEventListener('keyup', activeteEditBtn)
+
+        function activeteEditBtn(e) {
+            submitBtn.removeAttribute('disabled')
+        }
+    })
+</script>

@@ -1,30 +1,37 @@
 const express = require('express')
 
-const { adminLoginWithData, AdminLogin, getAllUsers, getSingleUSer, getProducts, getAddProductPage,addProduct ,addCategory} = require('../controllers/adminController')
+const { adminLoginWithData, AdminLogin, getAllUsers, getSingleUSer, getAddProductPage,addProduct ,addCategory,userBlockAndUnblock,adminPanel,getCategoryProduct, getAllProducts,viewSingleProduct,getCategoryPage,deleteCategory,deleteMultipleCategory,deleteProduct} = require('../controllers/adminController')
 
 const router = express.Router()
 
 
-// login GET
+// admin pannel =>GET admin_panel (products datas,users datas,order datas, revanew,transactions)
+router.get('/', adminPanel)
+
 router.get('/admin_login', AdminLogin)
-// login POST
 router.post('/admin_login', adminLoginWithData)
 
-// admin pannel =>GET admin_panel (products datas,users datas,order datas, revanew,transactions)
-// view users =>GET admin_panel/user
-router.get('/admin_panel/users', getAllUsers)
-// POST => admin_panel/user/id
-router.get('/admin_panel/user/:id', getSingleUSer)
-// POST => admin_panel/user/block/id
-// POST => admin_panel/user/unblock/id
-// POST => admin_panel/add
-router.post('/admin_panel/addCategory', addCategory)
-// GET => admin_panel/get_products_by_category/id
-// GET => /admin_panel/getProduct
-router.get('/admin_panel/getProduct', getProducts)
-// add products =>  GET admin_panel/add_product
-router.get('/admin_panel/add_product', getAddProductPage)
-router.post('/admin_panel/add_product', addProduct)
+router.get('/users', getAllUsers)
+
+router.get('/user/:id', getSingleUSer)
+
+router.patch('/user/block_and_unblock',userBlockAndUnblock)
+
+router.get('/addCategory', getCategoryPage)
+router.delete('/delete_category', deleteCategory)
+router.post('/addCategory', addCategory)
+
+router.get('/getProduct', getAllProducts)
+router.get('/get_products_by_category/:id', getCategoryProduct)
+
+router.get('/add_product', getAddProductPage)
+router.post('/add_product', addProduct)
+
+router.get('/viewProduct/:id',viewSingleProduct)
+
+router.delete('/deletemultipleCategory',deleteMultipleCategory)
+router.delete('/deleteProduct',deleteProduct)
+
 // delete product => DELETE admin_panel/delete_product/id
 // PUT admin_panel/edit_product/id
 

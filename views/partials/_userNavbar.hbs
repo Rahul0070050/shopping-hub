@@ -1,44 +1,91 @@
-<nav class="navbar navbar-expand-lg d-flex justify-content-between px-5 navbar-light bg-light">
+<nav class="navbar navbar-expand-lg d-flex justify-content-between px-5 navbar-light" id="user-navbar">
   <span class="d-flex">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <ul class="navbar-nav">
-    <li class="nav-item active">
-      <a class="nav-link ml-2" href="#">Wishlist</a>
-    </li>
-  </ul>
+    <a class="navbar-brand" href="/"><strong>SHOPPING HUB</strong></a>
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link ml-2" href="#">Wishlist</a>
+      </li>
+    </ul>
   </span>
   <form class="form-inline my-2 my-lg-0">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <div id="search">
+      <input class="mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <img src="/image/icons/search-icon.png" alt="">
+    </div>
   </form>
   <ul class="navbar-nav">
+    {{#if category}}
     <li class="nav-link">
       <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
         aria-expanded="false">
         Category
       </a>
       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-        <div class="d-flex">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-        <div class="d-flex">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-        <div class="d-flex">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
+        <div>
+          {{#each categories}}
+          <a class="dropdown-item" href="#">{{name}}</a>
+          {{/each}}
         </div>
       </div>
     </li>
+    {{/if}}
+
     <li class="nav-item active">
-      <a class="nav-link" href="#">Cart</a>
+      <a class="nav-link" href="#">Home</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Name</a>
+      <a class="nav-link" href="#">Cart</a>
     </li>
+    {{#if user.logedin}}
+    <li class="nav-item">
+      <a class="nav-link" href="#">{{user.username}}</a>
+    </li>
+    {{else}}
+    <li class="nav-item user-login">
+      <div class="form-container">
+        <form id="user-login-form">
+          <button type="button" id="close-btn" class="btn-close float-right" aria-label="Close"></button>
+          <h2><strong>LOGIN</strong></h2>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" value="aloshy" onkeyup="validateUserName()" id="username"
+              name="username" aria-describedby="emailHelp">
+            <div id="usernameErr"></div>
+          </div>
+          <div class="form-group mb-4">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" value="aloshy" onkeyup="validatePassword()"
+              id="password">
+            <div id="passwordErr"></div>
+          </div>
+          <button onclick="return validateLoginForm(event)" type="submit" id="userLogin"
+            class="btn btn-primary float-right">Login</button>
+          <a href="/user/registration" class="" style="color: blue;">I don't have an accound</a>
+        </form>
+        <form id="otp-login">
+          <h4><strong>OPT Login</strong><span id="count-down">0:59</span></h4>
+          <div class="form-group">
+            <label for="exampleInputEmail1"><img
+                src="data:image/png;base64,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"
+                alt=""><strong>Check your phone</strong></label>
+            <input type="number" class="form-control" id="form-control" aria-describedby="mobileHelp"
+              placeholder="Enter email">
+            <div id="validationServer04Feedback" class="invalid-feedback">
+              Time is expired resend otp or signin another way
+            </div>
+            <span id="mobileHelp">OTP must be 6 digits</span>
+          </div>
+          <div class="otp-options">
+            <span id="resend-otp">Resend OTP</span>
+            <span class="float-right">Sign in another way</span>
+          </div>
+          <button type="button" id="sibmit-btn" class="btn btn-primary"><span id="span-spinner"></span>
+            Submit</button>
+        </form>
+      </div>
+
+      <a class="nav-link" id="user-login">SignIn</a>
+    </li>
+    {{/if}}
   </ul>
 </nav>

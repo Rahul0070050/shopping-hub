@@ -21,11 +21,15 @@ async function varifyHashedPassword(hashedPassword, password) {
 async function createjwtToken(user) {
     return jwt.sign({ username: user.username, email: user.email }, process.env.JWT_SECRET_KEY, { expiresIn: 20000 })
 }
-async function verifyjwtToken(token) {
-    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, data) => {
-        if (err) {
-            return false
-        } else return true
+function verifyjwtToken(token) {
+    return new Promise((resolve,reject) => {
+        jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, data) {
+            if (err) {
+                resolve(false)
+            } else {
+                resolve(true)
+            }
+        })
     })
 }
 
@@ -44,17 +48,18 @@ async function genarateOtp() {
 }
 
 async function validationform(username, email, phone) {
-    return new Promise(async (resolve,reject) => {
-        await User.find({username}).then(res => {
-            if(res.length != 0) {
+    return new Promise(async (resolve, reject) => {
+        await User.find({ username }).then(res => {
+            if (res.length != 0) {
                 resolve('user alresdy exists')
             }
         })
-        await User.find({email}).then(res => {
-            if(res.length != 0) {
+        await User.find({ email }).then(res => {
+            if (res.length != 0) {
                 resolve('email alresdy exists')
             }
         })
+        // checking the user  phone number is exists or not
         // await User.find({phone}).then(res => {
         //     if(res.length != 0) {
         //         resolve('this phone number alresdy exists')

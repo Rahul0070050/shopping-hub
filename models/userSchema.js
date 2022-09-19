@@ -24,4 +24,8 @@ const user = new mongoose.Schema({
     status: Boolean,
     address: mongoose.Schema.ObjectId
 });
+
+user.virtual('some_fun').get(function() {
+    return "name is: " + this.username + " email is :" + this.email
+})
 module.exports = mongoose.model('users', user);

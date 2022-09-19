@@ -1,0 +1,45 @@
+// category-card
+.categor-container {
+    height: 1rem;
+    display: flex;
+    .category-card {
+        width: 15rem;
+        border-radius: 16px;
+        padding: 0.5rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: larger;
+        transition: box-shadow 0.5s ease;
+        margin: 1rem 0.7rem;
+        word-wrap: normal;
+        img {
+            margin-right: 0.5rem;
+            width: 1.5rem;
+            z-index: -1;
+        }
+    }
+    .category-card:hover {
+        box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.411);
+    }
+}
+// category-card
+
+// add-banner
+#product-view-banner {
+    width: 99vw;
+    display: flex;
+    justify-content: center;
+    .add-banner {
+        width: 95vw;
+        img {
+            height: 20rem;
+            width: 100%;
+        }
+    }
+}
+// add-banner
+
+#products-list-view {
+    padding: 1rem 0 0 7rem;
+}
