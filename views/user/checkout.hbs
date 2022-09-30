@@ -1,0 +1,599 @@
+<section id="add-new-address" class="">
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="container max-w-screen-lg mx-auto">
+            <div>
+                <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+                    <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+                        <div class="text-gray-600">
+                            <p class="font-medium text-lg">add new Personal Details</p>
+                            <p>Please fill out all the fields.</p>
+                        </div>
+
+                        <div class="lg:col-span-2">
+                            <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+                                <div class="md:col-span-5">
+                                    <label for="full_name">Full Name</label>
+                                    <input type="text" name="fullname" id="full_name"
+                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="" />
+                                </div>
+
+                                <div class="md:col-span-5">
+                                    <label for="email">address</label>
+                                    <input type="text" name="email" id="email"
+                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
+                                        placeholder="email@domain.com" />
+                                </div>
+
+                                <div class="md:col-span-3">
+                                    <label for="address">Address / Street</label>
+                                    <input type="text" name="address" id="address"
+                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
+                                        placeholder="address / street" />
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label for="city">City</label>
+                                    <input type="text" name="city" id="city"
+                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
+                                        placeholder="" />
+                                </div>
+
+                                <div class="md:col-span-2">
+                                    <label for="country">Country / region</label>
+                                    <div class="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
+                                        <input name="country" id="country" placeholder="Country"
+                                            class="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
+                                            value="" />
+                                        <button tabindex="-1"
+                                            class="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-red-600">
+                                            <svg class="w-4 h-4 mx-2 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <line x1="18" y1="6" x2="6" y2="18">
+                                                </line>
+                                                <line x1="6" y1="6" x2="18" y2="18">
+                                                </line>
+                                            </svg>
+                                        </button>
+                                        <button tabindex="-1" for="show_more"
+                                            class="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-blue-600">
+                                            <svg class="w-4 h-4 mx-2 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="18 15 12 9 6 15">
+                                                </polyline>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="md:col-span-2">
+                                    <label for="state">State / province</label>
+                                    <div class="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
+                                        <input name="state" id="state" placeholder="State"
+                                            class="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
+                                            value="" />
+                                        <button tabindex="-1"
+                                            class="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-red-600">
+                                            <svg class="w-4 h-4 mx-2 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <line x1="18" y1="6" x2="6" y2="18">
+                                                </line>
+                                                <line x1="6" y1="6" x2="18" y2="18">
+                                                </line>
+                                            </svg>
+                                        </button>
+
+                                        <button tabindex="-1" for="show_more"
+                                            class="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-blue-600">
+                                            <svg class="w-4 h-4 mx-2 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="18 15 12 9 6 15">
+                                                </polyline>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                                <div class="md:col-span-1">
+                                    <label for="zipcode">PIN Code</label>
+                                    <input type="text" name="pincode" maxlength="6" id="pincode"
+                                        class="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                        placeholder="" value="" />
+                                </div>
+
+                                <div class="md:col-span-5 text-right">
+                                    <div class="inline-flex items-end">
+                                        <button id="addAddress"
+                                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                            type="button">Submit</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="h-100 h-custom user-cart-main-container" style="background-color: #eee;">
+    <div class="container-fluid py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <button class="btn btn-success" id="add-new-address-btn"><a href="#add-new-address"></a> add new
+                            Address</button>
+                        <div class="row">
+                            <div class="col-lg-7 mr-auto">
+                                <div class="career-search mb-60">
+                                    <div class="filter-result">
+                                        {{!-- each --}}
+                                        {{#each address}}
+                                        <div class="mt-4 my-auto job-box d-md-flex align-items-center justify-content-between address-list"
+                                            add-id="{{_id}}">
+                                            <div class="job-left my-4 d-md-flex align-items-center flex-wrap">
+                                                <div
+                                                    class="img-holder mr-md-4 mb-md-0 mb-4 mx-auto mx-md-0 d-md-none d-lg-flex">
+                                                    <small><small><small><strong>Home</strong></small></small></small>
+                                                </div>
+                                                <div class="job-content">
+                                                    <address class="ml-4" style="width: 24rem;">
+                                                        name: {{full_name}} <br>
+                                                        Address: {{address}} {{city}} {{country}} {{state}} <br>
+                                                        pin: {{pincode}}
+                                                    </address>
+                                                </div>
+                                            </div>
+                                            <div class="job-right my-4 flex-shrink-0">
+                                                <button onclick="selectAddress(this)" address="{{_id}}"
+                                                    class="btn select-btn d-block w-100 d-sm-inline-block btn-light">select</button>
+                                            </div>
+                                        </div>
+                                        {{/each}}
+                                        <input type="text" value="{{total}}" hidden name="" id="total-cost">
+                                        {{!-- each --}}
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            <div class="col-lg-4">
+
+                                <div class="my-5 card bg-primary text-white rounded-3 mt-4 cart-info-card">
+                                    <div class="card-body pt-5">
+                                        <h4>select paiment method</h4>
+                                        <form class="my-4">
+
+                                            <div id="paypal-button-container"></div>
+                                            <button class="btn p-3 btn-success my-2" style="width: 100%;"
+                                                id="razorpay">razorpay</button>
+                                            <button class="btn p-3 btn-warning my-2" style="width: 100%;" id="COD">C O D
+                                                {{!-- <input type="checkbox" name="" id="" class="form-check-input">
+                                                --}}
+                                            </button>
+                                        </form>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+
+<style>
+    #add-new-address {
+        position: fixed;
+        z-index: 1001;
+        left: 18rem;
+        top: 3rem;
+        padding: 2rem !important;
+        display: none;
+    }
+</style>
+<script>
+
+    const addressTab = document.getElementById('add-new-address')
+    const defaultAddress = document?.getElementsByClassName('address-list')[0]
+
+    const total = document.getElementById('total-cost').value
+    let address = defaultAddress.getAttribute('add-id')
+    console.log(defaultAddress)
+
+    defaultAddress.children[1].children[0].classList.add("btn-dark")
+    defaultAddress.children[1].children[0].innerText = "selected"
+
+    addressTab.style.display = "none"
+
+    document.getElementById('add-new-address-btn').addEventListener('click', () => {
+        if (addressTab.style.display == "none") {
+            addressTab.style.display = "block"
+        } else {
+            addressTab.style.display = "none"
+        }
+    })
+    // addressTab.style.position = "absolute"
+    paypal.Buttons({
+        createOrder: (data, actions) => {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: total
+                    }
+                }]
+            });
+        },
+        // Finalize the transaction after payer approval
+        onApprove: (data, actions) => {
+            return actions.order.capture().then(function (orderData) {
+                const transaction = orderData.purchase_units[0].payments.captures[0];
+                alert('hi')
+                if (orderData.status == "COMPLETED") {
+                    alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+                    placeOrder('paypal')
+                }
+            });
+        }
+    }).render('#paypal-button-container');
+
+    function selectAddress(elm) {
+        let btns = document.getElementsByClassName('select-btn')
+        for (const btn of btns) {
+            btn.innerText = 'select'
+            btn.classList.remove('btn-dark')
+        }
+        elm.innerText = 'selected'
+        elm.classList.add('btn-dark')
+        address = elm.getAttribute('address')
+    }
+
+    // COD
+    document.getElementById('COD').addEventListener('click', (e) => {
+        e.preventDefault()
+        placeOrder('COD')
+    })
+
+    // razorpay
+    document.getElementById('razorpay').addEventListener('click', (e) => {
+        e.preventDefault()
+        placeOrder('razorpay')
+    })
+
+
+    function placeOrder(paymentMethode) {
+        if (address) {
+            fetch('/user/order', {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    payment_methode: paymentMethode,
+                    address
+                }),
+            }).then(res => res.json()).then(res => {
+                if (res?.msg == 'razorpay') {
+                    console.log(res)
+                    razorpayPayment(res.response)
+                } else {
+                    const a = document.createElement('a')
+                    a.setAttribute('href', '/user/placeOrder')
+                    a.click()
+                }
+            })
+        }
+    }
+
+
+    function razorpayPayment(order) {
+        const {
+            id,
+            entity,
+            amount,
+            amount_paid,
+            amount_due,
+            currency,
+            receipt,
+            offer_id,
+            status,
+            attempts,
+            notes,
+            created_at
+        } = order
+        var options = {
+            "key": "rzp_test_LNxJ5PQsQGaeOU", // Enter the Key ID generated from the Dashboard
+            "amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "Acme Corp",
+            "description": id,
+            "image": "https://example.com/your_logo",
+            "order_id": id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+            "handler": function (response) {
+                // alert(response.razorpay_payment_id);
+                // alert(response.razorpay_order_id);
+                // alert(response.razorpay_signature);
+
+                verifyPayment(response, order)
+            },
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "gaurav.kumar@example.com",
+                "contact": "9999999999"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+
+        rzp1 = new Razorpay(options);
+        rzp1.open();
+
+        function verifyPayment(response, order) {
+            fetch('/user/cerifyPayment', {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ response, order }),
+            }).then(res => res.json()).then(res => {
+                if(res.ok) {
+                    const a = document.createElement('a')
+                    a.setAttribute('href', '/user/placeOrder')
+                    a.click()
+                }
+            })
+        }
+    }
+
+    // add addadress
+    document.getElementById('addAddress').addEventListener('click', (e) => {
+        e.preventDefault()
+        const full_name = document.getElementById('full_name').value
+        const email = document.getElementById('email').value
+        const address = document.getElementById('address').value
+        const city = document.getElementById('city').value
+        const country = document.getElementById('country').value
+        const state = document.getElementById('state').value
+        const pincode = document.getElementById('pincode').value
+        fetch('/user/addAddress', {
+            method: 'POST',
+            credentials: 'include',
+            body: JSON.stringify({
+                full_name,
+                email,
+                address,
+                city,
+                country,
+                state,
+                pincode,
+            }),
+            headers: { 'Content-Type': 'application/json' },
+        }).then(res => res.json()).then(res => {
+            if (res.ok) {
+                location.reload()
+            } else {
+                swal('hi')
+            }
+        })
+    })
+
+</script>
+<style>
+    body {
+        min-height: 100vh
+    }
+
+    .text-gray {
+        color: #aaa
+    }
+
+    #pro-ing {
+        /*height: 170px; --}} */
+        width: 3rem;
+    }
+
+    /* ===== Career ===== */
+    .career-form {
+        background-color: #4e63d7;
+        border-radius: 5px;
+        padding: 0 16px;
+    }
+
+    .career-form .form-control {
+        background-color: rgba(255, 255, 255, 0.2);
+        border: 0;
+        padding: 12px 15px;
+        color: #fff;
+    }
+
+    .career-form .form-control::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        color: #fff;
+    }
+
+    .career-form .form-control::-moz-placeholder {
+        /* Firefox 19+ */
+        color: #fff;
+    }
+
+    .career-form .form-control:-ms-input-placeholder {
+        /* IE 10+ */
+        color: #fff;
+    }
+
+    .career-form .form-control:-moz-placeholder {
+        /* Firefox 18- */
+        color: #fff;
+    }
+
+    .career-form .custom-select {
+        background-color: rgba(255, 255, 255, 0.2);
+        border: 0;
+        padding: 12px 15px;
+        color: #fff;
+        width: 100%;
+        border-radius: 5px;
+        text-align: left;
+        height: auto;
+        background-image: none;
+    }
+
+    .career-form .custom-select:focus {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+
+    .career-form .select-container {
+        position: relative;
+    }
+
+    .career-form .select-container:before {
+        position: absolute;
+        right: 15px;
+        top: calc(50% - 14px);
+        font-size: 18px;
+        color: #ffffff;
+        content: '\F2F9';
+        font-family: "Material-Design-Iconic-Font";
+    }
+
+    .filter-result .job-box {
+        -webkit-box-shadow: 0 0 35px 0 rgba(130, 130, 130, 0.2);
+        box-shadow: 0 0 35px 0 rgba(130, 130, 130, 0.2);
+        border-radius: 10px;
+        padding: 10px 35px;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    .list-disk li {
+        list-style: none;
+        margin-bottom: 12px;
+    }
+
+    .list-disk li:last-child {
+        margin-bottom: 0;
+    }
+
+    .job-box .img-holder {
+        height: 65px;
+        width: 65px;
+        background-color: #4e63d7;
+        background-image: -webkit-gradient(linear, left top, right top, from(rgba(78, 99, 215, 0.9)), to(#5a85dd));
+        background-image: linear-gradient(to right, rgba(78, 99, 215, 0.9) 0%, #5a85dd 100%);
+        font-family: "Open Sans", sans-serif;
+        color: #fff;
+        font-size: 22px;
+        font-weight: 700;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        border-radius: 65px;
+    }
+
+    .career-title {
+        background-color: #4e63d7;
+        color: #fff;
+        padding: 15px;
+        text-align: center;
+        border-radius: 10px 10px 0 0;
+        background-image: -webkit-gradient(linear, left top, right top, from(rgba(78, 99, 215, 0.9)), to(#5a85dd));
+        background-image: linear-gradient(to right, rgba(78, 99, 215, 0.9) 0%, #5a85dd 100%);
+    }
+
+    .job-overview {
+        -webkit-box-shadow: 0 0 35px 0 rgba(130, 130, 130, 0.2);
+        box-shadow: 0 0 35px 0 rgba(130, 130, 130, 0.2);
+        border-radius: 10px;
+    }
+
+    @media (min-width: 992px) {
+        .job-overview {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 70px;
+        }
+    }
+
+    .job-overview .job-detail ul {
+        margin-bottom: 28px;
+    }
+
+    .job-overview .job-detail ul li {
+        opacity: 0.75;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .job-overview .job-detail ul li i {
+        font-size: 20px;
+        position: relative;
+        top: 1px;
+    }
+
+    .job-overview .overview-bottom,
+    .job-overview .overview-top {
+        padding: 35px;
+    }
+
+    .job-content ul li {
+        font-weight: 600;
+        opacity: 0.75;
+        border-bottom: 1px solid #ccc;
+        padding: 10px 5px;
+    }
+
+    @media (min-width: 768px) {
+        .job-content ul li {
+            border-bottom: 0;
+            padding: 0;
+        }
+    }
+
+    .job-content ul li i {
+        font-size: 20px;
+        position: relative;
+        top: 1px;
+    }
+
+    .mb-30 {
+        margin-bottom: 30px;
+    }
+</style>

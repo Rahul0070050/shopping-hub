@@ -1,19 +1,74 @@
-<div class="row d-flex justify-content-center align-items-center admin-login-row">
+<section>
+    <div class="row d-flex justify-content-center align-items-center admin-login-row">
+        <div class="col-md-7">
+            <div class="container">
+                <div class="row g-0 mt-5 mb-5 height-100">
+                    <div class="col-md-6">
+                        <div class="background-image" style="margin-top: 5rem;">
+                            <img src="https://us.123rf.com/450wm/denispc/denispc1302/denispc130200099/18052569-a-beautiful-cartoon-girl-holding-shopping-bags.jpg?ver=6" alt="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="bg-white p-4 h-100">
+                            <div class="p-3 d-flex justify-content-center flex-column align-items-center">
+                                <span class="main-heading"><strong>SHOPPING HUB</strong></span>
+                                <span class="main-heading">Sign-in</span>
+                                <ul class="social-list mt-3">
+                                    <li><i class="fa fa-facebook"></i></li>
+                                    <li><i class="fa fa-google"></i></li>
+                                    <li><i class="fa fa-linkedin"></i></li>
+                                </ul>
+                                <div class="form-data">
+                                    <label>Username</label>
+                                    <input type="text" class="form-control w-100" onkeyup="validateUserName()"
+                                        id="username" name="username" aria-describedby="emailHelp">
+                                    <div id="usernameErr"></div>
+                                </div>
+                                <div class="form-data">
+                                    <label>Password</label>
+                                    <input type="text" class="form-control w-100" name="password" 
+                                        onkeyup="validatePassword()" id="password">
+                                    <div id="passwordErr"></div>
+                                </div>
+                                <div class="d-flex justify-content-between w-100 align-items-center">
+                                    <a href="/user/registration">I don't have an account</a>
+                                    <a class="text-decoration-none forgot-text" href="#">Forgot password?</a>
+                                </div>
+                            </div>
+                            <div class="signin-btn w-100 mt-2">
+                                <button onclick="return validateLoginForm(event)" type="submit" id="userLogin"
+                                    class="btn btn-primary">Submit</button>
+                                {{!-- <button class="btn btn-danger btn-block">Signin</button> --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+
+{{!-- <div class="row d-flex justify-content-center align-items-center admin-login-row">
     <div class="col-md-3">
         <form>
-        <h2><strong>User Login</strong></h2>
+            <h2><strong>User Login</strong></h2>
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" class="form-control" value="aloshy" onkeyup="validateUserName()" id="username" name="username" aria-describedby="emailHelp">
+                <input type="text" class="form-control" value="aloshy" onkeyup="validateUserName()" id="username"
+                    name="username" aria-describedby="emailHelp">
                 <div id="usernameErr"></div>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" name="password" value="aloshy" onkeyup="validatePassword()" id="password">
+                <input type="password" class="form-control" name="password" value="aloshy" onkeyup="validatePassword()"
+                    id="password">
                 <div id="passwordErr"></div>
             </div>
-            <button onclick="return validateLoginForm(event)" type="submit" id="userLogin" class="btn btn-primary">Submit</button>
-            <a href="/user/registration" class="my-3" style="color: blue;">I don't have an  accound</a>
+            <button onclick="return validateLoginForm(event)" type="submit" id="userLogin"
+                class="btn btn-primary">Submit</button>
+            <a href="/user/registration" class="my-3" style="color: blue;">I don't have an accound</a>
         </form>
     </div>
-</div>
+</div> --}}

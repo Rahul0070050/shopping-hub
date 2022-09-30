@@ -1,0 +1,275 @@
+<section class="h-100 h-custom user-cart-main-container" style="background-color: #eee;">
+    <div class="container-fluid py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body p-4">
+
+                        <div class="row d-flex justify-content-between">
+
+                            <div class="col-lg-7">
+                                <h5 class="mb-3 d-flex justify-content-between"><a href="#!" class="text-body"><i
+                                            class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a><a
+                                        href="#">order history</a></h5>
+                                <hr>
+
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <div>
+                                        <p class="mb-1">
+                                        <h4>YOUR CART</h4>
+                                        </p>
+                                        <p class="mb-0">You have <strong>{{cartItemCound}}</strong> items in your cart
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-3">
+                                    {{#if cart}}
+                                    {{#each cart}}
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <div>
+                                                    <img src="/image/productImages/{{mainImage}}"
+                                                        class="img-fluid rounded-3" alt="Shopping item"
+                                                        style="width: 65px;">
+                                                </div>
+                                                <div class="ms-3">
+                                                    <h5>{{name}}</h5>
+                                                    <p class="small mb-0">{{discription}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-row align-items-center">
+                                                <div class="count my-auto mr-5">
+                                                    <span class="btn" onclick="decreaseCount(`{{_id}}`)">-</span>
+                                                    <span class="mx-3" id="{{_id}}">{{count}}</span>
+                                                    <span class="btn" onclick="increaseCount(`{{_id}}`)">+</span>
+                                                </div>
+                                                <div style="width: 80px;">
+                                                    <h5 class="mb-0" id="{{_id}}price"
+                                                        style="width: 8rem; margin-right: 5rem;">₹ {{total}}</h5>
+                                                </div>
+                                                <button onclick="deleteProductFromCart(`{{_id}}`)"
+                                                    style="color: #cecece;"><i class="fas fa-trash-alt"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{/each}}
+                                    {{else}}
+                                    <div class="row text-center">
+                                        <h2 class="my-5">no Items in your cart</h2>
+                                    </div>
+                                    {{/if}}
+                                </div>
+
+                            </div>
+                            <div class="col-lg-4">
+
+                                <div class="card bg-primary text-white rounded-3 mt-4 cart-info-card">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                            <h5 class="mb-0">cart details</h5>
+                                            <img src="/image/icons/user-white.png" class="img-fluid rounded-3"
+                                                style="width: 45px;" alt="Avatar">
+                                        </div>
+
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <p class="mb-2">real Price</p>
+                                            <p class="mb-2">₹ <span id="real-price">{{realPrice}}</span></p>
+                                        </div>
+
+
+
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2">Shipping</p>
+                                            <p class="mb-2">₹ <span id="shipping">{{shippingCharges}}</span></p>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between mb-4">
+                                            <p class="mb-2">Total(Incl. taxes)</p>
+                                            <p class="mb-2">₹ <span id="total-value">{{totalValue}}</span></p>
+                                        </div>
+
+                                        <hr class="my-4">
+
+                                        <div class="input-group d-flex justify-content-between aligne-items-center my-4" style="width: 100%;">
+                                            <div class="form-outline" style="width: 80%;">
+                                                <input type="search" id="coupon_code" class="form-control bg-white" style="width: 100% !important;" />
+                                                <label class="form-label text-dark" for="form1">coupon code</label>
+                                            </div>
+                                            <button type="button" class="btn btn-dark" style="width: 20%;" id="coupon_code_btn">
+                                                add
+                                            </button>
+                                        </div>
+                                        {{#if cart}}
+                                        <a href="/user/checkOut" class="text-white">
+                                            <button type="button" class="btn btn-info btn-block btn-lg">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>₹ <span id="checke-out">{{totalValue}}</span></span>
+                                                    <span>Checkout <i
+                                                            class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                                </div>
+                                            </button>
+                                        </a>
+                                        {{/if}}
+
+
+
+
+
+
+                                        <form class="my-4">
+                                            <a href="/" class="btn p-3 btn-success my-2 text-white"
+                                                style="width: 100%;">
+                                                <h5>continue shopping</h5>
+                                            </a>
+                                            {{!--
+                                            <div class="form-outline form-white mb-4">
+                                                <input type="text" id="typeName" class="form-control form-control-lg"
+                                                    siez="17" placeholder="Cardholder's Name" />
+                                                <label class="form-label" for="typeName">Cardholder's Name</label>
+                                            </div>
+
+                                            <div class="form-outline form-white mb-4">
+                                                <input type="text" id="typeText" class="form-control form-control-lg"
+                                                    siez="17" placeholder="1234 5678 9012 3457" minlength="19"
+                                                    maxlength="19" />
+                                                <label class="form-label" for="typeText">Card Number</label>
+                                            </div>
+
+                                            <div class="row mb-4">
+                                                <div class="col-md-6">
+                                                    <div class="form-outline form-white">
+                                                        <input type="text" id="typeExp"
+                                                            class="form-control form-control-lg" placeholder="MM/YYYY"
+                                                            size="7" id="exp" minlength="7" maxlength="7" />
+                                                        <label class="form-label" for="typeExp">Expiration</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-outline form-white">
+                                                        <input type="password" id="typeText"
+                                                            class="form-control form-control-lg"
+                                                            placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3"
+                                                            maxlength="3" />
+                                                        <label class="form-label" for="typeText">Cvv</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            --}}
+                                        </form>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+    function addCouponCode(e) {
+        e.preventDefault()
+        const coupon_code = document.getElementById('coupon_code')
+        const coupon_code_btn = document.getElementById('coupon_code_btn')
+        coupon_code.removeAttribute('disabled')
+        coupon_code_btn.removeAttribute('disabled')
+
+    }
+    const realPrice = document.getElementById('real-price');
+    const shipping = document.getElementById('shipping');
+    const totalValue = document.getElementById('total-value');
+    const sheckOut = document.getElementById('checke-out');
+    function deleteProductFromCart(id) {
+        fetch('/user/cart/delete', {
+            method: 'post',
+            body: JSON.stringify({ id }),
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+        }).then(res => res.json()).then(res => {
+            location.reload()
+        })
+    }
+    function increaseCount(id) {
+        fetch('/user/IncrementCartItemCount', {
+            method: 'post',
+            body: JSON.stringify({ id }),
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+        }).then(res => res.json()).then(res => {
+            if (res?.db) {
+                console.log(res.product)
+                let { count, discountedPrice, discription, mainImage, name, price, shippingCharges, total } = res.product
+                let addedDiscountPrice = discountedPrice * count
+
+                document.getElementById(id).innerText = count
+                document.getElementById(`${id}price`).innerText = `₹ ${addedDiscountPrice}`
+
+                let temp_realPrice = price + Number(realPrice.innerText)
+                let temp_totalPrice = (discountedPrice + Number(totalValue.innerText))
+
+                realPrice.innerHTML = `${temp_realPrice}`
+                totalValue.innerText = `${temp_totalPrice}`
+                sheckOut.innerText = `${temp_totalPrice}`
+            } else {
+
+                document.getElementById(id).innerText = res.item.count
+                document.getElementById(`${id}price`).innerText = `₹ ${res.item.total}`
+
+                realPrice.innerText = `${res.realPrice}`
+                totalValue.innerText = `${res.totalValue}`
+                sheckOut.innerText = `${res.totalValue}`
+            }
+
+        })
+    }
+    function decreaseCount(id) {
+        if (document.getElementById(id).innerText <= 1) {
+            return
+        } else {
+
+            fetch('/user/DecrementCartItemCount', {
+                method: 'post',
+                body: JSON.stringify({ id }),
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include'
+            }).then(res => res.json()).then(res => {
+                if (res?.db) {
+                    console.log(res.product)
+
+                    let { count, discountedPrice, discription, mainImage, name, price, shippingCharges, total } = res.product
+
+                    document.getElementById(id).innerText = count
+                    document.getElementById(`${id}price`).innerText = `₹ ${discountedPrice * count}`
+
+
+                    let temp_realPrice = Number(realPrice.innerText) - price
+                    let temp_totalPrice = Number(totalValue.innerText) - discountedPrice
+
+                    realPrice.innerHTML = `${temp_realPrice}`
+                    totalValue.innerText = `${temp_totalPrice}`
+                    sheckOut.innerText = `${temp_totalPrice}`
+                } else {
+                    document.getElementById(id).innerText = res.item.count
+                    document.getElementById(`${id}price`).innerText = `₹ ${res.item.total}`
+
+
+
+                    shipping.innerText = `${res.shippingCharges}`
+                    realPrice.innerText = `${res.realPrice}`
+                    totalValue.innerText = `${res.totalValue}`
+                    sheckOut.innerText = `${res.totalValue}`
+                }
+            })
+        }
+    }
+</script>

@@ -3,80 +3,9 @@ let passwordErr = document?.getElementById('passwordErr')
 let emailErr = document?.getElementById('emailErr')
 let cunfirmPasswordErr = document?.getElementById('cunfirmPasswordErr')
 let phoneErr = document?.getElementById('phoneErr')
+let userNavbarUsername = document?.getElementById('user-navbar-username')
 
 
-
-// top login
-const countDown = document?.getElementById('count-down');
-const inputField = document?.getElementById('form-control');
-const spanSpinner = document?.getElementById('span-spinner');
-const submitButton = document?.getElementById('sibmit-btn');
-const resendOtp = document?.getElementById('resend-otp');
-const otpLogin = document?.querySelector('#otp-login')
-
-function otp() {
-    otpLogin.style.opacity = '1'
-    otpLogin.style.zIndex = '7'
-    function otpTimer() {
-        let counter = 60
-        inputField.focus()
-        let timer = setInterval(() => {
-            countDown.innerText = counter < 10 ? `0:0${--counter}` : `0:${--counter}`
-            if (counter <= 0) {
-                clearInterval(timer)
-                submitButton.setAttribute('disabled', true)
-                inputField.setAttribute('disabled', true)
-                inputField.classList.add('is-invalid')
-            }
-        }, 1000)
-        return timer
-    }
-    resendOtp.addEventListener('click', () => {
-        clearInterval(timer)
-        timer = otpTimer()
-    })
-    let timer = otpTimer()
-    submitButton.addEventListener('click', () => {
-        //
-    })
-    inputField.addEventListener('keyup', (e) => {
-        let value = e.target.value;
-        if (value.length == 6) {
-            clearInterval(timer)
-            submitButton.setAttribute('disabled', true)
-            inputField.setAttribute('disabled', true)
-            spanSpinner.classList.add('spinner-border', 'spinner-border-sm')
-            fetch('/user/checkotp', {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    otp: value
-                }),
-                credentials: 'include'
-            }).then(res => res.json()).then(res => {
-                console.log(res)
-                if (res.ok) {
-                    let a = document.createElement('a');
-                    a.setAttribute('href', '/')
-                    a.click()
-                    console.log(res)
-                } else {
-                    console.log(res)
-                    document?.getElementById('form-control')?.classList?.add('is-invalid')
-                    submitButton.removeAttribute('disabled')
-                    inputField.removeAttribute('disabled')
-                    inputField.value = ""
-                    spanSpinner.classList.remove('spinner-border', 'spinner-border-sm')
-                }
-            }).catch(err => {
-                console.log(err)
-            })
-        }
-    })
-}
-// otp login
 
 // method="post" action="
 function userLogin() {
@@ -92,7 +21,9 @@ function userLogin() {
         }),
     }).then(res => res.json()).then(res => {
         if (res.ok) {
-            otp()
+            let a = document.createElement('a')
+            a.setAttribute('href','/')
+            a.click()
         } else {
             if (res.msg == 'user not found') {
                 usernameErr.innerText = 'user not found'
@@ -107,6 +38,7 @@ function userLogin() {
     })
 }
 function adminLogin() {
+    console.log('kajhfjsd')
     const username = document?.getElementById('username')?.value;
     const password = document?.getElementById('password')?.value;
     fetch("/admin/admin_login", {
@@ -150,7 +82,7 @@ function userSignup() {
         } else {
             console.log(res);
             const a = document.createElement('a')
-            a.setAttribute('href', '/user/otpLogin')
+            a.setAttribute('href', '/')
             a.click()
         }
     }).catch(err => {
@@ -303,7 +235,6 @@ function submit(e) {
     e.preventDefault()
     const userClick = e.target.getAttribute('id')
     if (userClick == 'userLogin') {
-        console.log(e);
         userLogin()
     } else if (userClick == 'userSignup') {
         userSignup()

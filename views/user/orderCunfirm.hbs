@@ -1,0 +1,152 @@
+<div class="container mt-5 mb-5">
+
+    <div class="row d-flex justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card">
+
+                <div class="invoice p-5">
+
+                    <div class=" my-5">
+                        <h2 class="font-weight-bold d-block mt-4">Hello, {{user.user.username}}</h2>
+                        <h4 class="mb-3">confirmetion page for your order</h4>
+                    </div>
+
+
+                    <address
+                        style="padding: 1rem; margin: 1rem 0; background-color: rgb(231, 231, 231); ">
+                        <strong>address :</strong>
+                        name: {{address.full_name}} <br>
+                        Address: {{address.address}} {{address.city}} {{address.country}} {{address.state}} <br>
+                        pin: {{address.pincode}}
+                    </address>
+
+
+
+
+                    <div class="product border-bottom table-responsive">
+
+                        <table class="table table-borderless">
+
+                            <tbody>
+                                {{#each products}}
+                                <tr>
+                                    <td width="20%">
+
+                                        <img src="/image/productImages/{{mainImage}}" width="90">
+
+                                    </td>
+
+                                    <td width="60%">
+                                        <span class="font-weight-bold">{{name}}</span>
+                                        <div class="product-qty">
+                                            <span class="d-block">Quantity:{{count}}</span>
+                                            <span>discounted price: ₹ {{discountedPrice}}</span>
+                                            <span class="d-block">real Price: ₹ {{price}}</span>
+
+                                        </div>
+                                    </td>
+                                    <td width="20%">
+                                        <div class="text-right">
+                                            <span class="font-weight-bold"> ₹ {{total}}</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+
+                        </table>
+
+
+
+                    </div>
+
+
+
+                    <div class="row d-flex justify-content-end">
+
+                        <div class="col-md-5">
+
+                            <table class="table table-borderless">
+
+                                <tbody class="totals">
+                                    <tr class="mt-3">
+                                        <td>
+
+                                            <div class="text-left">
+
+                                                <span class="text-muted">Total</span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right">
+                                                <span>₹ {{totalValue}}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>
+                                            <div class="text-left">
+
+                                                <span class="text-muted">Shipping Fee</span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right">
+                                                <span>₹ {{shippingCharges}}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>
+                                            <div class="text-left">
+
+                                                <span class="text-muted">Real Price</span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right">
+                                                <span>₹ {{price}}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+
+
+
+                </div>
+                    <div class="place row">
+                        <a href="/user/placeOrder" class="float-right mr-4 btn text-white btn-success  py-3 col-4"> <strong>place your order</strong></a>
+                    </div>
+
+
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

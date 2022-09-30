@@ -16,11 +16,14 @@ const app = express()
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'public')))
+
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'hbs')
+
 app.use(fileUpload({
     limits: { fileSize: 50 * 1024 * 1024 },
   }));
+  
 app.use(session({
     secret: 'keyboardcat',
     resave: false,
@@ -30,7 +33,7 @@ app.use(session({
         mongoUrl: process.env.MONGOOSE_CONNECTION_STRING,
     }),
     cookie: {
-        maxAge: 1000 * 60 * 60
+        maxAge: 1000 * 60 * 60 * 24
     }
 }))
 
@@ -41,6 +44,10 @@ connection()
 
 app.use('/', userRouter)
 app.use('/admin', adminRouter)
+
+app.use((err,req,res,next) => {
+    res.render('error',{err})
+})
 
 const PORT = process.env.PORT || 8000
 app.listen(PORT, () => console.log('server startted PORT: ' + PORT))

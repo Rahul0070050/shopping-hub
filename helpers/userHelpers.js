@@ -1,7 +1,16 @@
+require('dotenv').config()
+
 const jwt = require('jsonwebtoken');
 const hashPass = require('password-hash');
 const otp = require('otp-generator');
+const Razorpay = require('razorpay')
+
 const User = require('../models/userSchema');
+var instance = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
+
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -22,7 +31,7 @@ async function createjwtToken(user) {
     return jwt.sign({ username: user.username, email: user.email }, process.env.JWT_SECRET_KEY, { expiresIn: 20000 })
 }
 function verifyjwtToken(token) {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve, reject) => {
         jwt.verify(token, process.env.JWT_SECRET_KEY, function (err, data) {
             if (err) {
                 resolve(false)
@@ -68,5 +77,18 @@ async function validationform(username, email, phone) {
         resolve()
     })
 }
+async function genarateRazorpay(orderId, totalValue) {
+    return new Promise((resolve, reject) => {
+        instance.orders.create({
+            amount: totalValue * 100,
+            currency: "INR",
+            receipt: orderId
+        }, function (err, order) {
+            if (!err) {
+                resolve(order)
+            }
+        })
+    })
+}
 
-module.exports = { genarateHashPassword, varifyHashedPassword, createjwtToken, verifyjwtToken, sendOTP, genarateOtp, validationform }
+module.exports = { genarateHashPassword, varifyHashedPassword, createjwtToken, verifyjwtToken, sendOTP, genarateOtp, validationform, genarateRazorpay }

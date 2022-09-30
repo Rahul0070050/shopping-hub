@@ -1,11 +1,14 @@
 const { default: mongoose } = require("mongoose");
 const ObjectId = require('mongoose').Types.ObjectId;
 const path = require("path");
+const genaratecCoupon = require("otp-generator");
 const { v4: uuid } = require("uuid");
 
 const Category = require("../models/categorySchema");
 const Product = require("../models/productSchema");
 const User = require("../models/userSchema");
+const Orders = require("../models/orderSchema");
+const Coupon = require("../models/couponScheema");
 
 module.exports = {
   AdminLogin: (req, res) => {
@@ -18,13 +21,14 @@ module.exports = {
   },
   adminLoginWithData: (req, res) => {
     try {
+      console.log(req.body);
       const { username, password } = req.body;
       if (
         username == process.env.USERNAME &&
         password == process.env.PASSWORD
       ) {
         res.setHeader('Cache-Control', 'no-store')
-        res.status(200).json({ok:true})
+        res.status(200).json({ ok: true })
       }
     } catch (error) {
       console.error(error);
@@ -97,6 +101,9 @@ module.exports = {
   },
   addProduct: (req, res) => {
     const { mainImage, subImages } = req.files;
+    console.log('asa');
+    console.log(req.files);
+    console.log('sas');
     const { product, price, discount, description, quantity, category, size } = req.body;
 
     const productName = uuid();
@@ -105,8 +112,7 @@ module.exports = {
     const subImageArr = []
 
     if (!mainImage) {
-      console.log('main image not found')
-      res.status(406).join({ ok: false, msg: "you must renderadd main image", err: "main image" });
+      res.status(406).json({ ok: false, msg: "you must renderadd main image", err: "main image" });
     } else {
       if (!product || !price || !discount || !description || !quantity || !category) {
         console.log('some fields not found')
@@ -120,6 +126,7 @@ module.exports = {
 
         mainImage.mv(imageBasePath + mainImageSavingPath, err => {
           if (err) {
+            console.log('asdgggdsa');
             console.log(err);
           } else {
             if (subImages?.length >= 0) {
@@ -142,7 +149,7 @@ module.exports = {
               name: product,
               price,
               discount,
-              discountedPrice: price - (price * discount / 100),
+              discountedPrice: Math.round(price - (price * discount / 100)),
               discription: description,
               quantity,
               category,
@@ -172,7 +179,7 @@ module.exports = {
   getAddProductPage: (req, res) => {
     Category.find({}).then((result) => {
       res.setHeader('Cache-Control', 'no-store')
-      res.render("admin/addProduct", { admin: true, categories: result,addProduct:true });
+      res.render("admin/addProduct", { admin: true, categories: result, addProduct: true });
     });
   },
   getCategoryPage: (req, res) => {
@@ -270,6 +277,115 @@ module.exports = {
         res.setHeader('Cache-Control', 'no-store')
         res.render('admin/editProduct', { admin: true, product, category })
       })
+    })
+  },
+  getOrders: (req, res) => {
+    Orders.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "user_id",
+          foreignField: "_id",
+          as: "user"
+        }
+      },
+      {
+        $unwind: "$user"
+      },
+      {
+        $lookup: {
+          from: "products",
+          localField: "product_id",
+          foreignField: "_id",
+          as: "product"
+        }
+      },
+      {
+        $unwind: "$product"
+      },
+      {
+        $project: {
+          user: 1,
+          product: 1,
+          payment_methode: 1,
+          product_count: 1,
+          order_status: 1,
+          product_price: 1,
+          cancel_order: 1,
+          createdAt: 1
+        }
+      }
+    ]).then(orders => {
+      orders?.forEach(val => {
+        val.createdAt = new Date(val.createdAt).toLocaleDateString()
+      })
+      res.render('admin/orderes', { orders, admin: true })
+      console.log(orders)
+    })
+  },
+  cancelOrder: (req, res) => {
+    const { id } = req.body;
+    Orders.updateOne({ _id: ObjectId(id) }, { $set: { cancel_order: true } }).then(result => {
+      console.log(result)
+      res.status(200).json({ ok: true })
+    })
+  },
+  changeOrderStatus: (req, res) => {
+    console.log(req.body)
+    const { id, order_status } = req.body;
+    let order_completed_percentage = 0;
+    switch (order_status) {
+      case "ordered":
+        order_completed_percentage = 10
+        break;
+      case "confirmed":
+        order_completed_percentage = 30
+        break;
+      case "shipped":
+        order_completed_percentage = 60
+        break;
+      case "out for delivery":
+        order_completed_percentage = 80
+        break;
+      case "deliverd":
+        order_completed_percentage = 100
+        break;
+      default:
+        order_completed_percentage
+        break;
+    }
+    Orders.updateOne({ _id: ObjectId(id) }, { $set: { order_status, order_completed_percentage } }).then(result => {
+      console.log(result)
+    })
+
+  },
+  addCoupon: (req, res) => {
+    Coupon.find({}).then(coupons => {
+      res.render('admin/add-coupon', { coupons,admin:true })
+    })
+  },
+  addCouponCode: (req, res) => {
+    const { startsDate, endsDate, discountPercentage, couponValidUpto, valid_from } = req.body
+    let code = genaratecCoupon.generate(8, { upperCaseAlphabets: true, lowerCaseAlphabets: false, specialChars: false, digits: false })
+    Coupon.find({ code }).then(coupon => {
+      if (coupon) {
+        code += genaratecCoupon.generate(8, { upperCaseAlphabets: true, lowerCaseAlphabets: false, specialChars: false, digits: true })
+        new Coupon({ coupon_taken: false, used: false, code, StartsDate: startsDate, EndsDate: endsDate, discountPercentage: Number(discountPercentage), valid_from }).save().then(result => {
+          console.log(result)
+          res.status(200).json({ ok: false, result })
+        })
+      } else {
+        new Coupon({ coupon_taken: false, used: false, code, StartsDate: startsDate, EndsDate: endsDate, discountPercentage: Number(discountPercentage), valid_from }).save().then(result => {
+          console.log(result)
+          res.status(200).json({ ok: false, result })
+        })
+      }
+    })
+  },
+  deleteCoupon: (req, res) => {
+    const {id} = req.body;
+    Coupon.deleteOne({_id:ObjectId(id)}).then(result => {
+      res.status(200).json({ok:true})
     })
   }
 }

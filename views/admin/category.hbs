@@ -32,10 +32,19 @@
             </div>
         </div>
         <div class="col-md-5">
+            
             <div class="category-info">
                 <div class="card">
                     <div class="title">
-                        <h2><strong>SHOPPING HUB</strong></h2>
+                        <h2><strong>manage categories</strong></h2>
+                    </div>
+                    <div id="add-category" class="my-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="category-inp" placeholder="enter category name" aria-label="" aria-describedby="basic-addon1">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" id="add-category-btn" type="button">Add</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="info">
                         <div class="fields">
@@ -49,19 +58,8 @@
                             <span>{{NA}}</span>
                         </div>
                     </div>
-                    <div id="add-category" class="my-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="category-inp" placeholder="" aria-label=""
-                                aria-describedby="basic-addon1">
-                            <div class="input-group-prepend">
-                                <button class="btn btn-outline-secondary" id="add-category-btn"
-                                    type="button">Add</button>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row">
-                        <button class="btn btn-success" id="select-all-category-btn">Select All</button>
-                        <button class="btn btn-danger" id="delete-btn">Delete</button>
+                        {{!-- <button class="btn btn-success" id="select-all-category-btn">Select All</button> --}}
                     </div>
                     <div class="categories" id="category">
                         {{#each result}}

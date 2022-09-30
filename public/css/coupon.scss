@@ -1,0 +1,11 @@
+.coupon-container {
+    .coupon {
+        border-radius: 12px;
+        box-shadow: 5px 8px 10px #d6d5d533;
+    }
+    .code:hover {
+        background: green;
+        color: #fff;
+        cursor: pointer;
+    }
+}

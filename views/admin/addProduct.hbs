@@ -126,11 +126,17 @@
 
 
     // const mainImage = document.getElementById('sub-image')
+
+
+    let files = new FormData();
+
+
     let image = document.createElement('input')
     let subImageArr = [];
     let subImage = document.createElement('input')
     let fromImageEdit = false
     let cropperdestroy = null
+    let mainImage = null
     mainImageField.addEventListener('click', async () => {
         fromImageEdit = false
         image.setAttribute('type', 'file')
@@ -139,6 +145,7 @@
     image.addEventListener('change', () => {
         if (!fromImageEdit) {
             if (image.files[0]) {
+                mainImage = image.files[0]
                 document.getElementById('edit-main-image').click()
             }
         }
@@ -150,6 +157,7 @@
     })
 
     subImage.addEventListener('change', async () => {
+        console.log(subImageArr)
         subImageArr.push(subImage.files[0]);
         let subImageDiv = document.createElement('div')
         subImageDiv.setAttribute('class', 'sub-image')
@@ -266,7 +274,6 @@
         }
 
 
-        let files = new FormData();
         if (!image.files) {
             alert('you should add main image')
             return
@@ -279,15 +286,15 @@
         files.append('description', description)
         files.append('quantity', quantity)
         files.append('category', data.category)
-        files.append('mainImage', image.files[0])
-        console.log(image.files[0])
         for (let img of subImageArr) {
             files.append('subImages', img)
         }
+        console.log(files)
         fetch('/admin/add_product', {
             method: "POST",
             body: files
         }).then(res => res.json()).then(res => {
+            console.log(res)
             if (!res.ok) {
                 if (res.err == 'duplicate') {
                     alert('this product already added')
@@ -517,7 +524,7 @@
 
     function setUpFunctionality() {
         const imageEditContainer = document.querySelector('.main-image-container img')
-        imageEditContainer.setAttribute('src', `${URL.createObjectURL(image.files[0])}`)
+        imageEditContainer.setAttribute('src', `${URL.createObjectURL(mainImage)}`)
         console.log('disctroid - 1')
 
         let options = {
@@ -548,12 +555,13 @@
                         height: 400
                     })
                     cropedImage.toBlob(function (blob) {
+                        files.append('mainImage', blob)
                         let render = new FileReader()
                         render.readAsDataURL(blob);
                         render.onload = function () {
                             console.log(render)
-                            let finallImage = render.result
-                            mainImageField.src = finallImage
+                            mainImage = render.result
+                            mainImageField.src = mainImage
                         }
                     })
                     closeEdit()
@@ -593,7 +601,7 @@
 
 
 
-        mainImageField.src = URL.createObjectURL(image.files[0])
+        mainImageField.src = URL.createObjectURL(mainImage)
         document.getElementById('edit-image-container').innerHTML = ''
     }
 </script>

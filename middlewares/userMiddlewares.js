@@ -4,26 +4,15 @@ const User = require('../models/userSchema')
 
 module.exports = {
     validateUser: (req, res, next) => {
-        let token = req.headers?.cookie?.split(';')[1]?.split('=')[1];
-        if (token) {
-            console.log(verifyjwtToken(token))
-            verifyjwtToken(token).then((state) => {
-                if(state) {
-                    next()
-                } else res.redirect('/user/login')
-            })
+        if (req.session?.user?.logedin) {
+            next()
         } else {
             res.redirect('/user/login')
         }
     },
     afterlogin: (req, res, next) => {
-        let token = req.headers?.cookie?.split(';')[1]?.split('=')[1];
-        if (token) {
-            verifyjwtToken(token).then((state) => {
-                if(state) {
-                    res.redirect('/')
-                } else next()
-            })
+        if (req.session?.user?.logedin) {
+            res.redirect('/')
         } else next()
     },
     isUserBlocked: (req, res, next) => {

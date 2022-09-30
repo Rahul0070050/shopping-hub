@@ -1,0 +1,277 @@
+<div class="container-fluid" style="min-height: 100vh;">
+    <h2 class="m-2 ml-6">Orders</h2>
+    <div class="table">
+        <div class="table-header">
+            <div class="header__item"><a id="name" class="filter__link" href="#">product name</a></div>
+            <div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">user name</a>
+            </div>
+            <div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">orderd date</a>
+            </div>
+            <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">count</a></div>
+            <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">status</a></div>
+            <div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">peyment
+                    method</a></div>
+            <div class="header__item"><a id="total" class="filter__link filter__link--number" href="#">Total price</a>
+            </div>
+            <div class="header__item"><a id="total" class="filter__link filter__link--number" href="#">cancel order</a>
+            </div>
+        </div>
+        <div class="table-content" id="table">
+            {{#each orders}}
+            <div class="table-row">
+                <div class="table-data">
+                    {{product.name}}
+                </div>
+                <div class="table-data">
+                    {{user.username}}
+                </div>
+                <div class="table-data">
+                    {{createdAt}}
+                </div>
+                <div class="table-data">
+                    {{product_count}}
+                </div>
+                <div class="table-data">
+                    <div class="dropdown">
+                        {{#if cancel_order}}
+                        <select class="form-select" disabled aria-label="Default select example">
+                            <option selected>cancelled</option>
+                        </select>
+                        {{else}}
+                        <select class="form-select selecter {{_id}}" id="{{_id}}"
+                            aria-label="Default select example">
+                            <option selected>{{order_status}}</option>
+                            <option value="confirmed">confirmed</option>
+                            <option value="shipped">shipped</option>
+                            <option value="out for delivery">out for delivery</option>
+                            <option value="deliverd">deliverd</option>
+                        </select>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="table-data">
+                    {{payment_methode}}
+                </div>
+                <div class="table-data">{{product_price}}</div>
+                <div class="table-data" id="cancel-order">
+                    {{#if cancel_order}}
+                    <button class="btn btn-danger disabled">cancelled</button>
+                    {{else}}
+                    <button class="btn btn-danger {{_id}}" order-id="{{_id}}" onclick="deleteProduct(`{{product._id}},{{_id}}`)"
+                        id="{{product._id}}">cancel</button>
+                    {{/if}}
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
+
+<script>
+    function deleteProduct(ids) {
+        let idarr = ids.split(',')
+        let [pro_id, id] = idarr;
+        let elm = document.getElementsByClassName(id)
+
+        console.log(elm)
+        
+        fetch('/admin/canceleOrder', {
+            body: JSON.stringify({
+                id
+            }),
+            method: 'delete',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+        }).then(res => res.json()).then(result => {
+            if (result.ok) {
+                for (let e of elm) {
+                    console.log(e)
+                    if (e.classList.contains('selecter')) {
+                        e.setAttribute('disabled', true)
+                    } else {
+                        e.setAttribute('disabled', true)
+                        e.innerText = 'cancelled'
+                    }
+                }
+            }
+        })
+    }
+
+
+
+    document.getElementById('table').addEventListener('change', (e) => {
+        const id = e.target.getAttribute('id')
+        const order_status = e.target.value
+        fetch('/admin/changeOrderstatus', {
+            body: JSON.stringify({ id, order_status }),
+            method: 'post',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+        })
+    })
+
+    var properties = [
+        'name',
+        'wins',
+        'draws',
+        'losses',
+        'total',
+    ];
+
+    $.each(properties, function (i, val) {
+
+        var orderClass = '';
+
+        $("#" + val).click(function (e) {
+            e.preventDefault();
+            $('.filter__link.filter__link--active').not(this).removeClass('filter__link--active');
+            $(this).toggleClass('filter__link--active');
+            $('.filter__link').removeClass('asc desc');
+
+            if (orderClass == 'desc' || orderClass == '') {
+                $(this).addClass('asc');
+                orderClass = 'asc';
+            } else {
+                $(this).addClass('desc');
+                orderClass = 'desc';
+            }
+
+            var parent = $(this).closest('.header__item');
+            var index = $(".header__item").index(parent);
+            var $table = $('.table-content');
+            var rows = $table.find('.table-row').get();
+            var isSelected = $(this).hasClass('filter__link--active');
+            var isNumber = $(this).hasClass('filter__link--number');
+
+            rows.sort(function (a, b) {
+
+                var x = $(a).find('.table-data').eq(index).text();
+                var y = $(b).find('.table-data').eq(index).text();
+
+                if (isNumber == true) {
+
+                    if (isSelected) {
+                        return x - y;
+                    } else {
+                        return y - x;
+                    }
+
+                } else {
+
+                    if (isSelected) {
+                        if (x < y) return -1;
+                        if (x > y) return 1;
+                        return 0;
+                    } else {
+                        if (x > y) return -1;
+                        if (x < y) return 1;
+                        return 0;
+                    }
+                }
+            });
+
+            $.each(rows, function (index, row) {
+                $table.append(row);
+            });
+
+            return false;
+        });
+
+    });
+</script>
+
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700');
+
+    $base-spacing-unit: 24px;
+    $half-spacing-unit: $base-spacing-unit / 2;
+
+    $color-alpha: #1772FF;
+    $color-form-highlight: #EEEEEE;
+
+    *,
+    *:before,
+    *:after {
+        box-sizing: border-box;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 0;
+    }
+
+
+
+    .table {
+        margin-top: 1rem;
+        width: 100%;
+        border: 1px solid $color-form-highlight;
+    }
+
+    .table-header {
+        display: flex;
+        width: 100%;
+        background: #000;
+        padding: ($half-spacing-unit * 1.5) 0;
+    }
+
+
+    .table-header a {
+        color: white !important;
+    }
+
+    .table-row {
+        display: flex;
+        width: 100%;
+        padding: ($half-spacing-unit * 1.5) 0;
+
+        &:nth-of-type(odd) {
+            background: $color-form-highlight;
+        }
+    }
+
+    .table-data,
+    .header__item {
+        flex: 1 1 20%;
+        text-align: center;
+    }
+
+    .header__item {
+        text-transform: uppercase;
+    }
+
+    .filter__link {
+        color: white;
+        text-decoration: none;
+        position: relative;
+        display: inline-block;
+        padding-left: $base-spacing-unit;
+        padding-right: $base-spacing-unit;
+
+        &::after {
+            content: '';
+            position: absolute;
+            right: -($half-spacing-unit * 1.5);
+            color: white;
+            font-size: $half-spacing-unit;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        &.desc::after {
+            content: '(desc)';
+        }
+
+        &.asc::after {
+            content: '(asc)';
+        }
+
+    }
+</style>

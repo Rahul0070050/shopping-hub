@@ -1,13 +1,13 @@
 ### Genaral
 
 <div>
-    <input class="check-box" type="checkbox" checked>
+    <input class="check-box"  type="checkbox" checked>
     <label>otp login for user with timer and resend </label>
 <div>
 <br>
 <div>
     <div>
-        <input class="check-box" type="checkbox">
+        <input class="check-box" type="checkbox" checked>
         <label>User</label>
     <div>
     <div class="inner-check-box">
@@ -35,16 +35,66 @@
         <label>Image zoom</label>
     <div>
     <div>
-        <input class="check-box" type="checkbox">
+        <input class="check-box" type="checkbox" checked>
         <label>Image cropping</label>
     <div>
+        <input class="check-box" type="checkbox" checked>
+        <label>Cart</label>
 </div>
+<br/>
 
+> week 10
+
+<div>
+        <input type="checkbox" class="check-box" checked />
+        <label>PayPal</label>
+    </div>
+        <div>
+        <input type="checkbox" class="check-box" checked />
+        <label>Razorpay</label>
+    </div>
+        </div>
+        <div>
+        <input type="checkbox" class="check-box"  />
+        <label>Category Offer</label>
+    </div>
+    <div>
+        <input type="checkbox" class="check-box" />
+        <label>wish List</label>
+    </div>
+    <div>
+        <input type="checkbox" class="check-box" />
+        <label>User Profile</label>
+    </div>
+    <div>
+        <input type="checkbox" class="check-box" />
+        <label>add coupon</label>
+    </div>
+    <div>
+        <input type="checkbox" class="check-box" />
+        <label>chart</label>
+    </div>
+<br/>
+
+> user updates week 10
+<div style="margin-left: 1rem">
+        <input type="checkbox" class="check-box" checked/>
+        <label>add address adding page - as popup window</label>
+    </div>
+        <div style="margin-left: 1rem">
+        <input type="checkbox" checked class="check-box" />
+        <label>remove order confirmation page</label>
+    </div>
+    <div style="margin-left: 1rem">
+        <input  type="checkbox"  class="check-box" checked  />
+        <label>redirect option to order history from payment success page</label>
+    </div>
+</div>
 <br>
 <div>
 
 <div style="margin-left:-30px">
-    <input class="check-box" type="checkbox">
+    <input class="check-box" type="checkbox" checked>
     <label value="hi">Admin</label>
 <div>
 <div class="inner-check-box">
@@ -68,12 +118,37 @@
     <label value="hi">Add product</label>
 <div>
 <div>
-    <input class="check-box" type="checkbox">
+    <input class="check-box" type="checkbox" checked>
     <label value="hi">Editt product</label>
 <div>
 <div>
     <input class="check-box" type="checkbox" checked>
     <label value="hi">Delete product</label>
+<div>
+
+<div>
+    <input class="check-box" type="checkbox" checked>
+    <label value="hi">Cancel Order</label>
+<div>
+<div>
+    <input class="check-box" type="checkbox" checked>
+    <label value="hi">Cunfirm Order</label>
+<div>
+<div>
+    <input class="check-box" type="checkbox" checked>
+    <label value="hi">Order Deliverd</label>
+<div>
+<div>
+    <input class="check-box" type="checkbox" checked>
+    <label value="hi">Out For delivery</label>
+<div>
+<br/>
+
+> week 10
+
+<div>
+    <input class="check-box" type="checkbox">
+    <label value="hi">Order management - both user and admin side</label>
 <div>
 </div>
 
