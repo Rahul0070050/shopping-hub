@@ -28,7 +28,7 @@
     {{else}}
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <li class="nav-item">
-        <a class="nav-link" href="#">wishList</a>
+        <a class="nav-link" href="/user/wishList">wishList <span id="wishListCount" style="position: static !important; padding: 0.6rem; border-radius: 5px;" class="badge badge-dark"></span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">New offers</a>
@@ -98,5 +98,6 @@
 <script>
   fetch('/user/getUserData').then(res => res.json()).then(res => {
     document.getElementById('cart-count').innerHTML = " "+res.cartCount
+    document.getElementById('wishListCount').innerHTML = " "+res.wishListCount
   })
 </script>

@@ -10,11 +10,11 @@ const Coupon = new mongoose.Schema({
     EndsDate: {
         type: String
     },
-    discountPercentage: {
+    cashBack: {
         type: Number
     },
-    used: {
-        type: Boolean,
+    user_arr: {
+        type: Array,
         dafault: false
     },
     valid_from: {

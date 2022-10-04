@@ -1,4 +1,5 @@
 const express = require('express')
+
 const router = express.Router()
 const { signup, userLoginWithData, userLogin,
     registration, getAllProducts, otpLogin,
@@ -6,22 +7,24 @@ const { signup, userLoginWithData, userLogin,
     addToCart, incrementItemCount, decrementItemCount,
     checkout, deleteProduct, orderProduct, addAddress,
     getConfirmPage, placeOrder, verifPayment, userProfile,
-    cancelOrder, getUserData } = require('../controllers/userController')
+    cancelOrder, getUserData, tryCouponCode, applyCoupon, wishLst,
+    removeItemFromWishList, addItemFromWishList } = require('../controllers/userController')
+const { sendOTP, verifyOtp } = require('../helpers/userHelpers')
 const { validateUser, afterlogin, isUserBlocked } = require('../middlewares/userMiddlewares')
 
 router.get('/', isUserBlocked, getAllProducts)
 
-router.get('/user/registration', isUserBlocked, signup)
+router.get('/user/registration', signup)
 
-router.post('/user/registration', isUserBlocked, registration)
+router.post('/user/registration', registration)
 
-router.get('/user/login', isUserBlocked, userLogin)
+router.get('/user/login', userLogin)
 
-router.post('/user/login', isUserBlocked, userLoginWithData)
+router.post('/user/login', userLoginWithData)
 
-router.get('/user/otpLogin', isUserBlocked, otpLogin)
+router.get('/user/otpLogin', otpLogin)
 
-router.post('/user/checkotp', isUserBlocked, checkOtp)
+router.post('/user/checkotp', checkOtp)
 
 router.get('/user/single_product/:id', isUserBlocked, viewSingleProduct)
 
@@ -55,5 +58,14 @@ router.patch('/user/cancelOrder', validateUser, cancelOrder)
 
 router.get('/user/getUserData', validateUser, getUserData)
 
+router.post('/user/tryCoupon', validateUser, tryCouponCode)
+
+router.post('/user/applyCoupon', validateUser, applyCoupon)
+
+router.get('/user/wishList', validateUser, wishLst)
+
+router.post('/user/removeFromWishList', validateUser, removeItemFromWishList)
+
+router.post('/user/addWishList', validateUser, addItemFromWishList)
 
 module.exports = router

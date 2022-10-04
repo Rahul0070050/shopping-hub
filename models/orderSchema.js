@@ -36,6 +36,9 @@ const Orders = new mongoose.Schema({
     cancel_order: {
         type: Boolean,
         default: false
+    },
+    date: {
+        type: String
     }
 },{
     timestamps: true

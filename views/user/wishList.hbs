@@ -1,0 +1,57 @@
+<div class="container-fluid" style="min-height: 100vh;">
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-10 py-5">
+            <strong>
+                <h3 class="ml-3">wish list</h3>
+            </strong>
+            <div class="card-body p-4 my-4" id="wish-list">
+                {{#each wishList}}
+                <div class="card p-3" id="{{product_id}}">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex flex-row align-items-center">
+                            <div>
+                                <img src="/image/productImages/{{pro_image}}" class="img-fluid rounded-3"
+                                    alt="Shopping item" style="width: 65px;">
+                            </div>
+                            <div class="ms-3">
+                                <h5>{{pro_name}}name</h5>
+                                <p class="small mb-0">{{discription}}some text</p>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column justify-content-evenly">
+                            <h5>price: <span>{{pro_price}}</span></h5>
+                        </div>
+                        <div class="d-flex flex-column justify-content-between">
+                            <button class="btn btn-success" style="width: 10rem;"
+                                onclick="addToCartFromWishList(`{{product_id}}`)">add to cart</button>
+                            <span class="my-3"></span>
+                            <button class="btn btn-danger" style="width: 10rem;">remove</button>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function addToCartFromWishList(id) {
+        const wishLists = document.getElementById('wish-list')
+        let cartCount = document.getElementById('cart-count')
+        let wishListCount = document.getElementById('wishListCount')
+        const item = document.getElementById(id)
+        fetch('/user/add_to_cart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id }),
+            credentials: 'include'
+        }).then(res => res.json()).then(res => {
+            wishLists.removeChild(item)
+            wishListCount.innerText = Number(wishListCount.innerText) - 1
+            cartCount.innerText = Number(cartCount.innerText) + 1
+        })
+    }
+</script>

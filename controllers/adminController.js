@@ -21,7 +21,6 @@ module.exports = {
   },
   adminLoginWithData: (req, res) => {
     try {
-      console.log(req.body);
       const { username, password } = req.body;
       if (
         username == process.env.USERNAME &&
@@ -49,31 +48,34 @@ module.exports = {
         }
       }
     ]).then(users => {
-      console.log(users);
       Product.count({}, (err, productCount) => {
         User.count({}, (err, allUsers) => {
           Category.count({}, (err, allCategories) => {
-            Product.aggregate([
-              {
-                $lookup:
+            Orders.count({}, (err, ordersCount) => {
+              Product.aggregate([
                 {
-                  from: "categories",
-                  localField: "category",
-                  foreignField: "name",
-                  as: "category"
+                  $lookup:
+                  {
+                    from: "categories",
+                    localField: "category",
+                    foreignField: "name",
+                    as: "category"
+                  }
+                },
+                {
+                  $unwind: "$category"
+                },
+                {
+                  $match: {
+                    quantity: { $lt: 10 }
+                  }
                 }
-              },
-              {
-                $unwind: "$category"
-              },
-              {
-                $match: {
-                  quantity: { $lt: 10 }
-                }
-              }
-            ]).then(result => {
-              res.setHeader('Cache-Control', 'no-store')
-              res.render('admin/admin_pannel', { admin: true, users, allUsers, productCount, allCategories, limitedProduct: result.length, adminPannel: true })
+              ]).then(result => {
+                Orders.find({ order_status: "deliverd" }).countDocuments().then(transactions => {
+                  res.setHeader('Cache-Control', 'no-store')
+                  res.render('admin/admin_pannel', { admin: true, users, ordersCount, transactions, allUsers, productCount, allCategories, limitedProduct: result.length, adminPannel: true })
+                })
+              })
             })
           })
         })
@@ -93,7 +95,6 @@ module.exports = {
   },
   getSingleUSer: (req, res) => {
     const { id } = req.params;
-    console.log(id);
     User.findById(id).then((user) => {
       res.setHeader('Cache-Control', 'no-store')
       res.render("admin/singleUser", { admin: true, user });
@@ -101,9 +102,6 @@ module.exports = {
   },
   addProduct: (req, res) => {
     const { mainImage, subImages } = req.files;
-    console.log('asa');
-    console.log(req.files);
-    console.log('sas');
     const { product, price, discount, description, quantity, category, size } = req.body;
 
     const productName = uuid();
@@ -126,7 +124,6 @@ module.exports = {
 
         mainImage.mv(imageBasePath + mainImageSavingPath, err => {
           if (err) {
-            console.log('asdgggdsa');
             console.log(err);
           } else {
             if (subImages?.length >= 0) {
@@ -240,11 +237,10 @@ module.exports = {
     }
   },
   deleteCategory: (req, res) => {
-
+    // Category.deleteOne()
   },
   deleteMultipleCategory: (req, res) => {
     const { categoryArr } = req.body
-    console.log(categoryArr);
     categoryArr.forEach(element => {
       Category.deleteOne({ name: element }).then(response => {
         // console.log(response);
@@ -262,7 +258,6 @@ module.exports = {
   },
   getCategoryProduct: (req, res) => {
     Product.find({ category: req.params.id }).then(products => {
-      console.log(products);
     })
   },
   getAllProducts: (req, res) => {
@@ -314,24 +309,26 @@ module.exports = {
           cancel_order: 1,
           createdAt: 1
         }
+      },
+      {
+        $sort: {
+          createdAt: -1
+        }
       }
     ]).then(orders => {
       orders?.forEach(val => {
         val.createdAt = new Date(val.createdAt).toLocaleDateString()
       })
       res.render('admin/orderes', { orders, admin: true })
-      console.log(orders)
     })
   },
   cancelOrder: (req, res) => {
     const { id } = req.body;
     Orders.updateOne({ _id: ObjectId(id) }, { $set: { cancel_order: true } }).then(result => {
-      console.log(result)
       res.status(200).json({ ok: true })
     })
   },
   changeOrderStatus: (req, res) => {
-    console.log(req.body)
     const { id, order_status } = req.body;
     let order_completed_percentage = 0;
     switch (order_status) {
@@ -354,38 +351,114 @@ module.exports = {
         order_completed_percentage
         break;
     }
-    Orders.updateOne({ _id: ObjectId(id) }, { $set: { order_status, order_completed_percentage } }).then(result => {
-      console.log(result)
-    })
+    if (order_status == "deliverd") {
+      Orders.updateOne({ _id: ObjectId(id) }, { $set: { order_status, cancel_order: true, order_completed_percentage } }).then(result => {
+      })
+    } else {
+      Orders.updateOne({ _id: ObjectId(id) }, { $set: { order_status, order_completed_percentage } }).then(result => {
+      })
+    }
 
   },
   addCoupon: (req, res) => {
     Coupon.find({}).then(coupons => {
-      res.render('admin/add-coupon', { coupons,admin:true })
+      coupons?.forEach(coupon => {
+        coupon.StartsDate = new Date(coupon.StartsDate).toLocaleDateString()
+        coupon.EndsDate = new Date(coupon.EndsDate).toLocaleDateString()
+      })
+      res.render('admin/add-coupon', { coupons, admin: true })
     })
   },
   addCouponCode: (req, res) => {
-    const { startsDate, endsDate, discountPercentage, couponValidUpto, valid_from } = req.body
+    const { startsDate, endsDate, cashBack, couponValidUpto, valid_from } = req.body
     let code = genaratecCoupon.generate(8, { upperCaseAlphabets: true, lowerCaseAlphabets: false, specialChars: false, digits: false })
     Coupon.find({ code }).then(coupon => {
       if (coupon) {
         code += genaratecCoupon.generate(8, { upperCaseAlphabets: true, lowerCaseAlphabets: false, specialChars: false, digits: true })
-        new Coupon({ coupon_taken: false, used: false, code, StartsDate: startsDate, EndsDate: endsDate, discountPercentage: Number(discountPercentage), valid_from }).save().then(result => {
-          console.log(result)
+        new Coupon({ user_arr: [], code, StartsDate: new Date(startsDate), EndsDate: new Date(endsDate), cashBack: Number(cashBack), valid_from }).save().then(result => {
           res.status(200).json({ ok: false, result })
         })
       } else {
-        new Coupon({ coupon_taken: false, used: false, code, StartsDate: startsDate, EndsDate: endsDate, discountPercentage: Number(discountPercentage), valid_from }).save().then(result => {
-          console.log(result)
+        new Coupon({ user_arr: [], code, StartsDate: startsDate, EndsDate: endsDate, cashBack: Number(cashBack), valid_from }).save().then(result => {
           res.status(200).json({ ok: false, result })
         })
       }
     })
   },
   deleteCoupon: (req, res) => {
-    const {id} = req.body;
-    Coupon.deleteOne({_id:ObjectId(id)}).then(result => {
-      res.status(200).json({ok:true})
+    const { id } = req.body;
+    Coupon.deleteOne({ _id: ObjectId(id) }).then(result => {
+      res.status(200).json({ ok: true })
+    })
+  },
+
+
+
+  // chart
+  getchartData: (req, res) => {
+    Orders.aggregate([
+      { $match: { "order_status": "deliverd" } },
+      {
+        $project: {
+          date: { $convert: { input: "$_id", to: "date" } }, total: "$product_price"
+        }
+      },
+      {
+        $match: {
+          date: {
+            $lt: new Date(), $gt: new Date(new Date().getTime() - (24 * 60 * 60 * 1000 * 365))
+          }
+        }
+      },
+      {
+        $group: {
+          _id: { $month: "$date" },
+          total: { $sum: "$total" }
+        }
+      },
+      {
+        $project: {
+          month: "$_id",
+          total: "$total",
+          _id: 0
+        }
+      }
+    ]).then(result => {
+      Orders.aggregate([
+        { $match: { "order_status": "deliverd" } },
+        {
+          $project: {
+            date: { $convert: { input: "$_id", to: "date" } }, total: "$product_price"
+          }
+        },
+        {
+          $match: {
+            date: {
+              $lt: new Date(), $gt: new Date(new Date().getTime() - (24 * 60 * 60 * 1000 * 7))
+            }
+          }
+        },
+        {
+          $group: {
+            _id: { $dayOfWeek: "$date" },
+            total: { $sum: "$total" }
+          }
+        },
+        {
+          $project: {
+            date: "$_id",
+            total: "$total",
+            _id: 0
+          }
+        },
+        {
+          $sort: { date: 1 }
+        }
+      ]).then(weeklyReport => {
+        console.log(weeklyReport)
+        res.status(200).json({ data: result  ,weeklyReport})
+        console.log(result)
+      })
     })
   }
 }

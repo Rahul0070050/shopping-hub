@@ -53,25 +53,24 @@
         <input type="checkbox" class="check-box" checked />
         <label>Razorpay</label>
     </div>
-        </div>
-        <div>
+    <!-- <div>
         <input type="checkbox" class="check-box"  />
         <label>Category Offer</label>
-    </div>
+    </div> -->
     <div>
-        <input type="checkbox" class="check-box" />
+        <input type="checkbox" class="check-box" checked />
         <label>wish List</label>
     </div>
     <div>
-        <input type="checkbox" class="check-box" />
+        <input type="checkbox" class="check-box" checked/>
         <label>User Profile</label>
     </div>
     <div>
-        <input type="checkbox" class="check-box" />
+        <input type="checkbox" class="check-box" checked />
         <label>add coupon</label>
     </div>
     <div>
-        <input type="checkbox" class="check-box" />
+        <input type="checkbox" class="check-box" checked/>
         <label>chart</label>
     </div>
 <br/>
@@ -142,12 +141,23 @@
     <input class="check-box" type="checkbox" checked>
     <label value="hi">Out For delivery</label>
 <div>
+<div>
+    <input class="check-box" checked type="checkbox">
+    <label value="hi">Sales report</label>
+<div>
+<!-- <div>
+    <input class="check-box" type="checkbox" checked>
+    <label value="hi">Out For delivery</label>
+<div> -->
+
 <br/>
 
 > week 10
 
 <div>
-    <input class="check-box" type="checkbox">
+    <input class="check-box"
+    checked
+    type="checkbox">
     <label value="hi">Order management - both user and admin side</label>
 <div>
 </div>

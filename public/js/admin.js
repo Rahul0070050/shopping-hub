@@ -4,7 +4,7 @@ const tBody = document?.getElementById('tbody');
 // const mainImage = document.getElementById('select-main-image');
 
 toggleBtn?.addEventListener('click',() => {
-    toggleSwitch.classList.toggle('btn-clicked')
+    toggleSwitch?.classList.toggle('btn-clicked')
 })
 
 function showUser(id) {

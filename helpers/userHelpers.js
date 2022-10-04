@@ -1,22 +1,18 @@
-require('dotenv').config()
+require('dotenv/config')
 
 const jwt = require('jsonwebtoken');
 const hashPass = require('password-hash');
 const otp = require('otp-generator');
 const Razorpay = require('razorpay')
+const client = require("twilio")(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 const User = require('../models/userSchema');
+
 var instance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-require('dotenv/config')
-
-const client = require('twilio')(accountSid, authToken);
 
 
 async function genarateHashPassword(password) {
@@ -42,12 +38,28 @@ function verifyjwtToken(token) {
     })
 }
 
-function sendOTP(number, otp) {
-    return client.messages
-        .create({
-            body: `hi this is from Shopping hub your OTP: ${otp}`,
-            from: +17075988173,
-            to: '+91' + number
+function sendOTP(number) {
+    number = Number(number)
+    client.verify.v2.services('VA466c547cc3b0fa8fc6b0be80979e2648')
+        .verifications.create({
+            to: `+91${number}`,
+            channel: "sms",
+        })
+        .then((verification) => {
+            console.log(verification.status);
+        });
+}
+
+function verifyOtp(number,otp) {
+    number = Number(number)
+    otp = Number(otp)
+    client.verify.v2
+        .services('VA466c547cc3b0fa8fc6b0be80979e2648')
+        .verificationChecks.create({ to: `+91${number}`, code: `${otp}` })
+        .then((result) => {
+            console.log(result)
+        }).catch (error => {
+            console.log(error);
         })
 }
 
@@ -91,4 +103,4 @@ async function genarateRazorpay(orderId, totalValue) {
     })
 }
 
-module.exports = { genarateHashPassword, varifyHashedPassword, createjwtToken, verifyjwtToken, sendOTP, genarateOtp, validationform, genarateRazorpay }
+module.exports = { genarateHashPassword, varifyHashedPassword, createjwtToken, verifyjwtToken, sendOTP, genarateOtp, validationform, genarateRazorpay ,verifyOtp}

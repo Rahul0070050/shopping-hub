@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { adminLoginWithData, AdminLogin, getAllUsers, getSingleUSer, getAddProductPage, addProduct, addCategory, userBlockAndUnblock, adminPanel, getCategoryProduct, getAllProducts, viewSingleProduct, getCategoryPage, deleteCategory, deleteMultipleCategory, deleteProduct, getOrders, cancelOrder, changeOrderStatus, addCoupon, addCouponCode , deleteCoupon } = require('../controllers/adminController')
+const { adminLoginWithData, AdminLogin, getAllUsers, getSingleUSer, getAddProductPage, addProduct, addCategory, userBlockAndUnblock, adminPanel, getCategoryProduct, getAllProducts, viewSingleProduct, getCategoryPage, deleteCategory, deleteMultipleCategory, deleteProduct, getOrders, cancelOrder, changeOrderStatus, addCoupon, addCouponCode , deleteCoupon, getchartData } = require('../controllers/adminController')
 
 const router = express.Router()
 
@@ -49,5 +49,7 @@ router.get('/addCoupon', addCoupon)
 router.post('/addcoupon', addCouponCode)
 
 router.delete('/delCoupon', deleteCoupon)
+
+router.get('/getChardData', getchartData)
 
 module.exports = router

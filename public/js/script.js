@@ -74,6 +74,7 @@ function userSignup() {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
+        // check the data {data} now is in (data)
         body: JSON.stringify(data),
     }).then(res => res.json()).then(res => {
         console.log(res);

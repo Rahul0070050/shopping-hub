@@ -13,6 +13,9 @@ const Category = require("../models/categorySchema")
 const Cart = require("../models/CartSchema");
 const Address = require("../models/addressSchema");
 const Orders = require("../models/orderSchema");
+const Coupon = require("../models/couponScheema");
+const WishList = require("../models/wishListScheema");
+const productSchema = require("../models/productSchema");
 
 module.exports = {
     getAllProducts: (req, res) => {
@@ -22,7 +25,7 @@ module.exports = {
                     if (req.session?.user?.logedin) {
                         Cart.find({ user_id: ObjectId(req.session?.user?.user?._id) }).count().then(count => {
                             res.setHeader('Cache-Control', 'no-store')
-                            res.render('user/products', { products, categories, user: req.session?.user,count })
+                            res.render('user/products', { products, categories, user: req.session?.user, count })
                         })
                     } else {
                         res.setHeader('Cache-Control', 'no-store')
@@ -132,71 +135,72 @@ module.exports = {
         res.render('user/otpLogin', { loginPage: false, number: req.session?.user?.user?.phone })
     },
     checkOtp: (req, res) => {
-        // console.log(req?.session?.user);
-        try {
-            let { otp } = req.body;
-            let otpNumber = Number(otp)
-            if (isNaN(otpNumber)) {
-                res.status(406).json({ ok: false, msg: 'invalid otp' })
-            } else {
-                const timeNow = new Date().toLocaleTimeString();
-                let { otp, timer } = req.session?.user?.otp;
-                otp = Number(otp)
-                if (timeNow >= timer) {
-                    // timer expired
-                    res.status(408).json({ ok: false, msg: 'timer is expired resent otp' })
-                    return;
-                }
-                if (otpNumber != otp) {
-                    res.status(406).json({ ok: false, msg: 'incurrect otp' })
-                } else {
-                    if (req.session.user.login) { // if user from login form
-                        res.status(200).json({ ok: true, msg: 'success', user: req.session.user.user })
-                    } else { // user come from (signup) form
+        // // console.log(req?.session?.user);
+        // try {
+        //     let { otp } = req.body;
+        //     let otpNumber = Number(otp)
+        //     if (isNaN(otpNumber)) {
+        //         res.status(406).json({ ok: false, msg: 'invalid otp' })
+        //     } else {
+        //         const timeNow = new Date().toLocaleTimeString();
+        //         let { otp, timer } = req.session?.user?.otp;
+        //         otp = Number(otp)
+        //         if (timeNow >= timer) {
+        //             // timer expired
+        //             res.status(408).json({ ok: false, msg: 'timer is expired resent otp' })
+        //             return;
+        //         }
+        //         if (otpNumber != otp) {
+        //             res.status(406).json({ ok: false, msg: 'incurrect otp' })
+        //         } else {
+        //             if (req.session.user.login) { // if user from login form
+        //                 res.status(200).json({ ok: true, msg: 'success', user: req.session.user.user })
+        //             } else { // user come from (signup) form
 
-                        const { username, email, password, phone } = req.session.user.user
-                        genarateHashPassword(password).then(pass => {
-                            // console.log(username, email, password, phone);
-                            // new User({
-                            //     username,
-                            //     email,
-                            //     phone,
-                            //     password: pass,
-                            //     status: true
-                            // }).save().then(data => {
-                            //     console.log('user created successfully');
-                            //     delete data.password
-                            //     let obj = {
-                            //         user: data,
-                            //         logedin: true,
-                            //         login: false // remember user form login form
-                            //     }
-                            //     req.session.user = obj;
-                            //     req.session.save((res) => {
-                            //         console.log('session rewrited');
-                            //         res.status(200).json({ ok: true, msg: 'success', user: req.session.user.user })
-                            //     })
-                            // }).catch(error => {
-                            //     // bad request
-                            //     console.log(error.message);
-                            //     console.log(1);
-                            // })
-                        })
+        //                 const { username, email, password, phone } = req.session.user.user
+        //                 genarateHashPassword(password).then(pass => {
+        //                     console.log(username, email, password, phone);
+        //                     new User({
+        //                         username,
+        //                         email,
+        //                         phone,
+        //                         password: pass,
+        //                         status: true
+        //                     }).save().then(data => {
+        //                         console.log('user created successfully');
+        //                         delete data.password
+        //                         let obj = {
+        //                             user: data,
+        //                             logedin: true,
+        //                             login: false // remember user form login form
+        //                         }
+        //                         req.session.user = obj;
+        //                         req.session.save((res) => {
+        //                             console.log('session rewrited');
+        //                             res.status(200).json({ ok: true, msg: 'success', user: req.session.user.user })
+        //                         })
+        //                     }).catch(error => {
+        //                         // bad request
+        //                         console.log(error.message);
+        //                         // console.log(1);
+        //                     })
+        //                 })
 
-                    }
-                }
-            }
-        } catch (error) {
-            console.log(error.message);
-        }
+        //             }
+        //         }
+        //     }
+        // } catch (error) {
+        //     console.log(error.message);
+        // }
     },
     viewSingleProduct: (req, res) => {
         const { id } = req.params;
         Product.findById(id).then(product => {
-            Product.find({ category: product.category }).limit(3).then(products => {
-                // console.log(product);
-                res.setHeader('Cache-Control', 'no-store')
-                res.render('user/singleProduct', { product, products, user: req.session.user })
+            WishList.find({ user_id: req.session?.user?.user?._id, product_id: product._id }).then(wishList => {
+                Product.find({ category: product.category }).limit(3).then(products => {
+                    res.setHeader('Cache-Control', 'no-store')
+                    res.render('user/singleProduct', { product, products, user: req.session.user, wishList })
+                })
             })
         })
     },
@@ -222,8 +226,9 @@ module.exports = {
                         let shippingCharges = cart?.reduce((prev, obj) => prev + obj.shippingCharges, 0)
                         let realPrice = cart?.reduce((prev, obj) => prev + (obj.price * obj.count), 0)
                         let cartItemCound = cart?.length
-                        // console.log(cart)
-                        res.render('user/cart', { cart, totalValue, shippingCharges: Math.round(shippingCharges), realPrice, cartItemCound, user: req.session.user })
+                        Coupon.find({ valid_from: { $lt: totalValue }, StartsDate: { $lte: new Date() }, EndsDate: { $gt: new Date() }, user_arr: { $nin: [id] } }).then(coupons => {
+                            res.render('user/cart', { cart, totalValue, shippingCharges: Math.round(shippingCharges), realPrice, cartItemCound, user: req.session.user, coupons })
+                        })
                     })
 
                     req.session.cart = null
@@ -240,7 +245,13 @@ module.exports = {
                     let shippingCharges = result?.reduce((prev, obj) => prev + obj.shippingCharges, 0)
                     let realPrice = result?.reduce((prev, obj) => prev + (obj.price * obj.count), 0)
                     let cartItemCound = result?.length
-                    res.render('user/cart', { cart: result, totalValue, shippingCharges: Math.round(shippingCharges), realPrice, cartItemCound, user: req.session.user })
+
+                    let id = req.session?.user?.user?._id
+                    console.log(req.session?.user?.user?._id)
+
+                    Coupon.find({ valid_from: { $lt: totalValue }, StartsDate: { $lte: new Date() }, EndsDate: { $gte: new Date() }, user_arr: { $nin: [id] } }).then(coupons => {
+                        res.render('user/cart', { cart: result, totalValue, shippingCharges: Math.round(shippingCharges), realPrice, cartItemCound, user: req.session.user, coupons })
+                    })
                 })
             }
         } else {
@@ -260,6 +271,9 @@ module.exports = {
         if (req.session?.user?.logedin) {
             // console.log(id);
             Cart.find({ product_id: ObjectId(id), user_id: ObjectId(req.session.user?.user?._id) }, { name: 1, price: 1, mainImage: 1, discountedPrice: 1, discription: 1 }).then(product => {
+                WishList.deleteOne({ product_id: id }).then(response => {
+                    console.log(response)
+                })
                 if (product.length > 0) {
                     res.status(200).json({ ok: false })
                 } else {
@@ -399,7 +413,9 @@ module.exports = {
     deleteProduct: (req, res) => {
         const { id } = req.body
         if (req.session?.user?.logedin) {
-
+            Cart.deleteOne({ _id: ObjectId(id) }).then(result => {
+                res.status(200).json({ ok: true })
+            })
         } else {
             let cart = req.session?.cart?.filter(obj => obj._id != id)
             req.session.cart = cart
@@ -467,7 +483,34 @@ module.exports = {
     placeOrder: (req, res) => {
         const { address, products, payment_methode } = req.session?.order;
         // console.log(result)
-        if (req.session?.order) {
+        if (req.session?.order != null) {
+            let prop = {
+                code: null,
+                cashBack: null
+            }
+            let { code, cashBack } = req.session?.coupon || prop;
+            console.log(code, cashBack)
+            cashBack = Math.ceil(cashBack / products.length)
+            if (!isNaN(cashBack)) {
+
+                for (let product of products) {
+                    console.log(product.total)
+                    product.total = product.total - cashBack
+                }
+                console.log(products)
+            }
+            console.log(code)
+            Coupon.updateOne({ code }, { $push: { user_arr: req.session?.user?.user?._id } }).then(result => {
+                console.log(result)
+            })
+            req.session.coupon = null
+            req.session.order.product = products;
+            console.log(req.session?.user?.user?._id)
+
+            req.session.save(err => {
+                console.log('session')
+            })
+
             for (let i = 0; i < products.length; i++) {
                 // console.log(req.session?.order?.payment_methode)
                 Product.updateOne({ _id: (products[i].product_id) }, { $inc: { quantity: -products[i].count } }).then(result => {
@@ -477,7 +520,7 @@ module.exports = {
                         user_id: address[0].user_id,
                         user_name: address[0].full_name,
                         product_name: products[i].name,
-                        product_price: Math.round(products[i].discountedPrice * products[i].count),
+                        product_price: products[i].total,
                         product_id: products[i].product_id,
                         product_count: products[i].count,
                         product_shipping_charge: Math.round(products[i].shippingCharges),
@@ -492,6 +535,7 @@ module.exports = {
             let price = products?.reduce((prev, product) => prev + (product.price * product.count), 0)
             let shippingCharges = products?.reduce((prev, product) => prev + product.shippingCharges, 0)
 
+
             res.render('user/placeOrder', {
                 address: req.session.order.address[0],
                 products: req.session.order.products,
@@ -502,10 +546,6 @@ module.exports = {
                 user: req.session.user,
                 date: new Date().toLocaleDateString()
             })
-
-
-
-
             req.session.order = null
             req.session.save(err => {
                 if (!err) {
@@ -532,9 +572,6 @@ module.exports = {
         }
     },
     userProfile: (req, res) => {
-        // Orders.find({ user_id: ObjectId(req.session?.user?.user?._id) }).then(orders => {
-        //     console.log(orders)
-        // })
         Orders.aggregate([
             {
                 $match: {
@@ -554,23 +591,88 @@ module.exports = {
             },
             {
                 $sort: {
-                    order_completed_percentage: -1
+                    createdAt: -1
                 }
             }
         ]).then(order => {
-            res.render('user/userProfile', { logedin: true, user: req.session.user, order })
+            Coupon.find({ user_arr: { $nin: req.session?.user?.user?._id } }).then(coupons => {
+                res.render('user/userProfile', { logedin: true, user: req.session.user, order, coupons })
+            })
         })
     },
     cancelOrder: (req, res) => {
         const { order_id } = req.body
         Orders.updateOne({ _id: ObjectId(order_id) }, { cancel_order: true, order_status: 'cancelled' }).then(result => {
-            console.log(result)
-            res.status(200).json({ ok: false })
+            res.status(200).json({ ok: true })
         })
     },
-    getUserData:(req,res) => {
-        Cart.find({user_id:ObjectId(req.session?.user?.user?._id)}).then(result => {
-            res.status(200).json({cartCount:result.length})
+    getUserData: (req, res) => {
+        Cart.find({ user_id: ObjectId(req.session?.user?.user?._id) }).then(result => {
+            WishList.find({ user_id: req.session?.user?.user?._id }).then(wishList => {
+                res.status(200).json({ cartCount: result.length, wishListCount: wishList.length })
+            })
+        })
+    },
+    tryCouponCode: (req, res) => {
+        const { code } = req.body
+        console.log(code)
+        Coupon.find({ code }).then(result => {
+            console.log(result)
+        })
+    },
+    applyCoupon: (req, res) => {
+        const { code } = req.body
+        Coupon.find({ code }).then(response => {
+            if (response[0]) {
+                req.session.coupon = response[0]
+                res.status(200).json({ ok: true, coupon: response[0] })
+            } else {
+                req.session.coupon = null
+                res.status(200).json({ ok: false })
+            }
+            req.session.save(() => {
+                console.log('session saved')
+            })
+        })
+    },
+    wishLst: (req, res) => {
+        // WishList.find({ user_id: req.session?.user?.user?._id }).then(wishList => {
+        WishList.aggregate([
+            {
+                $match: {
+                    user_id: req.session?.user?.user?._id
+                }
+            }
+        ]).then(wishList => {
+            console.log(wishList)
+            res.render('user/wishList', { wishList, logedin: true, user: req.session.user })
+        })
+
+        // })
+    },
+    addItemFromWishList: (req, res) => {
+        const { id } = req.body
+        Product.findById(id).then(product => {
+            WishList.find({ product_id: product._id }).then(result => {
+                if (result != []) {
+                    new WishList({
+                        user_id: ObjectId(req.session?.user?.user?._id),
+                        product_id: ObjectId(id),
+                        pro_price: product.discountedPrice,
+                        pro_image: product.mainImage,
+                        pro_description: product.discription,
+                        pro_name: product.name
+                    }).save().then(result => {
+                        res.status(200).json({ ok: true })
+                    })
+                }
+            })
+        })
+    },
+    removeItemFromWishList: (req, res) => {
+        const { id } = req.body
+        WishList.deleteOne({ user_id: ObjectId(req.session?.user?.user?._id), product_id: ObjectId(id) }).then(result => {
+            res.status(200).json({ ok: true })
         })
     }
 }

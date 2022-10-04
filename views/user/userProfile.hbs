@@ -54,8 +54,8 @@
                             </h3>
                             <div class="grey-bg container">
                                 <div class="scrolling-wrapper row flex-row flex-nowrap model" style="overflow-x: auto;">
-                                    
-                                    <div class="col-xl-4 col-sm-6 col-12">
+                                    {{#each coupons}}
+                                    <div class="col-xl-4 col-sm-6 col-12 my-3">
                                         <div class="card">
                                             <div class="card-content">
                                                 <div class="card-body">
@@ -63,11 +63,22 @@
                                                         <div class="align-self-center">
                                                             <i class="icon-pencil primary font-large-2 float-left"></i>
                                                         </div>
-                                                        <div class="media-body">
-                                                            <div
-                                                                class="d-flex align-items-center justify-content-between">
-                                                                <h4><strong>RSG2532GW</strong></h4>
-                                                                <span class="badge badge-light">
+                                                        <div class="media-body pt-1">
+                                                            <div class="">
+                                                                <span>coupon valid from:
+                                                                    <span>{{valid_from}}</span></span><br>
+                                                                <span>cash back: <span>{{cashBack}}</span></span><br>
+                                                                <h5 class="d-inline mt-3">
+                                                                    {{!-- {{#if valid}}
+                                                                    <strong>{{code}}</strong>
+                                                                    {{else}}
+                                                                    <del>
+                                                                    <strong>{{code}}</strong>
+                                                                    </del>
+                                                                    {{/if}} --}}
+                                                                    <strong>{{code}}</strong>
+                                                                </h5>
+                                                                <span class="badge badge-light float-right">
                                                                     <strong style="cursor: pointer;">copy</strong>
                                                                 </span>
                                                             </div>
@@ -77,6 +88,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {{/each}}
 
                                 </div>
                             </div>
@@ -140,7 +152,7 @@
                                                             aria-valuemax="100">
                                                         </div>
                                                         {{else}}
-                                                        <div class="progress-bar rounded"
+                                                        <div class="progress-bar rounded {{_id}}"
                                                             style="width: {{order_completed_percentage}}%;"
                                                             role="progressbar" aria-valuenow="25" aria-valuemin="0"
                                                             aria-valuemax="100">
@@ -167,6 +179,7 @@
     .scrolling-wrapper::-webkit-scrollbar {
         display: none;
     }
+
     .media-body h3 {
         margin: 0;
     }
@@ -174,15 +187,18 @@
 
 <script>
     function cancelOrder(e) {
-        console.log(e)
         const order_id = e.getAttribute('order-id');
+        let selecter = document.getElementsByClassName(order_id)[0]
+
         fetch('/user/cancelOrder', {
             method: 'PATCH',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ order_id }),
         }).then(res => res.json()).then(res => {
-
+            e.setAttribute('disabled', true)
+            e.innerText = "cancelled"
+            selecter.style.backgroundColor = "#aec9f6"
         })
     }
 

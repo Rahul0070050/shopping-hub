@@ -13,9 +13,9 @@
                                     id="coupon-valid-upto" maxlength="2">
                             </div>
                             <div class="form-group mt-4">
-                                <label for="exampleInputEmail1">add (%)percentage of discount</label>
-                                <input placeholder="enter percentage" type="number" class="form-control form-control-sm"
-                                    id="discountPercentage" maxlength="2">
+                                <label for="exampleInputEmail1">add cashBack</label>
+                                <input placeholder="enter cashBack" type="number" class="form-control form-control-sm"
+                                    id="cashBack" maxlength="2">
                             </div>
                             <div class="form-group">
                                 <label for="starts date">starts date</label>
@@ -39,18 +39,18 @@
                 <thead>
                     <tr>
                         <th>coupon code</th>
-                        <th>off</th>
+                        <th>cash back</th>
                         <th>starts date</th>
                         <th>ends date</th>
                         <th>valid from</th>
-                        <th>is taken</th>
+                        <th>is valid</th>
                     </tr>
                 </thead>
                 <tbody id="table-body">
                     {{#each coupons}}
                     <tr id="{{_id}}">
                         <td><strong>{{code}}</strong></td>
-                        <td><strong>{{discountPercentage}}%</strong></td>
+                        <td><strong>{{cashBack}}</strong></td>
                         <td><strong>{{StartsDate}}</strong></td>
                         <td><strong>{{EndsDate}}</strong></td>
                         <td><strong>{{valid_from}}</strong></td>
@@ -86,16 +86,16 @@
         e.preventDefault()
         const startsDate = document.getElementById('startsDate').value
         const endsDate = document.getElementById('endsDate').value
-        const discountPercentage = document.getElementById('discountPercentage').value
+        const cashBack = document.getElementById('cashBack').value
         const valid_from = document.getElementById('coupon-valid-upto').value
-        if (!startsDate || !endsDate || !discountPercentage) {
+        if (!startsDate || !endsDate || !cashBack) {
             alert('invalid data')
             return
         }
         const data = {
             startsDate,
             endsDate,
-            discountPercentage,
+            cashBack,
             valid_from
         }
         console.log(data)
@@ -108,9 +108,9 @@
             console.log(res)
             let chiled = `<tr>
                             <td><strong>${res.result.code}</strong></td>
-                            <td><strong>${res.result.discountPercentage}%</strong></td>
-                            <td><strong>${res.result.StartsDate}</strong></td>
-                            <td><strong>${res.result.EndsDate}</strong></td>
+                            <td><strong>${res.result.cashBack}</strong></td>
+                            <td><strong>${new Date(res.result.StartsDate).toLocaleDateString()}</strong></td>
+                            <td><strong>${new Date(res.result.EndsDate).toLocaleDateString()}</strong></td>
                             <td><strong>${res.result.valid_from}</strong></td>
                             <td><strong>no</strong></td>
                             <th class="text-center"><button class="btn btn-danger">delete</button></th>

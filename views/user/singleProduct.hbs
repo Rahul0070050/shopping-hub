@@ -40,10 +40,17 @@
                                 </div>
                             </div>
                             <p class="about">{{product.discription}}</p>
-                            <div class="cart mt-4 align-items-center" style="margin-top: 3rem !important;">
-                                <button class="btn btn-danger text-uppercase mr-2 px-4" onclick="addToCart(`{{product._id}}`)">Add to cart</button>
-                                <button class="btn btn-danger text-uppercase mr-2 px-4">Add to Wish List</button>
-                                <i class="fa fa-share-alt text-muted ml-2"></i>
+                            <div class="cart mt-4 align-items-cente" id="btn-container"
+                                style="margin-top: 3rem !important;">
+                                <button class="btn btn-danger text-uppercase mr-2 px-4"
+                                    onclick="addToCart(`{{product._id}}`)">Add to cart</button>
+                                {{#if wishList}}
+                                <button class="btn btn-danger text-uppercase mr-2 px-4" id="{{product._id}}"
+                                    onclick="removeFromWishlist(`{{product._id}}`)">remove from Wish List</button>
+                                {{else}}
+                                <button class="btn btn-danger text-uppercase mr-2 px-4" id="{{product._id}}"
+                                    onclick="addToWishList(`{{product._id}}`)">Add to Wish List</button>
+                                {{/if}}
                             </div>
                         </div>
                     </div>
@@ -100,6 +107,35 @@
 </div>
 <script>
 
+    function removeFromWishlist(id) {
+        const btn = document.getElementById(id)
+        const btnContainer = document.getElementById('btn-container')
+        fetch('/user/removeFromWishList', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id }),
+        }).then(res => res.json()).then(res => {
+            btnContainer.removeChild(btn)
+            btnContainer.innerHTML += `<button class="btn btn-danger text-uppercase mr-2 px-4" id="${id}"
+                                    onclick="addToWishList('${id}')">Add to Wish List</button>`
+        })
+    }
+    function addToWishList(id) {
+        const btn = document.getElementById(id)
+        const btnContainer = document.getElementById('btn-container')
+        fetch('/user/addWishList', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id }),
+        }).then(res => res.json()).then(res => {
+            btnContainer.removeChild(btn)
+            btnContainer.innerHTML += `<button class="btn btn-danger text-uppercase mr-2 px-4" id="${id}"
+                                    onclick="removeFromWishlist('${id}')">remove from Wish List</button>`
+        })
+    }
+
     function change_image(image) {
         var container = document.getElementById("main-image");
 
@@ -108,15 +144,7 @@
 
 
 
-    document.addEventListener("DOMContentLoaded", function (event) {
-
-
-
-
-
-
-
-    });
+    document.addEventListener("DOMContentLoaded", function (event) {});
 
 
     function addToCart(id) {

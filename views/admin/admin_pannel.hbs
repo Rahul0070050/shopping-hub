@@ -15,7 +15,7 @@
                     </div>
                     <a href="/admin/users">
                         <div class="ml-4">
-                            <h2 class="font-semibold">574 Users</h2>
+                            <h2 class="font-semibold">{{allUsers}} Users</h2>
                             <p class="text-sm text-gray-500">Last opened 4 days ago</p>
                         </div>
                     </a>
@@ -33,7 +33,7 @@
 
                     <a href="/admin/getProduct">
                         <div class="ml-4">
-                            <h2 class="font-semibold">1823 Products</h2>
+                            <h2 class="font-semibold">{{productCount}} Products</h2>
                             <p class="mt-2 text-sm text-gray-500">Last checked 3 days ago</p>
                         </div>
                     </a>
@@ -49,7 +49,7 @@
                     </div>
                     <a href="/admin/orders">
                         <div class="ml-4">
-                            <h2 class="font-semibold">548 Orders</h2>
+                            <h2 class="font-semibold">{{ordersCount}} Orders</h2>
                             <p class="mt-2 text-sm text-gray-500">Last authored 1 day ago</p>
                         </div>
                     </a>
@@ -66,7 +66,7 @@
 
                     <a href="/admin/transactions">
                         <div class="ml-4">
-                            <h2 class="font-semibold">129 Transactions</h2>
+                            <h2 class="font-semibold">{{transactions}} Transactions</h2>
                             <p class="mt-2 text-sm text-gray-500">Last commented 8 days ago</p>
                         </div>
                     </a>
@@ -74,18 +74,16 @@
             </div>
         </div>
     </section>
-    <section class="bg-white py-5">
-        <div class="container my-5">
-            <div class="row d-flex align-items-md-stretch">
-                <!-- To Do List-->
-                <div class="col-lg-6 col-lg-12">
-                    <div class="card shadow-0">
-                        <h2 class="h3 fw-normal">Sales marketing report</h2>
-                        <p class="text-sm text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor
-                            amet officiis</p>
-                        <canvas id="lineCahrt"></canvas>
-                    </div>
+    <section class="bg-white py-5 mx-3">
+        <div class="row">
+            <div class="col-lg-7">
+                <canvas id="bar-chart"></canvas>
+            </div>
+            <div class="col-lg-5">
+                <div class="my-6 py-5">
+                    <div class="my-4"></div>
                 </div>
+                <canvas id="circle-chart"></canvas>
             </div>
         </div>
     </section>
@@ -94,100 +92,213 @@
 </div>
 
 <script>
-    // ------------------------------------------------------- //
-    //   Inject SVG Sprite - 
-    //   see more here 
-    //   https://css-tricks.com/ajaxing-svg-sprite/
-    // ------------------------------------------------------ //
-    function injectSvgSprite(path) {
+    let monthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    let monthlyProfit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    let weekly = [0, 0, 0, 0, 0, 0, 0]
 
-        var ajax = new XMLHttpRequest();
-        ajax.open("GET", path, true);
-        ajax.send();
-        ajax.onload = function (e) {
-            var div = document.createElement("div");
-            div.className = 'd-none';
-            div.innerHTML = ajax.responseText;
-            document.body.insertBefore(div, document.body.childNodes[0]);
-        }
-    }
-    // this is set to BootstrapTemple website as you cannot 
-    // inject local SVG sprite (using only 'icons/orion-svg-sprite.svg' path)
-    // while using file:// protocol
-    // pls don't forget to change to your domain :)
-    injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg');
+    let weekName = ["Sunday", "Monday", "Tuesday", "WednesDay", "Thursday", "Friday", "Saturday"]
+    let barChart = document.getElementById("bar-chart").getContext('2d')
+    let circleChart = document.getElementById("circle-chart").getContext('2d')
 
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('/admin/getChardData', {
+            method: 'get',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' }
+        }).then(res => res.json()).then(res => {
+            let { data, weeklyReport } = res;
+            console.log(weeklyReport)
+            for (i = 0; i < data.length; ++i) {
 
-    "use strict";
-    document.addEventListener("DOMContentLoaded", function () {
-        // Main Template Color
-        var brandPrimary = "#33b35a";
+                switch (data[i].month) {
+                    case 1:
+                        monthlyProfit[0] = data[i].total
+                        break;
+                    case 2:
+                        monthlyProfit[1] = data[i].total
+                        break;
+                    case 3:
+                        monthlyProfit[2] = data[i].total
+                        break;
+                    case 4:
+                        monthlyProfit[3] = data[i].total
+                        break;
+                    case 5:
+                        monthlyProfit[4] = data[i].total
+                        break;
+                    case 6:
+                        monthlyProfit[5] = data[i].total
+                        break;
+                    case 7:
+                        monthlyProfit[6] = data[i].total
+                        break;
+                    case 8:
+                        monthlyProfit[7] = data[i].total
+                        break;
+                    case 9:
+                        monthlyProfit[8] = data[i].total
+                        break;
+                    case 10:
+                        monthlyProfit[9] = data[i].total
+                        break;
+                    case 11:
+                        monthlyProfit[10] = data[i].total
+                        break;
+                    case 12:
+                        monthlyProfit[11] = data[i].total
+                        break;
+                }
+            }
+            console.log(monthlyProfit)
+            const months = monthName;
 
-        // ------------------------------------------------------- //
-        // Line Chart
-        // ------------------------------------------------------ //
-        var LINECHART = document.getElementById("lineCahrt");
-        var myLineChart = new Chart(LINECHART, {
-            type: "line",
-            options: {
-                legend: {
-                    display: false,
-                },
-            },
-            data: {
-                labels: ["Jan", "Feb", "Mar", "Apr", "May", "June", "July"],
-                datasets: [
-                    {
-                        label: "My First dataset",
-                        fill: true,
-                        lineTension: 0.3,
-                        backgroundColor: "rgba(77, 193, 75, 0.4)",
-                        borderColor: brandPrimary,
-                        borderCapStyle: "butt",
-                        borderDash: [],
-                        borderDashOffset: 0.0,
-                        borderJoinStyle: "miter",
-                        borderWidth: 1,
-                        pointBorderColor: brandPrimary,
-                        pointBackgroundColor: "#fff",
-                        pointBorderWidth: 1,
-                        pointHoverRadius: 5,
-                        pointHoverBackgroundColor: brandPrimary,
-                        pointHoverBorderColor: "rgba(220,220,220,1)",
-                        pointHoverBorderWidth: 2,
-                        pointRadius: 1,
-                        pointHitRadius: 0,
-                        data: [50, 20, 60, 31, 12, 22, 40],
-                        spanGaps: false,
-                    },
-                    {
-                        label: "My First dataset",
-                        fill: true,
-                        lineTension: 0.3,
-                        backgroundColor: "rgba(75,192,192,0.4)",
-                        borderColor: "rgba(75,192,192,1)",
-                        borderCapStyle: "butt",
-                        borderDash: [],
-                        borderDashOffset: 0.0,
-                        borderJoinStyle: "miter",
-                        borderWidth: 1,
-                        pointBorderColor: "rgba(75,192,192,1)",
-                        pointBackgroundColor: "#fff",
-                        pointBorderWidth: 1,
-                        pointHoverRadius: 5,
-                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                        pointHoverBorderColor: "rgba(220,220,220,1)",
-                        pointHoverBorderWidth: 2,
-                        pointRadius: 1,
-                        pointHitRadius: 10,
-                        data: [65, 59, 30, 81, 46, 55, 30],
-                        spanGaps: false,
-                    }
-                ],
-            },
-        });
-    });
+            const data1 = {
+                labels: months,
+                datasets: [{
+                    label: 'Monthly sales',
+                    backgroundColor: "blue",
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: monthlyProfit,
+                }]
+            };
+
+            const monthlyconfig = {
+                type: 'bar',
+                data: data1,
+                options: {}
+            };
+            let chart1 = new Chart(barChart, monthlyconfig)
 
 
+
+            for (i = 0; i < weeklyReport.length; ++i) {
+
+                switch (weeklyReport[i].date) {
+
+                    case 1:
+                        weekly[0] = weeklyReport[i].total
+                        break;
+                    case 2:
+                        weekly[1] = weeklyReport[i].total
+                        break;
+                    case 3:
+                        weekly[2] = weeklyReport[i].total
+                        break;
+                    case 4:
+                        weekly[3] = weeklyReport[i].total
+                        break;
+                    case 5:
+                        weekly[4] = weeklyReport[i].total
+                        break;
+                    case 6:
+                        weekly[5] = weeklyReport[i].total
+                        break;
+                    case 7: weekly[6] = weeklyReport[i].total
+                        break;
+                }
+            }
+
+            //weekly sales
+            const labels = weekName;
+
+            const data2 = {
+                labels: labels,
+                datasets: [{
+                    label: 'Weekly sales',
+                    backgroundColor: 'green',
+                    borderColor: 'green',
+                    data: weekly,
+                }]
+            };
+
+            const config = {
+                type: 'line',
+                data: data2,
+                options: {}
+            };
+
+            let chart2 = new Chart(circleChart, config)
+
+
+
+        })
+    })
+
+    console.log(barChart)
+    // const configBar = {
+    //     type: 'bar',
+    //     data: {
+    //         labels: [
+    //             'January',
+    //             'February',
+    //             'March',
+    //             'April',
+    //             'May',
+    //             'June',
+    //             'July',
+    //             'August',
+    //             'September',
+    //             'October',
+    //             'November',
+    //             'December'
+    //         ],
+    //         datasets: [{
+    //             label: 'haai',
+    //             data: [123, 123, 345, 32, 123, 36, 123, 123, 36, 123, 36, 123]
+    //         }],
+    //         backgroundColor: [
+    //             'rgba(255, 99, 132, 0.2)',
+    //             'rgba(255, 159, 64, 0.2)',
+    //             'rgba(255, 205, 86, 0.2)',
+    //             'rgba(75, 192, 192, 0.2)',
+    //             'rgba(54, 162, 235, 0.2)',
+    //             'rgba(153, 102, 255, 0.2)',
+    //             'rgba(201, 203, 207, 0.2)',
+    //             'rgba(255, 99, 132, 0.2)',
+    //             'rgba(255, 159, 64, 0.2)',
+    //             'rgba(255, 205, 86, 0.2)',
+    //             'rgba(153, 102, 255, 0.2)',
+    //             'rgba(201, 203, 207, 0.2)',
+    //         ],
+    //         borderColor: [
+    //             'rgba(255, 99, 132, 0.2)',
+    //             'rgba(255, 159, 64, 0.2)',
+    //             'rgba(255, 205, 86, 0.2)',
+    //             'rgba(75, 192, 192, 0.2)',
+    //             'rgba(54, 162, 235, 0.2)',
+    //             'rgba(153, 102, 255, 0.2)',
+    //             'rgba(201, 203, 207, 0.2)',
+    //             'rgba(255, 99, 132, 0.2)',
+    //             'rgba(255, 159, 64, 0.2)',
+    //             'rgba(255, 205, 86, 0.2)',
+    //             'rgba(153, 102, 255, 0.2)',
+    //             'rgba(201, 203, 207, 0.2)',
+    //         ],
+    //     }
+    // };
+
+    // const configSircle = {
+        // type: 'line',
+        // data: {
+        //     labels: [
+        //         'January',
+        //         'February',
+        //         'March',
+        //         'April',
+        //         'May',
+        //         'June',
+        //         'July',
+        //         'August',
+        //         'September',
+        //         'October',
+        //         'November',
+        //         'December'
+        //     ],
+        //     datasets: [{
+        //         label: 'haai',
+        //         data: [123, 123, 345, 32, 123, 36, 123, 123, 36, 123, 36, 123]
+        //     }],
+        // }
+    // };
 
 </script>

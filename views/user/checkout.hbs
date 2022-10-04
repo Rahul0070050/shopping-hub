@@ -18,7 +18,7 @@
                                 </div>
 
                                 <div class="md:col-span-5">
-                                    <label for="email">address</label>
+                                    <label for="email">email</label>
                                     <input type="text" name="email" id="email"
                                         class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value=""
                                         placeholder="email@domain.com" />
@@ -224,11 +224,13 @@
     const defaultAddress = document?.getElementsByClassName('address-list')[0]
 
     const total = document.getElementById('total-cost').value
-    let address = defaultAddress.getAttribute('add-id')
+    let address = defaultAddress?.getAttribute('add-id')
     console.log(defaultAddress)
 
-    defaultAddress.children[1].children[0].classList.add("btn-dark")
-    defaultAddress.children[1].children[0].innerText = "selected"
+    if (defaultAddress != null) {
+        defaultAddress?.children[1]?.children[0]?.classList?.add("btn-dark")
+        defaultAddress.children[1].children[0].innerText = "selected"
+    }
 
     addressTab.style.display = "none"
 
@@ -365,7 +367,7 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ response, order }),
             }).then(res => res.json()).then(res => {
-                if(res.ok) {
+                if (res.ok) {
                     const a = document.createElement('a')
                     a.setAttribute('href', '/user/placeOrder')
                     a.click()

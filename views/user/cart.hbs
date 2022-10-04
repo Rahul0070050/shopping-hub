@@ -92,14 +92,17 @@
 
                                         <hr class="my-4">
 
-                                        <div class="input-group d-flex justify-content-between aligne-items-center my-4" style="width: 100%;">
-                                            <div class="form-outline" style="width: 80%;">
-                                                <input type="search" id="coupon_code" class="form-control bg-white" style="width: 100% !important;" />
-                                                <label class="form-label text-dark" for="form1">coupon code</label>
-                                            </div>
-                                            <button type="button" class="btn btn-dark" style="width: 20%;" id="coupon_code_btn">
-                                                add
-                                            </button>
+                                        <div
+                                            class="mb-3 input-group d-flex justify-content-between aligne-items-center mt-4">
+                                            <select class="form-select" id="coupon-code"
+                                                aria-label="Default select example">
+                                                <option selected>select a coupon</option>
+                                                {{#each coupons}}
+                                                <option value="{{code}}">{{code}}</option>
+                                                {{/each }}
+                                            </select>
+                                        </div>
+                                        <div class="mb-3" id="cashBach-price">
                                         </div>
                                         {{#if cart}}
                                         <a href="/user/checkOut" class="text-white">
@@ -177,6 +180,54 @@
 
 
 <script>
+
+
+    const realPrice = document.getElementById('real-price');
+    const shipping = document.getElementById('shipping');
+    const totalValue = document.getElementById('total-value');
+    const checkOut = document.getElementById('checke-out');
+
+    let real = realPrice.innerText
+    let total = totalValue.innerText
+
+    document.getElementById('coupon-code').addEventListener('change', (e) => {
+        fetch('/user/applyCoupon', {
+            body: JSON.stringify({ code: e.target.value }),
+            method: 'post',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' }
+        }).then(res => res.json()).then(res => {
+            if (res.ok) {
+
+                document.getElementById('cashBach-price').innerHTML = `<span>cash Back: ${res.coupon.cashBack}</span>`
+                let cash = res.coupon.cashBack
+                realPrice.innerText = Number(real) - cash
+                totalValue.innerText = Number(total) - cash
+                checkOut.innerText = Number(total) - cash
+            } else {
+                document.getElementById('cashBach-price').innerHTML = ''
+                realPrice.innerText = real
+                totalValue.innerText = total
+                checkOut.innerText = real
+            }
+        })
+    })
+
+    function checkCouponCode() {
+        const code = document.getElementById('coupon_code').value
+        if (!code) {
+            swal('enter coupon code')
+            return;
+        }
+        fetch('/user/tryCoupon', {
+            method: 'post',
+            body: JSON.stringify({ code }),
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' }
+        }).then(res => res.json()).then(res => {
+            console.log(res)
+        })
+    }
     function addCouponCode(e) {
         e.preventDefault()
         const coupon_code = document.getElementById('coupon_code')
@@ -185,10 +236,6 @@
         coupon_code_btn.removeAttribute('disabled')
 
     }
-    const realPrice = document.getElementById('real-price');
-    const shipping = document.getElementById('shipping');
-    const totalValue = document.getElementById('total-value');
-    const sheckOut = document.getElementById('checke-out');
     function deleteProductFromCart(id) {
         fetch('/user/cart/delete', {
             method: 'post',
@@ -219,7 +266,7 @@
 
                 realPrice.innerHTML = `${temp_realPrice}`
                 totalValue.innerText = `${temp_totalPrice}`
-                sheckOut.innerText = `${temp_totalPrice}`
+                checkOut.innerText = `${temp_totalPrice}`
             } else {
 
                 document.getElementById(id).innerText = res.item.count
@@ -227,7 +274,7 @@
 
                 realPrice.innerText = `${res.realPrice}`
                 totalValue.innerText = `${res.totalValue}`
-                sheckOut.innerText = `${res.totalValue}`
+                checkOut.innerText = `${res.totalValue}`
             }
 
         })
@@ -257,7 +304,7 @@
 
                     realPrice.innerHTML = `${temp_realPrice}`
                     totalValue.innerText = `${temp_totalPrice}`
-                    sheckOut.innerText = `${temp_totalPrice}`
+                    checkOut.innerText = `${temp_totalPrice}`
                 } else {
                     document.getElementById(id).innerText = res.item.count
                     document.getElementById(`${id}price`).innerText = `₹ ${res.item.total}`
@@ -267,7 +314,7 @@
                     shipping.innerText = `${res.shippingCharges}`
                     realPrice.innerText = `${res.realPrice}`
                     totalValue.innerText = `${res.totalValue}`
-                    sheckOut.innerText = `${res.totalValue}`
+                    checkOut.innerText = `${res.totalValue}`
                 }
             })
         }
