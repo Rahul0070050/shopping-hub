@@ -4,6 +4,14 @@
     <input class="check-box"  type="checkbox" checked>
     <label>otp login for user with timer and resend </label>
 <div>
+<div>
+    <input class="check-box"  type="checkbox" >
+    <label>project testing</label>
+<div>
+<div>
+    <input class="check-box"  type="checkbox" >
+    <label>bug fixing</label>
+<div>
 <br>
 <div>
     <div>
@@ -76,22 +84,47 @@
 <br/>
 
 > user updates week 10
-<div style="margin-left: 1rem">
+<div style="margin-left: 2rem">
         <input type="checkbox" class="check-box" checked/>
         <label>add address adding page - as popup window</label>
     </div>
-        <div style="margin-left: 1rem">
+    <div style="margin-left: 2rem">
         <input type="checkbox" checked class="check-box" />
         <label>remove order confirmation page</label>
     </div>
-    <div style="margin-left: 1rem">
+    <div style="margin-left: 2rem">
         <input  type="checkbox"  class="check-box" checked  />
-        <label>redirect option to order history from payment success page</label>
+        <label>redirect option to home page from payment success page</label>
     </div>
-</div>
 <br>
-<div>
 
+> user updates week 11
+<div style="">
+    <input  type="checkbox"  class="check-box" />
+    <label>add addressin user profile page</label>
+</div>
+<div style="">
+    <input  type="checkbox"  class="check-box" />
+    <label>add separate for orders list</label>
+</div>
+<div style="">
+    <input  type="checkbox"  class="check-box" />
+    <label>add 2 more graph in admin page</label>
+</div>
+<div style="">
+    <input  type="checkbox"  class="check-box" />
+    <label>add valet</label>
+</div>
+<div style="">
+    <input  type="checkbox"  class="check-box" />
+    <label>order history page</label>
+</div>
+<div style="">
+    <input  type="checkbox"  class="check-box" />
+    <label>add coupon detailse in the order success page</label>
+</div>
+
+<br>
 <div style="margin-left:-30px">
     <input class="check-box" type="checkbox" checked>
     <label value="hi">Admin</label>
@@ -153,13 +186,26 @@
 <br/>
 
 > week 10
+<br/>
+
 
 <div>
-    <input class="check-box"
+    <input class="check-box"  
+    style="margin-left: 1rem"
     checked
     type="checkbox">
     <label value="hi">Order management - both user and admin side</label>
 <div>
+
+<br/>
+
+> week 11
+
+
+<div>
+    <input class="check-box" 
+    type="checkbox">
+    <label value="hi">add two graphs</label>
 </div>
 
 <style>

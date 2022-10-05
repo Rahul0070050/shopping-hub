@@ -135,428 +135,413 @@ module.exports = {
         res.render('user/otpLogin', { loginPage: false, number: req.session?.user?.user?.phone })
     },
     checkOtp: (req, res) => {
-        // // console.log(req?.session?.user);
-        // try {
-        //     let { otp } = req.body;
-        //     let otpNumber = Number(otp)
-        //     if (isNaN(otpNumber)) {
-        //         res.status(406).json({ ok: false, msg: 'invalid otp' })
-        //     } else {
-        //         const timeNow = new Date().toLocaleTimeString();
-        //         let { otp, timer } = req.session?.user?.otp;
-        //         otp = Number(otp)
-        //         if (timeNow >= timer) {
-        //             // timer expired
-        //             res.status(408).json({ ok: false, msg: 'timer is expired resent otp' })
-        //             return;
-        //         }
-        //         if (otpNumber != otp) {
-        //             res.status(406).json({ ok: false, msg: 'incurrect otp' })
-        //         } else {
-        //             if (req.session.user.login) { // if user from login form
-        //                 res.status(200).json({ ok: true, msg: 'success', user: req.session.user.user })
-        //             } else { // user come from (signup) form
+        try {
 
-        //                 const { username, email, password, phone } = req.session.user.user
-        //                 genarateHashPassword(password).then(pass => {
-        //                     console.log(username, email, password, phone);
-        //                     new User({
-        //                         username,
-        //                         email,
-        //                         phone,
-        //                         password: pass,
-        //                         status: true
-        //                     }).save().then(data => {
-        //                         console.log('user created successfully');
-        //                         delete data.password
-        //                         let obj = {
-        //                             user: data,
-        //                             logedin: true,
-        //                             login: false // remember user form login form
-        //                         }
-        //                         req.session.user = obj;
-        //                         req.session.save((res) => {
-        //                             console.log('session rewrited');
-        //                             res.status(200).json({ ok: true, msg: 'success', user: req.session.user.user })
-        //                         })
-        //                     }).catch(error => {
-        //                         // bad request
-        //                         console.log(error.message);
-        //                         // console.log(1);
-        //                     })
-        //                 })
+        } catch (error) {
 
-        //             }
-        //         }
-        //     }
-        // } catch (error) {
-        //     console.log(error.message);
-        // }
+        }
     },
     viewSingleProduct: (req, res) => {
-        const { id } = req.params;
-        Product.findById(id).then(product => {
-            WishList.find({ user_id: req.session?.user?.user?._id, product_id: product._id }).then(wishList => {
-                Product.find({ category: product.category }).limit(3).then(products => {
-                    res.setHeader('Cache-Control', 'no-store')
-                    res.render('user/singleProduct', { product, products, user: req.session.user, wishList })
+        try {
+            const { id } = req.params;
+            Product.findById(id).then(product => {
+                WishList.find({ user_id: req.session?.user?.user?._id, product_id: product._id }).then(wishList => {
+                    Product.find({ category: product.category }).limit(3).then(products => {
+                        res.setHeader('Cache-Control', 'no-store')
+                        res.render('user/singleProduct', { product, products, user: req.session.user, wishList })
+                    })
                 })
             })
-        })
+        } catch (error) {
+
+        }
     },
     getCart: (req, res) => {
-        if (req.session?.user?.logedin) {
-            if (req.session?.cart) {
+        try {
+            if (req.session?.user?.logedin) {
+                if (req.session?.cart) {
 
-                let cart = req.session?.cart
-                let product = [];
+                    let cart = req.session?.cart
+                    let product = [];
 
-                for (let i = 0; i < cart.length; i++) {
-                    // console.log(cart[i]._id)
-                    product[i] = { ...cart[i], user_id: req.session?.user?.user?._id, product_id: cart[i]._id };
-                    delete product[i]._id
-                }
+                    for (let i = 0; i < cart.length; i++) {
+                        // console.log(cart[i]._id)
+                        product[i] = { ...cart[i], user_id: req.session?.user?.user?._id, product_id: cart[i]._id };
+                        delete product[i]._id
+                    }
 
-                console.log('befor inserting cart to db')
-                Cart.insertMany(product).then((result) => {
+                    console.log('befor inserting cart to db')
+                    Cart.insertMany(product).then((result) => {
 
 
-                    Cart.find({ user_id: ObjectId(req.session?.user?.user?._id) }).then(cart => {
-                        let totalValue = cart?.reduce((prev, obj) => prev + obj.total, 0)
-                        let shippingCharges = cart?.reduce((prev, obj) => prev + obj.shippingCharges, 0)
-                        let realPrice = cart?.reduce((prev, obj) => prev + (obj.price * obj.count), 0)
-                        let cartItemCound = cart?.length
-                        Coupon.find({ valid_from: { $lt: totalValue }, StartsDate: { $lte: new Date() }, EndsDate: { $gt: new Date() }, user_arr: { $nin: [id] } }).then(coupons => {
-                            res.render('user/cart', { cart, totalValue, shippingCharges: Math.round(shippingCharges), realPrice, cartItemCound, user: req.session.user, coupons })
+                        Cart.find({ user_id: ObjectId(req.session?.user?.user?._id) }).then(cart => {
+                            let totalValue = cart?.reduce((prev, obj) => prev + obj.total, 0)
+                            let shippingCharges = cart?.reduce((prev, obj) => prev + obj.shippingCharges, 0)
+                            let realPrice = cart?.reduce((prev, obj) => prev + (obj.price * obj.count), 0)
+                            let cartItemCound = cart?.length
+                            let id = req.session?.user?.user?._id
+                            Coupon.find({ valid_from: { $lt: totalValue }, StartsDate: { $lte: new Date() }, EndsDate: { $gt: new Date() }, user_arr: { $nin: [id] } }).then(coupons => {
+                                res.render('user/cart', { cart, totalValue, shippingCharges: Math.round(shippingCharges), realPrice, cartItemCound, user: req.session.user, coupons })
+                            })
+                        })
+
+                        req.session.cart = null
+                        req.session.save(err => {
+                            if (!err) {
+                                console.log('cart removed from session');
+                            }
+                        })
+
+                    })
+                } else {
+                    Cart.find({ user_id: ObjectId(req.session?.user?.user?._id) }).then(result => {
+                        let totalValue = result?.reduce((prev, obj) => prev + obj.total, 0)
+                        let shippingCharges = result?.reduce((prev, obj) => prev + obj.shippingCharges, 0)
+                        let realPrice = result?.reduce((prev, obj) => prev + (obj.price * obj.count), 0)
+                        let cartItemCound = result?.length
+
+                        let id = req.session?.user?.user?._id
+                        console.log(req.session?.user?.user?._id)
+
+                        Coupon.find({ valid_from: { $lt: totalValue }, StartsDate: { $lte: new Date() }, EndsDate: { $gte: new Date() }, user_arr: { $nin: [id] } }).then(coupons => {
+                            res.render('user/cart', { cart: result, totalValue, shippingCharges: Math.round(shippingCharges), realPrice, cartItemCound, user: req.session.user, coupons })
                         })
                     })
-
-                    req.session.cart = null
-                    req.session.save(err => {
-                        if (!err) {
-                            console.log('cart removed from session');
-                        }
-                    })
-
-                })
+                }
             } else {
-                Cart.find({ user_id: ObjectId(req.session?.user?.user?._id) }).then(result => {
-                    let totalValue = result?.reduce((prev, obj) => prev + obj.total, 0)
-                    let shippingCharges = result?.reduce((prev, obj) => prev + obj.shippingCharges, 0)
-                    let realPrice = result?.reduce((prev, obj) => prev + (obj.price * obj.count), 0)
-                    let cartItemCound = result?.length
-
-                    let id = req.session?.user?.user?._id
-                    console.log(req.session?.user?.user?._id)
-
-                    Coupon.find({ valid_from: { $lt: totalValue }, StartsDate: { $lte: new Date() }, EndsDate: { $gte: new Date() }, user_arr: { $nin: [id] } }).then(coupons => {
-                        res.render('user/cart', { cart: result, totalValue, shippingCharges: Math.round(shippingCharges), realPrice, cartItemCound, user: req.session.user, coupons })
-                    })
-                })
+                let totalValue = req?.session?.cart?.reduce((prev, obj) => prev + obj.total, 0)
+                let shippingCharges = req?.session?.cart?.reduce((prev, obj) => prev + obj.shippingCharges, 0)
+                let realPrice = req?.session?.cart?.reduce((prev, obj) => prev + (obj.price * obj.count), 0)
+                let cartItemCound = req?.session?.cart?.length
+                res.render('user/cart', { cart: req?.session?.cart, totalValue, shippingCharges: Math.round(shippingCharges), realPrice, cartItemCound, user: req.session.user })
             }
-        } else {
-            let totalValue = req?.session?.cart?.reduce((prev, obj) => prev + obj.total, 0)
-            let shippingCharges = req?.session?.cart?.reduce((prev, obj) => prev + obj.shippingCharges, 0)
-            let realPrice = req?.session?.cart?.reduce((prev, obj) => prev + (obj.price * obj.count), 0)
-            let cartItemCound = req?.session?.cart?.length
-            res.render('user/cart', { cart: req?.session?.cart, totalValue, shippingCharges: Math.round(shippingCharges), realPrice, cartItemCound, user: req.session.user })
+        } catch (error) {
+
         }
+
     },
     logout: (req, res) => {
         req.session.destroy()
         res.redirect('/')
     },
     addToCart: async (req, res) => {
-        const { id } = req.body
-        if (req.session?.user?.logedin) {
-            // console.log(id);
-            Cart.find({ product_id: ObjectId(id), user_id: ObjectId(req.session.user?.user?._id) }, { name: 1, price: 1, mainImage: 1, discountedPrice: 1, discription: 1 }).then(product => {
-                WishList.deleteOne({ product_id: id }).then(response => {
-                    console.log(response)
-                })
-                if (product.length > 0) {
-                    res.status(200).json({ ok: false })
-                } else {
-                    Product.findById(id).then(item => {
-                        new Cart({
-                            name: item.name,
-                            price: item.price,
-                            discription: item.discription,
-                            mainImage: item.mainImage,
-                            discountedPrice: item.discountedPrice,
-                            count: 1,
-                            total: item.discountedPrice * 1,
-                            shippingCharges: Math.round(0.02 * item.discountedPrice),
-                            user_id: req.session.user?.user?._id,
-                            product_id: item._id
-                        }).save().then(result => {
-                            if (result) {
-                                res.status(200).json({ ok: true })
-                            }
-                        })
+        try {
+            const { id } = req.body
+            if (req.session?.user?.logedin) {
+                // console.log(id);
+                Cart.find({ product_id: ObjectId(id), user_id: ObjectId(req.session.user?.user?._id) }, { name: 1, price: 1, mainImage: 1, discountedPrice: 1, discription: 1 }).then(product => {
+                    WishList.deleteOne({ product_id: id }).then(response => {
+                        console.log(response)
                     })
-                }
-            })
-        } else {
-
-            if (req.session?.cart) {
-                let value = await req.session?.cart?.find(elm => {
-                    return elm._id == id
+                    if (product.length > 0) {
+                        res.status(200).json({ ok: false })
+                    } else {
+                        Product.findById(id).then(item => {
+                            new Cart({
+                                name: item.name,
+                                price: item.price,
+                                discription: item.discription,
+                                mainImage: item.mainImage,
+                                discountedPrice: item.discountedPrice,
+                                count: 1,
+                                total: item.discountedPrice * 1,
+                                shippingCharges: Math.round(0.02 * item.discountedPrice),
+                                user_id: req.session.user?.user?._id,
+                                product_id: item._id
+                            }).save().then(result => {
+                                if (result) {
+                                    res.status(200).json({ ok: true })
+                                }
+                            })
+                        })
+                    }
                 })
+            } else {
 
-                if (!value) {
+                if (req.session?.cart) {
+                    let value = await req.session?.cart?.find(elm => {
+                        return elm._id == id
+                    })
+
+                    if (!value) {
+                        Product.find({ _id: ObjectId(id) }, { name: 1, price: 1, mainImage: 1, discountedPrice: 1, discription: 1 }).then(product => {
+                            req.session.cart.push({ ...product[0]._doc, count: 1, total: product[0].discountedPrice * 1, shippingCharges: Math.round(0.02 * product[0].price), })
+                            req.session.save((err) => {
+                                if (!err) {
+                                    console.log('cart updated on session');
+                                    res.status(200).json({ ok: true })
+                                }
+                            })
+                        })
+                    } else {
+                        res.status(200).json({ ok: false })
+                        console.log('this product already added to the cart')
+                    }
+                } else {
+                    req.session.cart = [];
                     Product.find({ _id: ObjectId(id) }, { name: 1, price: 1, mainImage: 1, discountedPrice: 1, discription: 1 }).then(product => {
                         req.session.cart.push({ ...product[0]._doc, count: 1, total: product[0].discountedPrice * 1, shippingCharges: Math.round(0.02 * product[0].price), })
                         req.session.save((err) => {
                             if (!err) {
-                                console.log('cart updated on session');
+                                console.log('cart created on session');
                                 res.status(200).json({ ok: true })
                             }
                         })
                     })
-                } else {
-                    res.status(200).json({ ok: false })
-                    console.log('this product already added to the cart')
                 }
-            } else {
-                req.session.cart = [];
-                Product.find({ _id: ObjectId(id) }, { name: 1, price: 1, mainImage: 1, discountedPrice: 1, discription: 1 }).then(product => {
-                    req.session.cart.push({ ...product[0]._doc, count: 1, total: product[0].discountedPrice * 1, shippingCharges: Math.round(0.02 * product[0].price), })
-                    req.session.save((err) => {
-                        if (!err) {
-                            console.log('cart created on session');
-                            res.status(200).json({ ok: true })
-                        }
-                    })
-                })
             }
+        } catch (error) {
+
         }
     },
     incrementItemCount: (req, res) => {
-        const { id } = req.body;
-        if (req.session?.user?.logedin) {
-            Cart.findById(id).then(result => {
-                let { count, discountedPrice, price } = result;
-                count += 1
-                let total = discountedPrice * count
-                Cart.updateOne({ _id: ObjectId(id) }, { $set: { total, count } }).then(r => {
-                    Cart.findById(id).then(result => {
-                        res.status(200).json({ ok: true, db: true, product: result })
+        try {
+            const { id } = req.body;
+            if (req.session?.user?.logedin) {
+                Cart.findById(id).then(result => {
+                    let { count, discountedPrice, price } = result;
+                    count += 1
+                    let total = discountedPrice * count
+                    Cart.updateOne({ _id: ObjectId(id) }, { $set: { total, count } }).then(r => {
+                        Cart.findById(id).then(result => {
+                            res.status(200).json({ ok: true, db: true, product: result })
+                        })
                     })
                 })
-            })
 
-        } else {
-            let index = req.session?.cart.findIndex(obj => obj._id === id)
-            req.session.cart[index].count = req.session.cart[index].count + 1
-            req.session.cart[index].total = req.session.cart[index].discountedPrice * req.session.cart[index].count
-
+            } else {
+                let index = req.session?.cart.findIndex(obj => obj._id === id)
+                req.session.cart[index].count = req.session.cart[index].count + 1
+                req.session.cart[index].total = req.session.cart[index].discountedPrice * req.session.cart[index].count
 
 
 
 
-            req.session.save((err) => {
-                let totalValue = req?.session?.cart?.reduce((prev, obj) => prev + obj.total, 0)
-                let shippingCharges = req?.session?.cart?.reduce((prev, obj) => prev + obj.shippingCharges, 0)
-                let realPrice = req?.session?.cart?.reduce((prev, obj) => prev + (obj.price * obj.count), 0)
 
-                if (!err) {
-                    // console.log(req.session.cart[index]);
-                    res.status(200).json({ ok: true, item: req.session.cart[index], totalValue, shippingCharges: Math.round(shippingCharges), realPrice })
-                    console.log('product count incremented');
-                }
-            })
+                req.session.save((err) => {
+                    let totalValue = req?.session?.cart?.reduce((prev, obj) => prev + obj.total, 0)
+                    let shippingCharges = req?.session?.cart?.reduce((prev, obj) => prev + obj.shippingCharges, 0)
+                    let realPrice = req?.session?.cart?.reduce((prev, obj) => prev + (obj.price * obj.count), 0)
+
+                    if (!err) {
+                        // console.log(req.session.cart[index]);
+                        res.status(200).json({ ok: true, item: req.session.cart[index], totalValue, shippingCharges: Math.round(shippingCharges), realPrice })
+                        console.log('product count incremented');
+                    }
+                })
+            }
+        } catch (error) {
+
         }
     },
     decrementItemCount: (req, res) => {
-        const { id } = req.body;
-        if (req.session?.user?.logedin) {
-            Cart.findById(id).then(result => {
-                let { count, discountedPrice, price } = result;
-                count += -1
-                let total = discountedPrice * count
-                Cart.updateOne({ _id: ObjectId(id) }, { $set: { total, count } }).then(r => {
-                    Cart.findById(id).then(result => {
-                        res.status(200).json({ ok: true, db: true, product: result })
+        try {
+            const { id } = req.body;
+            if (req.session?.user?.logedin) {
+                Cart.findById(id).then(result => {
+                    let { count, discountedPrice, price } = result;
+                    count += -1
+                    let total = discountedPrice * count
+                    Cart.updateOne({ _id: ObjectId(id) }, { $set: { total, count } }).then(r => {
+                        Cart.findById(id).then(result => {
+                            res.status(200).json({ ok: true, db: true, product: result })
+                        })
                     })
                 })
-            })
-        } else {
-            let index = req.session?.cart.findIndex(obj => obj._id === id)
-            req.session.cart[index].count = req.session.cart[index].count - 1
-            req.session.cart[index].total = req.session.cart[index].discountedPrice * req.session.cart[index].count
+            } else {
+                let index = req.session?.cart.findIndex(obj => obj._id === id)
+                req.session.cart[index].count = req.session.cart[index].count - 1
+                req.session.cart[index].total = req.session.cart[index].discountedPrice * req.session.cart[index].count
 
-            req.session.save((err) => {
+                req.session.save((err) => {
 
 
-                let totalValue = req?.session?.cart?.reduce((prev, obj) => prev + obj.total, 0)
-                let shippingCharges = req?.session?.cart?.reduce((prev, obj) => prev + obj.shippingCharges, 0)
-                let realPrice = req?.session?.cart?.reduce((prev, obj) => prev + (obj.price * obj.count), 0)
+                    let totalValue = req?.session?.cart?.reduce((prev, obj) => prev + obj.total, 0)
+                    let shippingCharges = req?.session?.cart?.reduce((prev, obj) => prev + obj.shippingCharges, 0)
+                    let realPrice = req?.session?.cart?.reduce((prev, obj) => prev + (obj.price * obj.count), 0)
 
-                if (!err) {
-                    res.status(200).json({
-                        ok: true, item: req.session.cart[index], totalValue, shippingCharges: Math.round(shippingCharges), realPrice
-                    })
-                    console.log('product count incremented');
-                }
-            })
+                    if (!err) {
+                        res.status(200).json({
+                            ok: true, item: req.session.cart[index], totalValue, shippingCharges: Math.round(shippingCharges), realPrice
+                        })
+                        console.log('product count incremented');
+                    }
+                })
+            }
+        } catch (error) {
+
         }
     },
     checkout: (req, res) => {
-        Address.find({ user_id: mongoose.Types.ObjectId(req.session?.user?.user?._id) }).then(address => {
-            Cart.find({ user_id: ObjectId(req.session?.user?.user?._id) }).then(prod => {
-                let total = prod?.reduce((prev, obj) => prev + obj.total, 0)
-                res.render('user/checkout', { address, user: req.session.user, total })
+        try {
+            Address.find({ user_id: mongoose.Types.ObjectId(req.session?.user?.user?._id) }).then(address => {
+                Cart.find({ user_id: ObjectId(req.session?.user?.user?._id) }).then(prod => {
+                    let total = prod?.reduce((prev, obj) => prev + obj.total, 0)
+                    res.render('user/checkout', { address, user: req.session.user, total })
+                })
             })
-        })
+        } catch (error) {
+
+        }
     },
     deleteProduct: (req, res) => {
-        const { id } = req.body
-        if (req.session?.user?.logedin) {
-            Cart.deleteOne({ _id: ObjectId(id) }).then(result => {
-                res.status(200).json({ ok: true })
-            })
-        } else {
-            let cart = req.session?.cart?.filter(obj => obj._id != id)
-            req.session.cart = cart
-            req.session.save((err) => {
-                if (!err) {
-                    console.log('item deleted');
-                    res.status(200).json({ ok: true, cart: req.session?.cart })
-                }
-            })
+        try {
+            const { id } = req.body
+            if (req.session?.user?.logedin) {
+                Cart.deleteOne({ _id: ObjectId(id) }).then(result => {
+                    res.status(200).json({ ok: true })
+                })
+            } else {
+                let cart = req.session?.cart?.filter(obj => obj._id != id)
+                req.session.cart = cart
+                req.session.save((err) => {
+                    if (!err) {
+                        console.log('item deleted');
+                        res.status(200).json({ ok: true, cart: req.session?.cart })
+                    }
+                })
+            }
+        } catch (error) {
+
         }
     },
     orderProduct: (req, res) => {
-        const { address, payment_methode } = req.body;
-        if (address) {
-            Cart.find({ user_id: req.session?.user?.user?._id }).then(products => {
-                // console.log(products)
-                Address.find({ _id: mongoose.Types.ObjectId(address) }).then(address => {
+        try {
+            const { address, payment_methode } = req.body;
+            if (address) {
+                Cart.find({ user_id: req.session?.user?.user?._id }).then(products => {
+                    // console.log(products)
+                    Address.find({ _id: mongoose.Types.ObjectId(address) }).then(address => {
 
-                    let orderId = uuId()
+                        let orderId = uuId()
 
-                    req.session.order = { products, address, payment_methode }
-                    req.session.order.orderId = orderId
+                        req.session.order = { products, address, payment_methode }
+                        req.session.order.orderId = orderId
 
-                    req.session.save(err => {
-                        // console.log(req.session.order)
-                        if (!err) {
-                            console.log('session updated')
-                            if (payment_methode == 'razorpay') {
-                                let totalValue = products?.reduce((prev, product) => prev + product.total, 0)
-                                genarateRazorpay(orderId, totalValue).then(result => {
-                                    console.log(result)
-                                    res.status(200).json({ ok: true, msg: 'razorpay', response: result })
-                                })
-                            } else {
-                                res.status(200).json({ ok: true })
+                        req.session.save(err => {
+                            // console.log(req.session.order)
+                            if (!err) {
+                                console.log('session updated')
+                                if (payment_methode == 'razorpay') {
+                                    let totalValue = products?.reduce((prev, product) => prev + product.total, 0)
+                                    genarateRazorpay(orderId, totalValue).then(result => {
+                                        console.log(result)
+                                        res.status(200).json({ ok: true, msg: 'razorpay', response: result })
+                                    })
+                                } else {
+                                    res.status(200).json({ ok: true })
+                                }
                             }
-                        }
+                        })
                     })
                 })
-            })
+            }
+        } catch (error) {
+
         }
     },
     addAddress: (req, res) => {
-        const { full_name,
-            email,
-            address,
-            city,
-            country,
-            state,
-            pincode } = req.body
-        new Address({
-            full_name,
-            email,
-            address,
-            city,
-            country,
-            state,
-            pincode,
-            user_id: req.session?.user?.user?._id
-        }).save().then(result => {
-            console.log(result)
-            res.status(200).json({ ok: true, result })
-        })
+        try {
+            const { full_name,
+                email,
+                address,
+                city,
+                country,
+                state,
+                pincode } = req.body
+            new Address({
+                full_name,
+                email,
+                address,
+                city,
+                country,
+                state,
+                pincode,
+                user_id: req.session?.user?.user?._id
+            }).save().then(result => {
+                console.log(result)
+                res.status(200).json({ ok: true, result })
+            })
+        } catch (error) {
+
+        }
     },
     placeOrder: (req, res) => {
-        const { address, products, payment_methode } = req.session?.order;
-        // console.log(result)
-        if (req.session?.order != null) {
-            let prop = {
-                code: null,
-                cashBack: null
-            }
-            let { code, cashBack } = req.session?.coupon || prop;
-            console.log(code, cashBack)
-            cashBack = Math.ceil(cashBack / products.length)
-            if (!isNaN(cashBack)) {
-
-                for (let product of products) {
-                    console.log(product.total)
-                    product.total = product.total - cashBack
+        try {
+            const { address, products, payment_methode } = req.session?.order;
+            // console.log(result)
+            if (req.session?.order != null) {
+                let prop = {
+                    code: null,
+                    cashBack: null
                 }
-                console.log(products)
-            }
-            console.log(code)
-            Coupon.updateOne({ code }, { $push: { user_arr: req.session?.user?.user?._id } }).then(result => {
-                console.log(result)
-            })
-            req.session.coupon = null
-            req.session.order.product = products;
-            console.log(req.session?.user?.user?._id)
+                let { code, cashBack } = req.session?.coupon || prop;
+                cashBack = Math.ceil(cashBack / products.length)
+                if (!isNaN(cashBack)) {
 
-            req.session.save(err => {
-                console.log('session')
-            })
-
-            for (let i = 0; i < products.length; i++) {
-                // console.log(req.session?.order?.payment_methode)
-                Product.updateOne({ _id: (products[i].product_id) }, { $inc: { quantity: -products[i].count } }).then(result => {
-                    // console.log(products[i].shippingCharges)
-                    // console.log(req.session.order.payment_methode)
-                    new Orders({
-                        user_id: address[0].user_id,
-                        user_name: address[0].full_name,
-                        product_name: products[i].name,
-                        product_price: products[i].total,
-                        product_id: products[i].product_id,
-                        product_count: products[i].count,
-                        product_shipping_charge: Math.round(products[i].shippingCharges),
-                        payment_methode: payment_methode,
-                        date: new Date().toLocaleDateString()
-                    }).save(result => {
-                        // console.log(result)
-                    })
+                    for (let product of products) {
+                        product.total = product.total - cashBack
+                    }
+                }
+                Coupon.updateOne({ code }, { $push: { user_arr: req.session?.user?.user?._id } }).then(result => {
+                    console.log(result)
                 })
-            }
-            let totalValue = products?.reduce((prev, product) => prev + product.total, 0)
-            let price = products?.reduce((prev, product) => prev + (product.price * product.count), 0)
-            let shippingCharges = products?.reduce((prev, product) => prev + product.shippingCharges, 0)
+                req.session.coupon = null
+                req.session.order.product = products;
 
+                req.session.save(err => {
+                    console.log('session')
+                })
 
-            res.render('user/placeOrder', {
-                address: req.session.order.address[0],
-                products: req.session.order.products,
-                payment_methode: req.session?.order?.payment_methode,
-                totalValue,
-                price,
-                shippingCharges,
-                user: req.session.user,
-                date: new Date().toLocaleDateString()
-            })
-            req.session.order = null
-            req.session.save(err => {
-                if (!err) {
-                    Cart.deleteMany({ user_id: mongoose.Types.ObjectId(req.session?.user?.user?._id) }).then((result) => {
-                        // console.log(result)
+                for (let i = 0; i < products.length; i++) {
+                    // console.log(req.session?.order?.payment_methode)
+                    Product.updateOne({ _id: (products[i].product_id) }, { $inc: { quantity: -products[i].count } }).then(result => {
+                        // console.log(products[i].shippingCharges)
+                        // console.log(req.session.order.payment_methode)
+                        new Orders({
+                            user_id: address[0].user_id,
+                            user_name: address[0].full_name,
+                            product_name: products[i].name,
+                            product_price: products[i].total,
+                            product_id: products[i].product_id,
+                            product_count: products[i].count,
+                            product_shipping_charge: Math.round(products[i].shippingCharges),
+                            payment_methode: payment_methode,
+                            date: new Date().toLocaleDateString()
+                        }).save(result => {
+                            // console.log(result)
+                        })
                     })
-                    console.log('session rewrited')
                 }
-            })
-        } else {
-            res.redirect('/')
+                let totalValue = products?.reduce((prev, product) => prev + product.total, 0)
+                let price = products?.reduce((prev, product) => prev + (product.price * product.count), 0)
+                let shippingCharges = products?.reduce((prev, product) => prev + product.shippingCharges, 0)
+
+
+                res.render('user/placeOrder', {
+                    address: req.session.order.address[0],
+                    products: req.session.order.products,
+                    payment_methode: req.session?.order?.payment_methode,
+                    totalValue,
+                    price,
+                    shippingCharges,
+                    user: req.session.user,
+                    date: new Date().toLocaleDateString()
+                })
+                req.session.order = null
+                req.session.save(err => {
+                    if (!err) {
+                        Cart.deleteMany({ user_id: mongoose.Types.ObjectId(req.session?.user?.user?._id) }).then((result) => {
+                            // console.log(result)
+                        })
+                        console.log('session rewrited')
+                    }
+                })
+            } else {
+                res.redirect('/')
+            }
+        } catch (error) {
+
         }
     },
     verifPayment: (req, res) => {

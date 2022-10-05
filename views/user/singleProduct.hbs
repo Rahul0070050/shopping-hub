@@ -110,6 +110,8 @@
     function removeFromWishlist(id) {
         const btn = document.getElementById(id)
         const btnContainer = document.getElementById('btn-container')
+        const cartCount = document.getElementById('cart-count')
+        const wishListCount = document.getElementById('wishListCount')
         fetch('/user/removeFromWishList', {
             method: 'POST',
             credentials: 'include',
@@ -119,6 +121,8 @@
             btnContainer.removeChild(btn)
             btnContainer.innerHTML += `<button class="btn btn-danger text-uppercase mr-2 px-4" id="${id}"
                                     onclick="addToWishList('${id}')">Add to Wish List</button>`
+
+            wishListCount.innerText = Number(wishListCount.innerText) - 1
         })
     }
     function addToWishList(id) {
@@ -133,6 +137,7 @@
             btnContainer.removeChild(btn)
             btnContainer.innerHTML += `<button class="btn btn-danger text-uppercase mr-2 px-4" id="${id}"
                                     onclick="removeFromWishlist('${id}')">remove from Wish List</button>`
+            wishListCount.innerText = Number(wishListCount.innerText) + 1
         })
     }
 
