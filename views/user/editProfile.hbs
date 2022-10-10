@@ -1,0 +1,88 @@
+<div class="container">
+    <div class="row" style="min-height: 85vh; display: flex; align-items: center; justify-content: center;">
+        <div class="col-lg-10">
+            <div class="container bootstrap snippets bootdey" style="width: 50rem;">
+                <h1 class="text-primary">Edit Profile</h1>
+                <hr>
+                <div class="row">
+                    <!-- left column -->
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                                class="avatar img-circle img-thumbnail" alt="avatar">
+                        </div>
+                    </div>
+
+                    <!-- edit form column -->
+                    <div class="col-md-9 personal-info">
+
+                        <h3>Personal info</h3>
+
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label">username:</label>
+                                <div class="">
+                                    <input class="form-control" id="username" type="text"
+                                        value="{{user.user.username}}">
+                                    <label for="" id="username-email"></label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Email:</label>
+                                <div class="">
+                                    <input class="form-control" id="email" type="email" value="{{user.user.email}}">
+                                    <label for="" id="error-email"></label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Phone:</label>
+                                <div class="">
+                                    <input class="form-control" id="phone" type="number" value="{{user.user.phone}}">
+                                </div>
+                            </div>
+                        </form>
+                        <button type="button" id="submit" class="btn btn-success ">submit</button>
+                        <a href="/user/profile" class="btn btn-success text-light ">go back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('submit').addEventListener('click', e => {
+        e.preventDefault()
+
+        const username = document.getElementById('username').value
+        const email = document.getElementById('email').value
+        const phone = document.getElementById('phone').value
+
+        const usernameEmail = document.getElementById('username-email')
+        const errorEmail = document.getElementById('error-email')
+
+        fetch('/user/aupdateProfile', {
+            method: 'POST',
+            body: JSON.stringify({ username, email, phone }),
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+        }).then(res => res.json()).then(res => {
+            console.log(res);
+            if (!res.ok) {
+                if (res.msg == "user") {
+                    usernameEmail.innerText = res.msg
+                }
+                if (res.msg == "email") {
+                    errorEmail.innerText = res.msg
+                }
+            } else {
+                const a = document.createElement('a')
+                a.setAttribute('href', '/user/profile')
+                a.click()
+            }
+        }).catch(err => {
+            console.log(err);
+        })
+
+    })
+</script>

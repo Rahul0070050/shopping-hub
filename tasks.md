@@ -109,10 +109,6 @@
 </div>
 <div style="">
     <input  type="checkbox"  class="check-box" />
-    <label>add 2 more graph in admin page</label>
-</div>
-<div style="">
-    <input  type="checkbox"  class="check-box" />
     <label>add valet</label>
 </div>
 <div style="">

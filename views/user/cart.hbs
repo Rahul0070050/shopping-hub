@@ -1,16 +1,20 @@
 <section class="h-100 h-custom user-cart-main-container" style="background-color: #eee;">
     <div class="container-fluid py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-lg-12">
+            <div class="col-lg-12 col-12 py-4">
                 <div class="card">
                     <div class="card-body p-4">
 
-                        <div class="row d-flex justify-content-between m-5">
+                        <div class="row d-flex justify-content-between m-2 user-cart">
 
-                            <div class="col-lg-7">
-                                <h5 class="mb-3 d-flex justify-content-between"><a href="#!" class="text-body"><i
-                                            class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a><a
-                                        href="#">order history</a></h5>
+                            <div class="col-lg-7 col-12">
+                                <h5 class="mb-3 d-flex justify-content-between">
+                                    <a href="#!" class="text-body">
+                                        {{!-- <i class="fas fa-long-arrow-alt-left mr-2"></i> --}}
+                                        {{!-- Continue shopping --}}
+                                    </a>
+                                    <a href="#">order history</a>
+                                </h5>
                                 <hr>
 
                                 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -26,7 +30,7 @@
                                 <div class="card mb-3">
                                     {{#if cart}}
                                     {{#each cart}}
-                                    <div class="card-body">
+                                    <div class="card-body" id="product-card-body">
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row align-items-center">
                                                 <div>
@@ -39,18 +43,23 @@
                                                     <p class="small mb-0">{{discription}}</p>
                                                 </div>
                                             </div>
-                                            <div class="d-flex flex-row align-items-center">
+                                            <div class="d-flex flex-row align-items-center cart-item-count-btns">
                                                 <div class="count my-auto mr-5">
                                                     <span class="btn" onclick="decreaseCount(`{{_id}}`)">-</span>
                                                     <span class="mx-3" id="{{_id}}">{{count}}</span>
                                                     <span class="btn" onclick="increaseCount(`{{_id}}`)">+</span>
                                                 </div>
+                                                <div class="d-flex felx-row">
+
                                                 <div style="width: 80px;">
                                                     <h5 class="mb-0" id="{{_id}}price"
                                                         style="width: 8rem; margin-right: 5rem;">₹ {{total}}</h5>
                                                 </div>
                                                 <button onclick="deleteProductFromCart(`{{_id}}`)"
-                                                    style="color: #cecece;"><i class="fas fa-trash-alt"></i></button>
+                                                    style="color: #cecece;">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -63,7 +72,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 col-13 money-info-card">
 
                                 <div class="card bg-primary text-white rounded-3 mt-4 cart-info-card">
                                     <div class="card-body">

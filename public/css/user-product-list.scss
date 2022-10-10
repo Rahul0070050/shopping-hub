@@ -25,3 +25,111 @@
         }
     }
 }
+
+@media only screen and (max-width: 280px) {
+    body {
+        width: 100vw !important;
+        padding: 0;
+        .user-navbar {
+            #navbar-user-name {
+                display: none;
+            }
+        }
+        .user-list-categories {
+            margin: 0 auto !important;
+            display: flex !important;
+            flex-direction: row !important;
+            overflow: auto;
+        }
+        .user-list-categories > div {
+            width: fit-content;
+            margin: 1rem 1rem 0 0 !important;
+        }
+        .products-list {
+            .product {
+                background-color: white;
+                margin: 1rem 0 !important;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 540px) {
+    nav .user-search {
+        display: none;
+    }
+    .products-list {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .product {
+            background-color: #fff;
+        }
+    }
+    .product-suggestions {
+        .card-body {
+            padding: 0 0 !important;
+            height: fit-content !important;
+            margin: 1rem 0 !important;
+        }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+        overflow-x: hidden;
+    }
+    #wish-list {
+        display: flex !important;
+        justify-content: center !important;
+        .card {
+            width: fit-content;
+            span {
+                margin: 1rem 0;
+            }
+        }
+        .card > div {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+        .card > div > div {
+            margin: 1rem 0;
+        }
+    }
+    .user-cart-main-container {
+        .user-cart {
+            margin: 0 !important;
+        }
+
+        #product-card-body {
+            padding: 0 !important;
+        }
+        #product-card-body > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .cart-item-count-btns {
+            padding: 1rem 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+        .cart-item-count-btns > div {
+            margin: 1rem 0 !important;
+        }
+        .cart-info-card {
+            .card-body {
+                padding: 1rem !important;
+            }
+        }
+        .money-info-card {
+            padding: 0;
+        }
+    }
+    .address-list {
+        address {
+            word-wrap: normal;
+            width: 70% !important;
+        }
+    }
+}

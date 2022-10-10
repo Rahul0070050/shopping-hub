@@ -659,5 +659,34 @@ module.exports = {
         WishList.deleteOne({ user_id: ObjectId(req.session?.user?.user?._id), product_id: ObjectId(id) }).then(result => {
             res.status(200).json({ ok: true })
         })
+    },
+    editProfilr: (req, res) => {
+        res.render('user/editProfile', { logedin: true, user: req.session.user })
+    },
+    submitUserData: (req, res) => {
+        const { username, email, phone } = req.body
+        let id = req.session.user.user._id;
+        User.findOne({ _id: { $ne: id }, username }).then(response => {
+            if (response) {
+                res.status(200).json({ ok: false, msg: "user" })
+            } else {
+                User.findOne({ _id: { $ne: id }, email }).then(response => {
+                    if (response) {
+                        res.status(200).json({ ok: false, msg: "email" })
+                    } else {
+                        User.updateOne({ _id: ObjectId(id) }, { $set: { username, email, phone } }).then(response => {
+                            console.log(response);
+                            User.findById(id).then(user => {
+                                res.status(200).json({ ok: true })
+                                req.session.user.user = user
+                                req.session.save(() => {
+                                    console.log('saved');
+                                })
+                            })
+                        })
+                    }
+                })
+            }
+        })
     }
 }

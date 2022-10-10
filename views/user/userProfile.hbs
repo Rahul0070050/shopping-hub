@@ -6,8 +6,8 @@
                     <div class="row g-0">
                         <div class="col-md-4 gradient-custom text-center text-white"
                             style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAHgAeAMBIgACEQEDEQH/xAAbAAEAAwEBAQEAAAAAAAAAAAAAAQIFBAMGB//EADAQAAIBAgMFBwMFAQAAAAAAAAABAgMEBRExEiEiQVETMnFygbHBJDNhIzRCUoIU/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/AP1wAFQAAAAAAAAAAAANgQypLIAhsEMAeoAAAAAeF1dU7Zcbzk9IrUXtyrajtbnN7opmDOTnJyk25Pe29WB2VcTrzf6ajTXhmzx/7brXtpHOBg7qWJ14tdpszXhkaVtdUrlcDalzi9T58mMpQkpRbUlo0MH0zZVnPZ3KuaW0901ukj3AhkNhkMCGwQ2AOgAAACVqBhYnVdS7kuUOFfJyHpXedeo3rtv3PMoAAAQySrYHVhtXs7uKek+F/BtnzlBtV6eWu0vc+iZBDZVsllGwDYKsAdgAAAADAv6fZ3dRcm9pepzm1ids61NTgs5w6c0YogAEMoggEAdFjB1LumuSe0/Q3Gzjw23dGm5zXHPl0R1MgNlGyWVbAhgrJgDQAAAAkCDgvcPjWk6lFqM3qnoz1ur+lQbiuOa5R5eLM2pidxKWcdmK/rlmB4VqFWi2qlOUfzluPD1NSni/KrSfjFl3idvl3J5+VFGZSoVa326cpLrluNK0sI0mp1XtTWiWiPKri2f26T/0znjidxGWcnGS6NEGy3vKHNb31Ku9nuT6N6nQwIbKthso2AbBVsAagAAGbiV64t0aLyekpLl+Edd7W7C3lNd7SPifPt82wIIYbIKBAbIAjMhhkMCGaNheuTVGq83/ABk/YzWyrfQD6JvMo2eVrW7ehGb72kvEuyA2QQwBsABsDKxqfFSp/hsy2d+MP6qPkXuzgYgggEMoMhsNlQDZVslsowDKslsq2B34VPiqU+uUkd7Zl4W/qJeT5NNsgNggAbTKgAY2Mfuo+T5OAAQVZABRUhsACrZVsACrKgAdWGP6iXlNQAggkAD/2Q=="
-                                alt="Avatar" class="img-fluid my-5 mx-auto" style="width: 80px; border-radius: 50px;" />
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Avatar"
+                                class="img-fluid my-5 mx-auto" style="width: 80px; border-radius: 50px;" />
                             <h5>{{user.user.username}}</h5>
                             <p>{{user.user.email}}</p>
                             <i class="far fa-edit mb-5"></i>
@@ -31,7 +31,7 @@
                                     </div>
 
                                     <div class="col-6 mb-3">
-                                        <button class="btn mt-3">edit profile</button>
+                                        <a href="/user/editProfile" class="btn mt-3">edit profile</a>
                                     </div>
                                 </div>
                                 {{!-- <h6>Projects</h6>
@@ -73,7 +73,7 @@
                                                                     <strong>{{code}}</strong>
                                                                     {{else}}
                                                                     <del>
-                                                                    <strong>{{code}}</strong>
+                                                                        <strong>{{code}}</strong>
                                                                     </del>
                                                                     {{/if}} --}}
                                                                     <strong>{{code}}</strong>
@@ -89,8 +89,27 @@
                                         </div>
                                     </div>
                                     {{/each}}
-
                                 </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="ml-3 my-3">
+                                <strong><u>Address</u></strong>
+                            </h3>
+                            <div class="" style="display: flex; overflow-x: auto;">
+                                {{!-- --}}
+                                <div class="m-3">
+                                    <div class="card" style="width: 18rem;">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Special title treatment</h5>
+                                            <p class="card-text">With supporting text below as a natural lead-in to
+                                                additional content.</p>
+                                            <a href="#" class="btn btn-primary text-whit">delete</a>
+                                            <a href="#" class="btn btn-primary text-whit">edit</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{!-- --}}
                             </div>
                         </div>
                         <div class="card-body">
@@ -140,7 +159,7 @@
                                                     </small>
                                                 </div>
                                                 <div class="col mt-auto">
-                                                    <div class="text-center"
+                                                    <div class="text-center" id="text-center"
                                                         style="width: {{order_completed_percentage}}%;">
                                                         <strong>{{order_status}}</strong>
                                                     </div>

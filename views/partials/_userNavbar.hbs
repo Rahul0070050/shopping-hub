@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-3 user-navbar">
   <!-- Toggle button -->
   <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent"
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,7 +28,9 @@
     {{else}}
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <li class="nav-item">
-        <a class="nav-link" href="/user/wishList">wishList <span id="wishListCount" style="position: static !important; padding: 0.6rem; border-radius: 5px;" class="badge badge-dark"></span></a>
+        <a class="nav-link" href="/user/wishList">wishList <span id="wishListCount"
+            style="position: static !important; padding: 0.6rem; border-radius: 5px;"
+            class="badge badge-dark"></span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">New offers</a>
@@ -39,7 +41,7 @@
     </ul>
     {{/if}}
     <!-- Left links -->
-    <div class="search">
+    <div class="search user-search">
       <div class="input-group">
         <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
           aria-describedby="search-addon" />
@@ -71,7 +73,7 @@
     <div class="dropdown">
       <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar"
         role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-        <img src="/image/icons/user-icon.png" class="rounded-circle" style="height: 3rem;"
+        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="rounded-circle" style="height: 3rem;"
           alt="Black and White Portrait of a Man" loading="lazy" />
       </a>
       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
@@ -97,7 +99,7 @@
 
 <script>
   fetch('/user/getUserData').then(res => res.json()).then(res => {
-    document.getElementById('cart-count').innerHTML = " "+res.cartCount
-    document.getElementById('wishListCount').innerHTML = " "+res.wishListCount
+    document.getElementById('cart-count').innerHTML = " " + res.cartCount
+    document.getElementById('wishListCount').innerHTML = " " + res.wishListCount
   })
 </script>

@@ -8,7 +8,8 @@ const { signup, userLoginWithData, userLogin,
     checkout, deleteProduct, orderProduct, addAddress,
     getConfirmPage, placeOrder, verifPayment, userProfile,
     cancelOrder, getUserData, tryCouponCode, applyCoupon, wishLst,
-    removeItemFromWishList, addItemFromWishList } = require('../controllers/userController')
+    removeItemFromWishList, addItemFromWishList,
+    editProfilr, submitUserData } = require('../controllers/userController')
 const { sendOTP, verifyOtp } = require('../helpers/userHelpers')
 const { validateUser, afterlogin, isUserBlocked } = require('../middlewares/userMiddlewares')
 
@@ -67,5 +68,9 @@ router.get('/user/wishList', validateUser, wishLst)
 router.post('/user/removeFromWishList', validateUser, removeItemFromWishList)
 
 router.post('/user/addWishList', validateUser, addItemFromWishList)
+
+router.get('/user/editProfile', validateUser, editProfilr)
+
+router.post('/user/aupdateProfile', validateUser, submitUserData)
 
 module.exports = router
