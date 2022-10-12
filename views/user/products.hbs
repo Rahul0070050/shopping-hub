@@ -1,6 +1,6 @@
-<div class="container-fluid">
-    <div class="row mt-2 g-4 user-list-categories">
-        <div class="col-md-3 my-4">
+<div class="container-fluid" style="padding: 0;">
+    <div class="row m-2 mt-4 user-list-categories">
+        <div class="col-md-3 my-1">
             <div class="card p-1">
                 <div class="d-flex justify-content-between align-items-center p-2">
                     <div class="flex-column lh-1 imagename"> <span>All</span> </div>
@@ -11,7 +11,7 @@
             </div>
         </div>
         {{#each categories}}
-        <div class="col-md-3 my-4">
+        <div class="col-md-3 my-1">
             <div class="card p-1">
                 <div class="d-flex justify-content-between align-items-center p-2">
                     <div class="flex-column lh-1 imagename"> <span>{{name}}</span> </div>
@@ -23,9 +23,35 @@
         </div>
         {{/each}}
     </div>
-    <div class="products-list d-flex flex-wrap">
+    <div class="products-list d-flex flex-wrap d-flex justify-content-center">
         {{#each products}}
-        <div class="d-flex justify-content-center m-2 product">
+        <div class="d-flex justify-content-center m-2 product" style="background-color: #fff;">
+            <div class="card p-3 bg-white" style="width: 21rem;">
+                <a href="/user/single_product/{{_id}}">
+                    <div class="about-product text-center mt-2"><img
+                            style="height: 20rem !important;width: 100% !important;"
+                            src="/image/productImages/{{mainImage}}" width="300">
+                        <div class="my-3">
+                            <h4>{{name}}</h4>
+                            <h6 class="mt-0 text-black-50">{{discription}}</h6>
+                        </div>
+                    </div>
+                </a>
+                <a href="/user/single_product/{{_id}}">
+                    <div class="stats mt-2">
+                        <div class="d-flex justify-content-between p-price"><span>Price</span><span>₹ {{price}}</span>
+                        </div>
+                        <div class="d-flex justify-content-between p-price"><span>Discount</span><span>{{discount}}%</span></div>
+                        <div class="d-flex justify-content-between p-price"><span>Final
+                                Price</span><span>₹ {{discountedPrice}}</span></div>
+                    </div>
+                </a>
+                <button type="button" onclick="addToCart(`{{_id}}`)" class="btn container">add to cart</button>
+            </div>
+        </div>
+        {{/each}}
+        {{#each products}}
+        <div class="d-flex justify-content-center m-2 product" style="background-color: #fff;">
             <div class="card p-3 bg-white" style="width: 21rem;">
                 <a href="/user/single_product/{{_id}}">
                     <div class="about-product text-center mt-2"><img

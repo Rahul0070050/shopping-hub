@@ -128,7 +128,7 @@ module.exports = {
             if (err) {
               console.log(err);
             } else {
-              if (subImages?.length >= 0) {
+              if (Array.isArray(subImages)) {
                 for (let img of subImages) {
                   let productName = uuid();
                   let subImageSavingPath = `__${product}_${productName}.jpg`
@@ -321,11 +321,20 @@ module.exports = {
           createdAt: -1
         }
       }
-    ]).then(orders => {
-      orders?.forEach(val => {
-        val.createdAt = new Date(val.createdAt).toLocaleDateString()
-      })
-      res.render('admin/orderes', { orders, admin: true })
+    ]).then((orders = []) => {
+      if(Array.isArray(orders)) {
+        try {
+          
+          for(let val of orders) {
+            val.createdAt = new Date(val.createdAt).toLocaleDateString()
+          }
+          res.render('admin/orderes', { orders, admin: true })
+        } catch (error) {
+          res.render('admin/orderes', { admin: true })
+        }
+      } else {
+        res.render('admin/orderes', { admin: true })
+      }
     })
   },
   cancelOrder: (req, res) => {
@@ -368,10 +377,11 @@ module.exports = {
   },
   addCoupon: (req, res) => {
     Coupon.find({}).then(coupons => {
-      coupons?.forEach(coupon => {
+            
+      for(let val of coupons) {
         coupon.StartsDate = new Date(coupon.StartsDate).toLocaleDateString()
         coupon.EndsDate = new Date(coupon.EndsDate).toLocaleDateString()
-      })
+      }
       res.render('admin/add-coupon', { coupons, admin: true })
     })
   },

@@ -22,7 +22,8 @@ module.exports = {
         try {
             Product.find({}).then(products => {
                 Category.find({}).limit(7).then(categories => {
-                    if (req.session?.user?.logedin) {
+                    let logedin = req.session?.user?.logedin || null
+                    if (logedin) {
                         Cart.find({ user_id: ObjectId(req.session?.user?.user?._id) }).count().then(count => {
                             res.setHeader('Cache-Control', 'no-store')
                             res.render('user/products', { products, categories, user: req.session?.user, count })

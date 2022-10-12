@@ -39,18 +39,17 @@
                                                         style="width: 65px;">
                                                 </div>
                                                 <div class="ms-3">
-                                                    <h5>{{name}}</h5>
-                                                    <p class="small mb-0">{{discription}}</p>
+                                                    <h3>{{name}}</h3>
+                                                    <p class="small mb-0" style="font-size: 1.3rem;">{{discription}}</p>
                                                 </div>
                                             </div>
                                             <div class="d-flex flex-row align-items-center cart-item-count-btns">
-                                                <div class="count my-auto mr-5">
-                                                    <span class="btn" onclick="decreaseCount(`{{_id}}`)">-</span>
-                                                    <span class="mx-3" id="{{_id}}">{{count}}</span>
-                                                    <span class="btn" onclick="increaseCount(`{{_id}}`)">+</span>
+                                                <div class="count my-auto mr-5" style="font-size:  larger; display: flex; align-items: center;">
+                                                    <span class="btn" style="font-size: 2rem;" onclick="decreaseCount(`{{_id}}`)">-</span>
+                                                    <span class="mx-3" id="{{_id}}">{{count}} <br> <div class="d-flex"></div> </span>
+                                                    <span class="btn" style="font-size: 2rem;" onclick="increaseCount(`{{_id}}`)">+</span>
                                                 </div>
                                                 <div class="d-flex felx-row">
-
                                                 <div style="width: 80px;">
                                                     <h5 class="mb-0" id="{{_id}}price"
                                                         style="width: 8rem; margin-right: 5rem;">₹ {{total}}</h5>
