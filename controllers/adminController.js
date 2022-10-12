@@ -126,6 +126,9 @@ module.exports = {
           if (err) {
             console.log(err);
           } else {
+            if(!typeof subImages == "Array") {
+              subImages = []
+            }
             if (subImages?.length >= 0) {
               for (let img of subImages) {
                 let productName = uuid();
