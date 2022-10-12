@@ -1,6 +1,9 @@
 #products-list-view {
     margin: 0 !important;
     padding: 0 !important;
+    .id-carousel {
+        display: none;
+    }
     .card {
         margin: 1rem;
         display: flex;
@@ -76,6 +79,9 @@
 }
 
 @media only screen and (max-width: 600px) {
+    .id-carousel {
+        display: block;
+    }
     body {
         overflow-x: hidden;
     }
