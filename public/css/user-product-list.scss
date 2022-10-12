@@ -1,6 +1,6 @@
 .carousel-inner {
     margin: 3rem 0 !important;
-    display: none;
+    display: none !important;
 }
 #products-list-view {
     margin: 0 !important;
@@ -82,7 +82,7 @@
 @media only screen and (max-width: 600px) {
     .carousel-inner {
         margin: 3rem 0 !important;
-        display: block;
+        display: block !important;
     }
     body {
         overflow-x: hidden;
