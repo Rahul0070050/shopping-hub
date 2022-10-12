@@ -101,73 +101,75 @@ module.exports = {
     });
   },
   addProduct: (req, res) => {
-    const { mainImage, subImages } = req.files;
-    const { product, price, discount, description, quantity, category, size } = req.body;
+    try {
+      const { mainImage, subImages } = req.files;
+      const { product, price, discount, description, quantity, category, size } = req.body;
 
-    const productName = uuid();
-    let mainImageSavingPath = `__${product}_${productName}.jpg`
-    const imageBasePath = path.join(__dirname, `../public/image/productImages/`);
-    const subImageArr = []
+      const productName = uuid();
+      let mainImageSavingPath = `__${product}_${productName}.jpg`
+      const imageBasePath = path.join(__dirname, `../public/image/productImages/`);
+      const subImageArr = []
 
-    if (!mainImage) {
-      res.status(406).json({ ok: false, msg: "you must renderadd main image", err: "main image" });
-    } else {
-      if (!product || !price || !discount || !description || !quantity || !category) {
-        console.log('some fields not found')
-        res.status(406).json({
-          ok: false,
-          msg: "you must add main image",
-          err: "field required",
-        });
+      if (!mainImage) {
+        res.status(406).json({ ok: false, msg: "you must renderadd main image", err: "main image" });
       } else {
+        if (!product || !price || !discount || !description || !quantity || !category) {
+          console.log('some fields not found')
+          res.status(406).json({
+            ok: false,
+            msg: "you must add main image",
+            err: "field required",
+          });
+        } else {
 
 
-        mainImage.mv(imageBasePath + mainImageSavingPath, err => {
-          if (err) {
-            console.log(err);
-          } else {
-            if(!typeof subImages == "Array") {
-              subImages = []
-            }
-            if (subImages?.length >= 0) {
-              for (let img of subImages) {
-                let productName = uuid();
-                let subImageSavingPath = `__${product}_${productName}.jpg`
-                subImageArr.push(subImageSavingPath)
-                img.mv(imageBasePath + subImageSavingPath, (err) => {
-                  if (err) {
-                    console.log(err);
-                  } else {
+          mainImage.mv(imageBasePath + mainImageSavingPath, err => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(subImages.length);
+              if (subImages?.length >= 0) {
+                for (let img of subImages) {
+                  let productName = uuid();
+                  let subImageSavingPath = `__${product}_${productName}.jpg`
+                  subImageArr.push(subImageSavingPath)
+                  img.mv(imageBasePath + subImageSavingPath, (err) => {
+                    if (err) {
+                      console.log(err);
+                    } else {
 
-                  }
+                    }
 
-                })
+                  })
+                }
               }
+
+              new Product({
+                name: product,
+                price,
+                discount,
+                discountedPrice: Math.round(price - (price * discount / 100)),
+                discription: description,
+                quantity,
+                category,
+                mainImage: mainImageSavingPath,
+                itemSubImages: subImageArr,
+              }).save().then(data => {
+                res.status(200).json({ ok: true, msg: 'product added' })
+              }).catch(err => {
+                console.log(err.code);
+                if (err.code == 11000) {
+                  res.status(409).json({ ok: false, err: 'duplicate', msg: Object.keys(err.keyValue)[0] })
+                }
+              });
+
+
             }
-
-            new Product({
-              name: product,
-              price,
-              discount,
-              discountedPrice: Math.round(price - (price * discount / 100)),
-              discription: description,
-              quantity,
-              category,
-              mainImage: mainImageSavingPath,
-              itemSubImages: subImageArr,
-            }).save().then(data => {
-              res.status(200).json({ ok: true, msg: 'product added' })
-            }).catch(err => {
-              console.log(err.code);
-              if (err.code == 11000) {
-                res.status(409).json({ ok: false, err: 'duplicate', msg: Object.keys(err.keyValue)[0] })
-              }
-            });
-
-
-          }
-        })
+          })
+        }
       }
+    } catch (error) {
+      
     }
   },
   deleteProduct: (req, res) => {
@@ -459,7 +461,7 @@ module.exports = {
         }
       ]).then(weeklyReport => {
         console.log(weeklyReport)
-        res.status(200).json({ data: result  ,weeklyReport})
+        res.status(200).json({ data: result, weeklyReport })
         console.log(result)
       })
     })
