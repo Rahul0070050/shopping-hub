@@ -1,6 +1,7 @@
 const express = require('express')
 
 const router = express.Router()
+
 const { signup, userLoginWithData, userLogin,
     registration, getAllProducts, otpLogin,
     checkOtp, viewSingleProduct, getCart, logout,

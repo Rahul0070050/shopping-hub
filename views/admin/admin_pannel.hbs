@@ -107,7 +107,6 @@
             headers: { 'Content-Type': 'application/json' }
         }).then(res => res.json()).then(res => {
             let { data, weeklyReport } = res;
-            console.log(weeklyReport)
             for (i = 0; i < data.length; ++i) {
 
                 switch (data[i].month) {

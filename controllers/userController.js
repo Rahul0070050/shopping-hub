@@ -581,7 +581,10 @@ module.exports = {
             }
         ]).then(order => {
             Coupon.find({ user_arr: { $nin: req.session?.user?.user?._id } }).then(coupons => {
-                res.render('user/userProfile', { logedin: true, user: req.session.user, order, coupons })
+                Address.find({user_id:req?.session?.user?.user?._id}).then(address => {
+                    console.log(address);
+                    res.render('user/userProfile', { logedin: true, user: req.session.user, order, coupons, address })
+                })
             })
         })
     },

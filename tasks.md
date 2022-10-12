@@ -5,11 +5,11 @@
     <label>otp login for user with timer and resend </label>
 <div>
 <div>
-    <input class="check-box"  type="checkbox" >
+    <input class="check-box"  type="checkbox"  checked>
     <label>project testing</label>
 <div>
 <div>
-    <input class="check-box"  type="checkbox" >
+    <input class="check-box"  type="checkbox"  checked>
     <label>bug fixing</label>
 <div>
 <br>
@@ -100,23 +100,19 @@
 
 > user updates week 11
 <div style="">
-    <input  type="checkbox"  class="check-box" />
+    <input  type="checkbox"  class="check-box"  checked/>
     <label>add addressin user profile page</label>
-</div>
-<div style="">
-    <input  type="checkbox"  class="check-box" />
-    <label>add separate for orders list</label>
 </div>
 <div style="">
     <input  type="checkbox"  class="check-box" />
     <label>add valet</label>
 </div>
 <div style="">
-    <input  type="checkbox"  class="check-box" />
+    <input  type="checkbox"  class="check-box"  checked/>
     <label>order history page</label>
 </div>
 <div style="">
-    <input  type="checkbox"  class="check-box" />
+    <input  type="checkbox"  class="check-box"  checked/>
     <label>add coupon detailse in the order success page</label>
 </div>
 
@@ -200,7 +196,7 @@
 
 <div>
     <input class="check-box" 
-    type="checkbox">
+    type="checkbox"  checked>
     <label value="hi">add two graphs</label>
 </div>
 

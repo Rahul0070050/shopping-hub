@@ -292,7 +292,7 @@
         console.log(files)
         fetch('/admin/add_product', {
             method: "POST",
-            body: files
+            body:   
         }).then(res => res.json()).then(res => {
             console.log(res)
             if (!res.ok) {

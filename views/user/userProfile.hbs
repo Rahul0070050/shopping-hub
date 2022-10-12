@@ -98,17 +98,19 @@
                             </h3>
                             <div class="" style="display: flex; overflow-x: auto;">
                                 {{!-- --}}
+                                {{#each address}}
                                 <div class="m-3">
                                     <div class="card" style="width: 18rem;">
                                         <div class="card-body">
-                                            <h5 class="card-title">Special title treatment</h5>
-                                            <p class="card-text">With supporting text below as a natural lead-in to
-                                                additional content.</p>
-                                            <a href="#" class="btn btn-primary text-whit">delete</a>
-                                            <a href="#" class="btn btn-primary text-whit">edit</a>
+                                            {{!-- {{address.state}} <br> --}}
+                                            <h5 class="card-title">{{full_name}}</h5>
+                                            <p class="card-text">{{address}} {{city}} {{country}}</p>
+                                            <h5> pin: {{pincode}}</h5>
+                                            <a href="#" class="btn btn-primary text-white">delete</a>
                                         </div>
                                     </div>
                                 </div>
+                                {{/each}}
                                 {{!-- --}}
                             </div>
                         </div>
