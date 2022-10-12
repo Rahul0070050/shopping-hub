@@ -1,6 +1,6 @@
 <div class="container-fluid" style="min-height: 100vh;">
     <h2 class="m-2 ml-6">Orders</h2>
-    <div class="table">
+    <div class="table" style="font-size: 1.4rem;">
         <div class="table-header">
             <div class="header__item"><a id="name" class="filter__link" href="#">product name</a></div>
             <div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">user name</a>
@@ -38,8 +38,7 @@
                             <option selected>cancelled</option>
                         </select>
                         {{else}}
-                        <select class="form-select selecter {{_id}}" id="{{_id}}"
-                            aria-label="Default select example">
+                        <select class="form-select selecter {{_id}}" id="{{_id}}" aria-label="Default select example">
                             <option selected>{{order_status}}</option>
                             <option value="confirmed">confirmed</option>
                             <option value="shipped">shipped</option>
@@ -57,8 +56,8 @@
                     {{#if cancel_order}}
                     <button class="btn btn-danger disabled">cancelled</button>
                     {{else}}
-                    <button class="btn btn-danger {{_id}}" order-id="{{_id}}" onclick="deleteProduct(`{{product._id}},{{_id}}`)"
-                        id="{{product._id}}">cancel</button>
+                    <button class="btn btn-danger {{_id}}" order-id="{{_id}}"
+                        onclick="deleteProduct(`{{product._id}},{{_id}}`)" id="{{product._id}}">cancel</button>
                     {{/if}}
                 </div>
             </div>
@@ -69,32 +68,49 @@
 
 <script>
     function deleteProduct(ids) {
-        let idarr = ids.split(',')
-        let [pro_id, id] = idarr;
-        let elm = document.getElementsByClassName(id)
-
-        console.log(elm)
-        
-        fetch('/admin/canceleOrder', {
-            body: JSON.stringify({
-                id
-            }),
-            method: 'delete',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-        }).then(res => res.json()).then(result => {
-            if (result.ok) {
-                for (let e of elm) {
-                    console.log(e)
-                    if (e.classList.contains('selecter')) {
-                        e.setAttribute('disabled', true)
-                    } else {
-                        e.setAttribute('disabled', true)
-                        e.innerText = 'cancelled'
-                    }
-                }
-            }
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this order!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
         })
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("your order cancelled!", {
+                        icon: "success",
+                    });
+
+                    let idarr = ids.split(',')
+                    let [pro_id, id] = idarr;
+                    let elm = document.getElementsByClassName(id)
+
+                    console.log(elm)
+
+                    fetch('/admin/canceleOrder', {
+                        body: JSON.stringify({
+                            id
+                        }),
+                        method: 'delete',
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' },
+                    }).then(res => res.json()).then(result => {
+                        if (result.ok) {
+                            for (let e of elm) {
+                                console.log(e)
+                                if (e.classList.contains('selecter')) {
+                                    e.setAttribute('disabled', true)
+                                } else {
+                                    e.setAttribute('disabled', true)
+                                    e.innerText = 'cancelled'
+                                }
+                            }
+                        }
+                    })
+                } else {
+                    swal("Your order is safe!");
+                }
+            });
     }
 
 
