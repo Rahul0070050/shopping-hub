@@ -1,10 +1,10 @@
+.carousel-inner {
+    margin: 3rem 0 !important;
+    display: none;
+}
 #products-list-view {
     margin: 0 !important;
     padding: 0 !important;
-    #id-carousel {
-        margin: 3rem 0;
-        display: none;
-    }
     .card {
         margin: 1rem;
         display: flex;
@@ -80,8 +80,8 @@
 }
 
 @media only screen and (max-width: 600px) {
-    #id-carousel {
-        margin: 1rem 0;
+    .carousel-inner {
+        margin: 3rem 0 !important;
         display: block;
     }
     body {
