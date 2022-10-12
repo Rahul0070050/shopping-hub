@@ -123,44 +123,50 @@ module.exports = {
 
 
         mainImage.mv(imageBasePath + mainImageSavingPath, err => {
-          if (err) {
-            console.log(err);
-          } else {
-            if (subImages?.length >= 0) {
-              for (let img of subImages) {
-                let productName = uuid();
-                let subImageSavingPath = `__${product}_${productName}.jpg`
-                subImageArr.push(subImageSavingPath)
-                img.mv(imageBasePath + subImageSavingPath, (err) => {
-                  if (err) {
-                    console.log(err);
-                  } else {
+          try {
 
-                  }
+            if (err) {
+              console.log(err);
+            } else {
+              if (subImages?.length >= 0) {
+                for (let img of subImages) {
+                  let productName = uuid();
+                  let subImageSavingPath = `__${product}_${productName}.jpg`
+                  subImageArr.push(subImageSavingPath)
+                  img.mv(imageBasePath + subImageSavingPath, (err) => {
+                    if (err) {
+                      console.log(err);
+                    } else {
 
-                })
+                    }
+
+                  })
+                }
               }
+
+              new Product({
+                name: product,
+                price,
+                discount,
+                discountedPrice: Math.round(price - (price * discount / 100)),
+                discription: description,
+                quantity,
+                category,
+                mainImage: mainImageSavingPath,
+                itemSubImages: subImageArr,
+              }).save().then(data => {
+                res.status(200).json({ ok: true, msg: 'product added' })
+              }).catch(err => {
+                console.log(err.code);
+                if (err.code == 11000) {
+                  res.status(409).json({ ok: false, err: 'duplicate', msg: Object.keys(err.keyValue)[0] })
+                }
+              });
+
+
             }
 
-            new Product({
-              name: product,
-              price,
-              discount,
-              discountedPrice: Math.round(price - (price * discount / 100)),
-              discription: description,
-              quantity,
-              category,
-              mainImage: mainImageSavingPath,
-              itemSubImages: subImageArr,
-            }).save().then(data => {
-              res.status(200).json({ ok: true, msg: 'product added' })
-            }).catch(err => {
-              console.log(err.code);
-              if (err.code == 11000) {
-                res.status(409).json({ ok: false, err: 'duplicate', msg: Object.keys(err.keyValue)[0] })
-              }
-            });
-
+          } catch (error) {
 
           }
         })
@@ -456,7 +462,7 @@ module.exports = {
         }
       ]).then(weeklyReport => {
         console.log(weeklyReport)
-        res.status(200).json({ data: result  ,weeklyReport})
+        res.status(200).json({ data: result, weeklyReport })
         console.log(result)
       })
     })
