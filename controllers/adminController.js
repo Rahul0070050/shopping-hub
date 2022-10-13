@@ -377,10 +377,9 @@ module.exports = {
   },
   addCoupon: (req, res) => {
     Coupon.find({}).then(coupons => {
-
-      for(let val of coupons) {
-        val.StartsDate = new Date(val.StartsDate).toLocaleDateString()
-        val.EndsDate = new Date(val.EndsDate).toLocaleDateString()
+      for(let coupon of coupons) {
+        coupon.StartsDate = new Date(coupon.StartsDate).toLocaleDateString()
+        coupon.EndsDate = new Date(coupon.EndsDate).toLocaleDateString()
       }
       res.render('admin/add-coupon', { coupons, admin: true })
     })
