@@ -75,7 +75,7 @@ function userSignup() {
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         // check the data {data} now is in (data)
-        body: JSON.stringify(data),
+        body: JSON.stringify({data}),
     }).then(res => res.json()).then(res => {
         console.log(res);
         if (!res.ok) {
@@ -226,7 +226,7 @@ function validateLoginForm(e) {
 
 
 function validateSignupForm(e) {
-    if (validateUserName() && validateEmail() && validatePassword() && validateCunfirnPassword() && validatePhoneNumber()) {
+    if (validateUserName() && validateEmail() && validatePassword() && validateCunfirnPassword()) {
         submit(e)
     }
     return false;
